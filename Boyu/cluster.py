@@ -77,9 +77,9 @@ def _trim_date(qtime):
 		print(qtime)
 	'''
 
-	if date_list[-1] == 'PM' and time_raw[0] != 12:
+	if 'PM' in date_list and time_raw[0] != 12:
 		time_raw[0] += 12
-	if date_list[-1] == 'AM' and time_raw[0] == 12:
+	if 'AM' in date_list and time_raw[0] == 12:
 		time_raw[0] = 00
 
 	new_time = time(time_raw[0], time_raw[1], time_raw[2])
@@ -124,6 +124,7 @@ def fit_exp(args, normed):
 
 	# for both groups
 	all_param_dict = {'low':[], 'not_low':[]}
+	d = set()
 	for group in ['low_self_esteem/', 'not_low_self_esteem/']:
 		path = args.data_path + group
 		param_list = []
@@ -145,17 +146,26 @@ def fit_exp(args, normed):
 				with open(whole_name, 'r') as json_file:  
 					search_history = [json.loads(line) for line in json_file]
 
-					for instance in search_history:
+					for idx, instance in enumerate(search_history):
 
 						# print(instance['qtime'])
 						date_time = _trim_date(instance['qtime'])
 
+						for c in instance['category']:
+							d.add(c[0].split('/')[1])
+						# print(date_time)
+
 						# get the time difference in minutes
 						delta = (previous - date_time).total_seconds()
+
+						if delta < 0 and previous != datetime.combine(date(2000, 1, 1), time(00, 00, 00)):
+							print(whole_name, idx, previous, date_time)
+						# print(delta)
 						delta_list.append(delta)
 						previous = date_time
 
-				# fit the exponential distribution 
+				# fit the exponential distribution
+				# print(delta_list[:10])
 				param = _fit_exp_per_person(delta_list[1:])
 				param_list.append(param)
 		# print('len: {}'.format(len(param_list)))
@@ -165,6 +175,7 @@ def fit_exp(args, normed):
 		else:
 			all_param_dict['not_low'] = param_list
 
+	print(d, len(d))
 	if normed:
 		for key, value in all_param_dict.items():
 			all_param_dict[key] = [val * 100000 for val in all_param_dict[key]]
