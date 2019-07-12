@@ -9,6 +9,8 @@ from matplotlib.colors import LogNorm
 from sklearn import mixture
 import pickle
 from io import open
+import scipy.stats as st
+
 
 # given all the user files in json
 # convert the time stamps between adjacent search histories into time difference (delta)
@@ -99,6 +101,7 @@ def plot_hist(args, file_path):
 	title = 'Idle Time Between Searches (upper: ' + str(args.threshold) + ', lower: ' + str(args.lower_bound) + ')'
 	plt.title(title)
 	name = '../../upper_' + str(args.threshold) + '_lower_' + str(args.lower_bound) + '_abs'
+	plt.show()
 	f.savefig(name)
 
 	# get the log scale plot
@@ -115,24 +118,98 @@ def plot_hist(args, file_path):
 	name = '../../upper_' + str(args.threshold) + '_lower_' + str(args.lower_bound)
 	g.savefig(name)
 
+
+# fit the data distribution to exponential distribution
+def fit_exp(args, normed):
+
+	# for both groups
+	all_param_dict = {'low':[], 'not_low':[]}
+	for group in ['low_self_esteem/', 'not_low_self_esteem/']:
+		path = args.data_path + group
+		param_list = []
+
+		# per peron 
+		for file in os.scandir(path):
+			if file.name.endswith('.json'):
+
+				whole_name = path + file.name
+				# print(file.name)
+
+				# previous timestamp, first place holder
+				previous = datetime.combine(date(2000, 1, 1), time(00, 00, 00))
+
+				# the time difference list per person
+				delta_list = []
+
+				# per search history
+				with open(whole_name, 'r') as json_file:  
+					search_history = [json.loads(line) for line in json_file]
+
+					for instance in search_history:
+
+						# print(instance['qtime'])
+						date_time = _trim_date(instance['qtime'])
+
+						# get the time difference in minutes
+						delta = (previous - date_time).total_seconds()
+						delta_list.append(delta)
+						previous = date_time
+
+				# fit the exponential distribution 
+				param = _fit_exp_per_person(delta_list[1:])
+				param_list.append(param)
+		# print('len: {}'.format(len(param_list)))
+
+		if group == 'low_self_esteem/':
+			all_param_dict['low'] = param_list
+		else:
+			all_param_dict['not_low'] = param_list
+
+	if normed:
+		for key, value in all_param_dict.items():
+			all_param_dict[key] = [val * 100000 for val in all_param_dict[key]]
+			plt.hist(all_param_dict[key], bins = 'auto', alpha = 0.5, label = key, density = True)
+			print('len for {}: {}'.format(key, len(value)))
+
+			plt.xlabel('Lambda * 100000')
+			title = 'Lambda Distribution (normed)'
+	else:
+		for key, value in all_param_dict.items():
+			plt.hist(all_param_dict[key], bins = 'auto', alpha = 0.5, label = key)
+			print('len for {}: {}'.format(key, len(value)))
+
+			plt.xlabel('Lambda')
+			title = 'Lambda Distribution'
+
+	plt.ylabel('Frequency')
+	plt.legend(loc = 'best')
+	plt.title(title)
+	plt.savefig(title)
+	plt.show()
+
+# helper method: get the lambda for each peron by fitting exponential distribution
+def _fit_exp_per_person(delta_list):
+	return 1 / np.mean(np.asarray(delta_list))
+
 def main():
 	parser = argparse.ArgumentParser(description = 'parser for data files')
 	parser.add_argument('--data_path', metavar = 'D', type = str, nargs = 1, 
-						default = '../original-data/low-selfesteem/',
+						default = '../original-data/',
 						help = 'data file path')
 	parser.add_argument('--cluster_num', default = 2,
 						help = 'number of clusters')
-	parser.add_argument('--bin_size', default = 50,
+	parser.add_argument('--bin_size', default = 0,
 						help = 'bin size for the inter-time histogram')
-	parser.add_argument('--threshold', default = 2592000,
+	parser.add_argument('--threshold', default = 100000000,
 						help = 'the max delta time between two searches in minutes')
 	parser.add_argument('--lower_bound', default = 0,
 						help = 'the min delta time between two searches in minutes')
 
 	args = parser.parse_args()
 
-	_get_delta_time(args)
-	plot_hist(args, './total_list.pkl')
+	# _get_delta_time(args)
+	# plot_hist(args, './total_list.pkl')
+	fit_exp(args, True)
 
 if __name__ == '__main__':
 	main()
