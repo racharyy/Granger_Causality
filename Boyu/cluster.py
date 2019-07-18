@@ -253,27 +253,35 @@ def fit_exp_category(args, normed, categories):
 					if len(delta_list[1:]) > 1:
 						param = _fit_exp_per_person(delta_list[1:])
 						param_list.append(param)
+					'''
 					else:
 						print(group, file.name, category, 'empty')
-
+					'''
+					
 			if len(param_list) == 0:
 				print(path, category, 'param list empty')
 			else:
 
 				# remove outlier
+				'''
 				x_100_median = np.median(np.asarray(param_list)) * 100
 				param_list = [p for p in param_list if p < x_100_median]
+				'''
 
 				if group == 'low_self_esteem/':
 					all_param_dict['low'] = param_list
 				else:
 					all_param_dict['not_low'] = param_list
-				print(path, category, 'done')
+			# print(path, category, 'done')
 
+		for key, value in all_param_dict.items():
+			print(category, key, np.mean(np.asarray(value)), np.median(np.asarray(value)))
+
+		'''
 		plt.figure(i, figsize = (16, 9))
 		if normed:
 			for key, value in all_param_dict.items():
-				weights = np.asarray(value) / float(len(value))
+				weights = np.ones_like(value) / float(len(value))
 				plt.hist(value, bins = 30, alpha = 0.5, label = key, weights = weights)
 				title = 'Lambda Distribution (normed) ' + category
 		else:
@@ -287,7 +295,8 @@ def fit_exp_category(args, normed, categories):
 		plt.title(title)
 		plt.savefig(title, format='png', dpi=150, bbox_inches='tight')
 		plt.close()
-		print(category, 'all done')
+		'''
+		# print(category, 'all done')
 
 
 def main():
