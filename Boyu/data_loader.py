@@ -77,20 +77,19 @@ class data_loader(object):
 							current_length += delta
 
 						# the first dummy placeholder will be < 0
+						# thus do not store it to the list
 						else:
 							tensor = self._get_tensor(instance['category'])
 
 						# print(delta)
 						previous = date_time
 
-				# if the data is too short to construction one interval
-				if len(tensors_list) == 0:
-					tensors_all.append(np.transpose(np.array([tensor])))
+					# store the last tensor
+					tensors_list.append(tensor)
 
+				# reshape the matrix
 				# np.stack(tensors_list): [self.num_category, num_interval]
-				else:
-					tensors_all.append(np.transpose(np.stack(tensors_list)))
-				
+				tensors_all.append(np.transpose(np.stack(tensors_list)))
 				print('interval vectors for this person: {}\n'.format(tensors_all[-1].shape))
 
 		assert len(tensors_all) == file_num
@@ -100,6 +99,79 @@ class data_loader(object):
 		with open(p, mode = 'wb') as f:
 			pickle.dump(tensors_all, f)
 
+	# parse the frequency vector by calendar month
+	def parse_by_month(self):
+
+		# tensors for each person
+		tensors_all = []
+		file_num = 0
+
+		# per person
+		for file in os.scandir(self.file_path):
+			if file.name.endswith('.json'):
+				file_num += 1
+				print('file: {} {}'.format(self.file_path, file.name))
+
+				whole_name = self.file_path + file.name
+
+				# list of all interval tensors for this person
+				tensors_list = []
+
+				# individual interval tensor (sum of all searches within it)
+				tensor = np.zeros(self.num_categories)
+
+				# previous timestamp, first place holder
+				previous = datetime.combine(date(2000, 1, 1), time(00, 00, 00))
+				current_month = previous.month
+
+				# per search history
+				with open(whole_name, 'r') as json_file:  
+					search_history = [json.loads(line) for line in json_file]
+					for instance in search_history:
+
+						# print(instance['qtime'])
+						date_time = self._trim_date(instance['qtime'])
+
+						# if enters a new month 
+						# or remove the first dummy placeholder
+						if current_month != date_time.month or previous == datetime.combine(date(2000, 1, 1), time(00, 00, 00)):
+
+							# store the freq vector
+							tensors_list.append(tensor)
+
+							# start a new interval
+							tensor = self._get_tensor(instance['category'])
+							current_month = date_time.month
+
+						# if within the same month
+						else:
+
+							# get the frequency tensor and add to the interval tensor
+							# print('in')
+							tensor += self._get_tensor(instance['category'])
+
+						# print(delta)
+						previous = date_time
+
+					# store the last tensor
+					tensors_list.append(tensor)
+
+				# remove the first placeholder
+				tensors_list = tensors_list[1:]
+
+				# reshape the matrix
+				# np.stack(tensors_list): [self.num_category, num_interval]
+				tensors_all.append(np.transpose(np.stack(tensors_list)))
+				print('interval vectors for the current person: {}\n'.format(tensors_all[-1].shape))
+
+		assert len(tensors_all) == file_num
+		# print(tensors_all[0].shape)
+
+		p = self.file_path + '_freq_tensors_calendar.pkl'
+		with open(p, mode = 'wb') as f:
+			pickle.dump(tensors_all, f)
+
+
 	# helper function
 	# generate the date time instance from the raw string
 	def _trim_date(self, qtime):
@@ -107,10 +179,9 @@ class data_loader(object):
 		date_list = qtime.replace(',', '').split(' ')
 		date = datetime.strptime("{} {} {}".format(date_list[2], date_list[0], date_list[1]), "%Y %b %d")
 		# print(date)
-
-
 		time_raw = [int(x) for x in date_list[3].split(':')]
 
+		# convert time format
 		if 'PM' in date_list and time_raw[0] != 12:
 			time_raw[0] += 12
 		if 'AM' in date_list and time_raw[0] == 12:
@@ -143,16 +214,21 @@ def main():
 	'Autos & Vehicles', 
 	'Law & Government', 
 	'Beauty & Fitness', 
-	'Sports', 'Business & Industrial', 
-	'Pets & Animals', 'Science', 
-	'Real Estate', 'Jobs & Education', 
+	'Sports', 
+	'Business & Industrial', 
+	'Pets & Animals', 
+	'Science', 
+	'Real Estate', 
+	'Jobs & Education', 
 	'Games', 
 	'Internet & Telecom', 
-	'Home & Garden', 'Finance', 
+	'Home & Garden', 
+	'Finance', 
 	'Sensitive Subjects', 
 	'Shopping', 
 	'Arts & Entertainment', 
-	'News', 'Reference', 
+	'News', 
+	'Reference', 
 	'Computers & Electronics', 
 	'Adult', 
 	'Hobbies & Leisure', 
@@ -180,7 +256,10 @@ def main():
 		interval = 72000, 
 		category_one_hot_dict = d)
 
-	nls_loader.parse()
+	# nls_loader.parse()
+	# nls_loader.parse_by_month()
+	ls_loader.parse()
+	ls_loader.parse_by_month()
 
 if __name__ == '__main__':
 	main()
