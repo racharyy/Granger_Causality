@@ -95,7 +95,11 @@ class data_loader(object):
 		assert len(tensors_all) == file_num
 		# print(tensors_all[0].shape)
 
-		p = self.file_path + '_freq_tensors.pkl'
+		if 'not' in self.file_path:
+			p = self.file_path + 'not_low_freq_tensors.pkl'
+		else:
+			p = self.file_path + 'low_freq_tensors.pkl'
+
 		with open(p, mode = 'wb') as f:
 			pickle.dump(tensors_all, f)
 
@@ -167,7 +171,11 @@ class data_loader(object):
 		assert len(tensors_all) == file_num
 		# print(tensors_all[0].shape)
 
-		p = self.file_path + '_freq_tensors_calendar.pkl'
+		if 'not' in self.file_path:
+			p = self.file_path + 'not_low_freq_tensors_calendar.pkl'
+		else:
+			p = self.file_path + 'low_freq_tensors_calendar.pkl'
+
 		with open(p, mode = 'wb') as f:
 			pickle.dump(tensors_all, f)
 
@@ -257,8 +265,8 @@ def main():
 		category_one_hot_dict = d)
 
 	# nls_loader.parse()
-	# nls_loader.parse_by_month()
-	ls_loader.parse()
+	nls_loader.parse_by_month()
+	# ls_loader.parse()
 	ls_loader.parse_by_month()
 
 if __name__ == '__main__':
