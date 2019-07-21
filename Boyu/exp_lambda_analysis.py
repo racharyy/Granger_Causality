@@ -19,16 +19,7 @@ def _trim_date(qtime):
 	date_list = qtime.replace(',', '').split(' ')
 	date = datetime.strptime("{} {} {}".format(date_list[2], date_list[0], date_list[1]), "%Y %b %d")
 	# print(date)
-
-
 	time_raw = [int(x) for x in date_list[3].split(':')]
-
-	'''
-	if date_list[-1] == 'PM' and time_raw[0] == 00:
-		print(qtime)
-	if date_list[-1] == 'AM' and time_raw[0] == 00:
-		print(qtime)
-	'''
 
 	# convert time format
 	if 'PM' in date_list and time_raw[0] != 12:
@@ -250,20 +241,26 @@ def fit_exp_category(args, normed, categories):
 					if len(delta_list[1:]) > 1:
 						param = _fit_exp_per_person(delta_list[1:])
 						param_list.append(param)
+					'''
 					else:
 						print(group, file.name, category, 'only searched once')
+					'''
 
 			# remove outlier by 100 * median
 			x_100_median = np.median(np.asarray(param_list)) * 100
+			old_len = len(param_list)
 			param_list = [p for p in param_list if p < x_100_median]
+			if old_len != len(param_list):
+				print('outlier:', old_len - len(param_list), path, category)
 
 			if group == 'low_self_esteem/':
 				all_param_dict['low'] = param_list
 			else:
 				all_param_dict['not_low'] = param_list
-			print(path, category, 'done')
+			# print(path, category, 'done')
 
 		# plot for each category
+		'''
 		plt.figure(i, figsize = (16, 9))
 		if normed:
 			for key, value in all_param_dict.items():
@@ -280,15 +277,14 @@ def fit_exp_category(args, normed, categories):
 		plt.title(title)
 		plt.savefig(title, format='png', dpi=150, bbox_inches='tight')
 		plt.close()
+		'''
 		print(category, 'all done')
-
 
 # extract the lambda feature vector for each person
 # 27-d category vector for each person
-def extract_lambda_feature(args, categories):
+def extract_lambda_feature(args, categories, outlier, outlier_scale, normed):
 
-	# for each categories
-	# each is 95 * 27
+	# for each categories; size of [27, number of people]
 	low_matrix = []
 	not_low_matrix = []
 
@@ -331,11 +327,107 @@ def extract_lambda_feature(args, categories):
 									# get the time difference in minutes
 									delta = (previous - date_time).total_seconds()
 
-									# error report
-									'''
-									if delta < 0 and previous != datetime.combine(date(2000, 1, 1), time(00, 00, 00)):
-										print(whole_name, idx, previous, date_time)
-									'''
+									# print(delta)
+									delta_list.append(delta)
+									previous = date_time
+
+					# fit the exponential distribution for each category
+					# remove the first place holder
+					if len(delta_list[1:]) > 1:
+						param = _fit_exp_per_person(delta_list[1:])
+						category_vector.append(param)
+					else:
+						# print(group, file.name, category, 'only searched once')
+						category_vector.append(0)
+
+				# verify output and store with user id
+				assert len(category_vector) == 27
+				if group == 'low_self_esteem/':
+					low_matrix.append(category_vector)
+				else:
+					not_low_matrix.append(category_vector)
+		print(group, 'done')
+
+	# [27, number of people]
+	low_matrix = np.stack(low_matrix).T
+	not_low_matrix = np.stack(not_low_matrix).T
+
+	# eliminate outlier
+	if outlier:
+
+		# for each group [27, number of people]
+		for matrix in [low_matrix, not_low_matrix]:
+
+			# for each category; each row is [number of people]
+			for idx, row in enumerate(matrix):
+
+				# hard threshold based on scle of median
+				threshold = np.median(row) * outlier_scale
+				row[row >= threshold] = threshold
+
+				if normed:
+					row = row / np.linalg.norm(row)
+				matrix[idx] = row
+
+	print('low shape: {}, not low shape: {}'.format(low_matrix.shape, not_low_matrix.shape))
+
+	# return the [number of people, 27] matrix
+	with open('./lambda_data_per_user_matrix.pkl', mode = 'wb') as f:
+		pickle.dump((low_matrix.T, not_low_matrix.T), f)
+
+# extract the lambda feature vector for each person
+# 27-d category vector for each person
+# with user id reference
+def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, normed):
+
+	# for each categories; size of [27, number of people]
+	low_matrix = []
+	not_low_matrix = []
+
+	# keep track of user id
+	low_user_id = []
+	not_low_user_id = []
+
+	# for both groups
+	for group in ['low_self_esteem/', 'not_low_self_esteem/']:
+		path = args.data_path + group
+
+		# per peron 
+		for file in os.scandir(path):
+			if file.name.endswith('.json'):
+
+				user_id = file.name.split('.')[0]
+
+				# 27-d vector for the current user
+				category_vector = [] 
+
+				# for each categories
+				for i, category in enumerate(categories):
+
+					whole_name = path + file.name
+
+					# previous timestamp, first place holder
+					previous = datetime.combine(date(2000, 1, 1), time(00, 00, 00))
+
+					# the time difference list per person
+					delta_list = []
+
+					# per search history
+					with open(whole_name, 'r') as json_file:  
+						search_history = [json.loads(line) for line in json_file]
+						for idx, instance in enumerate(search_history):
+
+							# only record the given category
+							for c in instance['category']:
+								current = c[0].split('/')[1]
+
+								if current == category:
+
+									# print(instance['qtime'])
+									date_time = _trim_date(instance['qtime'])
+
+									# get the time difference in minutes
+									delta = (previous - date_time).total_seconds()
 
 									# print(delta)
 									delta_list.append(delta)
@@ -347,25 +439,51 @@ def extract_lambda_feature(args, categories):
 						param = _fit_exp_per_person(delta_list[1:])
 						category_vector.append(param)
 					else:
-						print(group, file.name, category, 'only searched once')
+						# print(group, file.name, category, 'only searched once')
 						category_vector.append(0)
 
-				# verify output and store away
+				# verify output and store with user id
 				assert len(category_vector) == 27
 				if group == 'low_self_esteem/':
 					low_matrix.append(category_vector)
+					low_user_id.append(user_id)
 				else:
 					not_low_matrix.append(category_vector)
-
+					not_low_user_id.append(user_id)
 		print(group, 'done')
 
-	low_matrix = np.stack(low_matrix)
-	not_low_matrix = np.stack(not_low_matrix)
+	# [27, number of people] after transpose
+	low_matrix = np.stack(low_matrix).T
+	not_low_matrix = np.stack(not_low_matrix).T
+
+	# eliminate outlier
+	if outlier:
+
+		# for each group [27, number of people]
+		for matrix in [low_matrix, not_low_matrix]:
+
+			# for each category; each row is [number of people]
+			for idx, row in enumerate(matrix):
+
+				# hard threshold based on scle of median
+				threshold = np.median(row) * outlier_scale
+				row[row >= threshold] = threshold
+
+				if normed:
+					row = row / np.linalg.norm(row)
+				matrix[idx] = row
+
+	# [27, number of people]
 	print('low shape: {}, not low shape: {}'.format(low_matrix.shape, not_low_matrix.shape))
 
-	# return the 95 * 27 matrix
-	with open('./lambda_data_per_user_matrix.pkl', mode = 'wb') as f:
-		pickle.dump((low_matrix, not_low_matrix), f)
+	low_list = [(user_id, low_matrix[:, idx]) for idx, user_id in enumerate(low_user_id)]
+	not_low_list = [(user_id, not_low_matrix[:, idx]) for idx, user_id in enumerate(not_low_user_id)]
+	print('low shape: [{} {}], not low shape: [{} {}]'.format(len(low_list), low_list[0][1].shape, len(not_low_list), not_low_list[0][1].shape))
+
+	# return list[tuple(user_id, lambda numpy vector)]
+	with open('./lambda_vectors_with_user_ID.pkl', mode = 'wb') as f:
+		pickle.dump((low_list, not_low_list), f)
+
 
 def main():
 	parser = argparse.ArgumentParser(description = 'parser for data files')
@@ -415,7 +533,8 @@ def main():
 	'Travel']
 
 	# fit_exp_category(args, normed = True, categories = l)
-	extract_lambda_feature(args, categories = l)
-
+	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
+	extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
+	
 if __name__ == '__main__':
 	main()
