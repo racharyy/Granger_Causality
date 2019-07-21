@@ -23,7 +23,7 @@ with open('lambda_vectors_with_user_ID.pkl', 'rb') as f:
 
 ```
 
-Each of the list is a list of tuples. Concretely, `List[tuple(user_id, 27-d lambda numpy array), tuple(user_id, 27-d lambda numpy array), ...]` where the langth is the number of people in LS and NLS, respectively.
+Each of the list is a list of tuples. Concretely, `List[tuple(user_id, 27-d lambda numpy array), tuple(user_id, 27-d lambda numpy array), ...]` where the length is the number of people in LS and NLS, respectively.
 
 Notice that some user may only search a particular category once in his or her whole data, thus time interval cannot be calculated. These slots are replaced with 0.
 
