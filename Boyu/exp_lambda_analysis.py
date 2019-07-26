@@ -418,10 +418,14 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, nor
 						for idx, instance in enumerate(search_history):
 
 							# only record the given category
+							appeared_cat = set()
 							for c in instance['category']:
 								current = c[0].split('/')[1]
 
-								if current == category:
+								if current == category and current not in appeared_cat:
+
+									# do not repeat category since google gives more details
+									appeared_cat.add(current)
 
 									# print(instance['qtime'])
 									date_time = _trim_date(instance['qtime'])
@@ -435,7 +439,11 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, nor
 
 					# fit the exponential distribution for each category
 					# remove the first place holder
-					if len(delta_list[1:]) > 1:
+					if len(delta_list[1:]) > 0:
+
+						if np.mean(np.asarray(delta_list[1:])) == 0:
+							print('zero mean', delta_list[1:], file.name, category)
+
 						param = _fit_exp_per_person(delta_list[1:])
 						category_vector.append(param)
 					else:
@@ -468,12 +476,6 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, nor
 				# hard threshold based on scle of median
 				threshold = np.median(row) * outlier_scale
 				row[row >= threshold] = threshold
-
-				'''
-				if normed:
-					row = row / np.linalg.norm(row)
-				'''
-
 				matrix[idx] = row
 
 	# normalize across category for each person
@@ -484,11 +486,17 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, nor
 		not_low_matrix = not_low_matrix.T
 
 		# for each group
-		for matrix in [low_matrix, not_low_matrix]:
+		for k, matrix in enumerate([low_matrix, not_low_matrix]):
 
 			# for each person, 27-d vector
 			for idx, row in enumerate(matrix):
-				row = row / np.linalg.norm(row)
+				row = row / np.sum(row)
+				matrix[idx] = row
+				
+				if k == 0:
+					print(np.sum(row), low_user_id[idx])
+				else:
+					print(np.sum(row), not_low_user_id[idx])
 
 		# [27, number of people] after transpose
 		low_matrix = low_matrix.T
@@ -500,6 +508,7 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, nor
 	low_list = [(user_id, low_matrix[:, idx]) for idx, user_id in enumerate(low_user_id)]
 	not_low_list = [(user_id, not_low_matrix[:, idx]) for idx, user_id in enumerate(not_low_user_id)]
 	print('low shape: [{} {}], not low shape: [{} {}]'.format(len(low_list), low_list[0][1].shape, len(not_low_list), not_low_list[0][1].shape))
+	print('sum {} {}'.format(np.sum(low_list[0][1]), np.sum(not_low_list[0][1])))
 
 	# return list[tuple(user_id, lambda numpy vector)]
 	with open('./lambda_vectors_with_user_ID.pkl', mode = 'wb') as f:
@@ -553,8 +562,34 @@ def main():
 	'People & Society', 
 	'Travel']
 
-	l2 = ["Business & Industrial","Home & Garden","Travel","Arts & Entertainment","Sports","Food & Drink","Pets & Animals","Health","Shopping","Finance","Adult","Beauty & Fitness","News","Books & Literature","Online Communities","Law & Government","Sensitive Subjects","Science","Hobbies & Leisure","Games","Jobs & Education","Autos & Vehicles","Computers & Electronics","People & Society","Reference","Internet & Telecom","Real Estate"]
-	print(set(l).difference(set(l2)))
+	l2 = [
+	"Business & Industrial",
+	"Home & Garden",
+	"Travel",
+	"Arts & Entertainment",
+	"Sports",
+	"Food & Drink",
+	"Pets & Animals",
+	"Health",
+	"Shopping",
+	"Finance",
+	"Adult",
+	"Beauty & Fitness",
+	"News",
+	"Books & Literature",
+	"Online Communities",
+	"Law & Government",
+	"Sensitive Subjects",
+	"Science",
+	"Hobbies & Leisure",
+	"Games",
+	"Jobs & Education",
+	"Autos & Vehicles",
+	"Computers & Electronics",
+	"People & Society",
+	"Reference",
+	"Internet & Telecom",
+	"Real Estate"]
 
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
