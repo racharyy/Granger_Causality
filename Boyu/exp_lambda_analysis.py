@@ -403,8 +403,12 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, nor
 	print('sum {} {}'.format(np.sum(low_list[0][1]), np.sum(not_low_list[0][1])))
 
 	# return list[tuple(user_id, lambda numpy vector)]
-	with open('./lambda_vectors_with_user_ID.pkl', mode = 'wb') as f:
-		pickle.dump((low_list, not_low_list), f)
+	if normed:
+		with open('./lambda_vectors_with_user_ID_normed.pkl', mode = 'wb') as f:
+			pickle.dump((low_list, not_low_list), f)
+	else:
+		with open('./lambda_vectors_with_user_ID.pkl', mode = 'wb') as f:
+			pickle.dump((low_list, not_low_list), f)		
 
 
 def main():
@@ -454,7 +458,7 @@ def main():
 
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
-	extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
+	extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100, normed = False)
 	
 if __name__ == '__main__':
 	main()
