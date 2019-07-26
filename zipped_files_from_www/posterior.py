@@ -34,7 +34,7 @@ class Bayes_model(object):
 	def prior(self,w,sigma,sparsity_Flag=True):
 		w_prior = 0.0
 		# prior of w is a gaussian with mean mu_W and covariance matrix cov_W
-		w_prior = sp.multivariate_normal.logpdf(w, mean=self.mu_W, cov=self.cov_W)
+		#w_prior = sp.multivariate_normal.logpdf(w, mean=self.mu_W, cov=self.cov_W)
 		
 		#If sparsity is added we add the laplace prior
 		if sparsity_Flag:
