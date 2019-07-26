@@ -31,7 +31,7 @@ class Bayes_model(object):
 		return a * (temp/2)**(v/2.0) * sp.kv(v,np.sqrt(temp))
 
 
-	def prior(self,w,sigma,sparsity_Flag=False):
+	def prior(self,w,sigma,sparsity_Flag=True):
 		w_prior = 0.0
 		# prior of w is a gaussian with mean mu_W and covariance matrix cov_W
 		w_prior = sp.multivariate_normal.logpdf(w, mean=self.mu_W, cov=self.cov_W)
@@ -74,7 +74,7 @@ class Bayes_model(object):
 		ratio = total_miss_class/float(len(self.testY))
 		return ratio
 
-	def metropolis_hastings(self, iter=2000,sample_size=1000,scale=0.1):
+	def metropolis_hastings(self, iter=2000,sample_size=1000,scale=0.01):
 
 		# w_init = np.random.multivariate_normal(self.mu_W, self.cov_W)
 		#### FOR LS LIWC took abs of the matrix
