@@ -144,10 +144,14 @@ def mean_lambda_category(args, normed, categories):
 						for idx, instance in enumerate(search_history):
 
 							# only record the given category
+							appeared_cat = set()
 							for c in instance['category']:
 								current = c[0].split('/')[1]
 
-								if current == category:
+								if current == category and current not in appeared_cat:
+
+									# do not count duplicate
+									appeared_cat.add(current)
 
 									# print(instance['qtime'])
 									date_time = _trim_date(instance['qtime'])
@@ -155,19 +159,13 @@ def mean_lambda_category(args, normed, categories):
 									# get the time difference in minutes
 									delta = (previous - date_time).total_seconds()
 
-									# error report
-									'''
-									if delta < 0 and previous != datetime.combine(date(2000, 1, 1), time(00, 00, 00)):
-										print(whole_name, idx, previous, date_time)
-									'''
-
 									# print(delta)
 									delta_list.append(delta)
 									previous = date_time
 
 					# fit the exponential distribution for each category
 					# remove the first place holder
-					if len(delta_list[1:]) > 1:
+					if len(delta_list[1:]) > 0:
 						param = _fit_exp_per_person(delta_list[1:])
 						param_list.append(param)
 					else:
@@ -215,10 +213,14 @@ def fit_exp_category(args, normed, categories):
 						for idx, instance in enumerate(search_history):
 
 							# only record the given category
+							appeared_cat = set()
 							for c in instance['category']:
 								current = c[0].split('/')[1]
 
-								if current == category:
+								if current == category and current not in appeared_cat:
+
+									# do not count duplicate
+									appeared_cat.add(current)
 
 									# print(instance['qtime'])
 									date_time = _trim_date(instance['qtime'])
@@ -226,19 +228,13 @@ def fit_exp_category(args, normed, categories):
 									# get the time difference in minutes
 									delta = (previous - date_time).total_seconds()
 
-									# error report
-									'''
-									if delta < 0 and previous != datetime.combine(date(2000, 1, 1), time(00, 00, 00)):
-										print(whole_name, idx, previous, date_time)
-									'''
-
 									# print(delta)
 									delta_list.append(delta)
 									previous = date_time
 
 					# fit the exponential distribution for each category
 					# remove the first place holder
-					if len(delta_list[1:]) > 1:
+					if len(delta_list[1:]) > 0:
 						param = _fit_exp_per_person(delta_list[1:])
 						param_list.append(param)
 					'''
@@ -279,101 +275,6 @@ def fit_exp_category(args, normed, categories):
 		plt.close()
 		'''
 		print(category, 'all done')
-
-# extract the lambda feature vector for each person
-# 27-d category vector for each person
-def extract_lambda_feature(args, categories, outlier, outlier_scale, normed):
-
-	# for each categories; size of [27, number of people]
-	low_matrix = []
-	not_low_matrix = []
-
-	# for both groups
-	for group in ['low_self_esteem/', 'not_low_self_esteem/']:
-		path = args.data_path + group
-
-		# per peron 
-		for file in os.scandir(path):
-			if file.name.endswith('.json'):
-
-				# 27-d vector for the current user
-				category_vector = [] 
-
-				# for each categories
-				for i, category in enumerate(categories):
-
-					whole_name = path + file.name
-
-					# previous timestamp, first place holder
-					previous = datetime.combine(date(2000, 1, 1), time(00, 00, 00))
-
-					# the time difference list per person
-					delta_list = []
-
-					# per search history
-					with open(whole_name, 'r') as json_file:  
-						search_history = [json.loads(line) for line in json_file]
-						for idx, instance in enumerate(search_history):
-
-							# only record the given category
-							for c in instance['category']:
-								current = c[0].split('/')[1]
-
-								if current == category:
-
-									# print(instance['qtime'])
-									date_time = _trim_date(instance['qtime'])
-
-									# get the time difference in minutes
-									delta = (previous - date_time).total_seconds()
-
-									# print(delta)
-									delta_list.append(delta)
-									previous = date_time
-
-					# fit the exponential distribution for each category
-					# remove the first place holder
-					if len(delta_list[1:]) > 1:
-						param = _fit_exp_per_person(delta_list[1:])
-						category_vector.append(param)
-					else:
-						# print(group, file.name, category, 'only searched once')
-						category_vector.append(0)
-
-				# verify output and store with user id
-				assert len(category_vector) == 27
-				if group == 'low_self_esteem/':
-					low_matrix.append(category_vector)
-				else:
-					not_low_matrix.append(category_vector)
-		print(group, 'done')
-
-	# [27, number of people]
-	low_matrix = np.stack(low_matrix).T
-	not_low_matrix = np.stack(not_low_matrix).T
-
-	# eliminate outlier
-	if outlier:
-
-		# for each group [27, number of people]
-		for matrix in [low_matrix, not_low_matrix]:
-
-			# for each category; each row is [number of people]
-			for idx, row in enumerate(matrix):
-
-				# hard threshold based on scle of median
-				threshold = np.median(row) * outlier_scale
-				row[row >= threshold] = threshold
-
-				if normed:
-					row = row / np.linalg.norm(row)
-				matrix[idx] = row
-
-	print('low shape: {}, not low shape: {}'.format(low_matrix.shape, not_low_matrix.shape))
-
-	# return the [number of people, 27] matrix
-	with open('./lambda_data_per_user_matrix.pkl', mode = 'wb') as f:
-		pickle.dump((low_matrix.T, not_low_matrix.T), f)
 
 # extract the lambda feature vector for each person
 # 27-d category vector for each person
@@ -440,10 +341,6 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, nor
 					# fit the exponential distribution for each category
 					# remove the first place holder
 					if len(delta_list[1:]) > 0:
-
-						if np.mean(np.asarray(delta_list[1:])) == 0:
-							print('zero mean', delta_list[1:], file.name, category)
-
 						param = _fit_exp_per_person(delta_list[1:])
 						category_vector.append(param)
 					else:
@@ -492,11 +389,6 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, nor
 			for idx, row in enumerate(matrix):
 				row = row / np.sum(row)
 				matrix[idx] = row
-				
-				if k == 0:
-					print(np.sum(row), low_user_id[idx])
-				else:
-					print(np.sum(row), not_low_user_id[idx])
 
 		# [27, number of people] after transpose
 		low_matrix = low_matrix.T
@@ -531,38 +423,7 @@ def main():
 
 	args = parser.parse_args()
 
-	# fit_exp(args, normed = True)
-
 	l = [
-	'Health', 
-	'Online Communities', 
-	'Books & Literature', 
-	'Food & Drink', 
-	'Autos & Vehicles', 
-	'Law & Government', 
-	'Beauty & Fitness', 
-	'Sports', 
-	'Business & Industrial', 
-	'Pets & Animals', 
-	'Science', 
-	'Real Estate', 
-	'Jobs & Education', 
-	'Games', 
-	'Internet & Telecom', 
-	'Home & Garden', 
-	'Finance', 
-	'Sensitive Subjects', 
-	'Shopping', 
-	'Arts & Entertainment', 
-	'News', 
-	'Reference', 
-	'Computers & Electronics', 
-	'Adult', 
-	'Hobbies & Leisure', 
-	'People & Society', 
-	'Travel']
-
-	l2 = [
 	"Business & Industrial",
 	"Home & Garden",
 	"Travel",
@@ -593,7 +454,7 @@ def main():
 
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
-	extract_lambda_feature_with_ID(args, categories = l2, outlier = True, outlier_scale = 100, normed = True)
+	extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
 	
 if __name__ == '__main__':
 	main()
