@@ -532,9 +532,12 @@ def main():
 	'People & Society', 
 	'Travel']
 
+	l2 = ["Business & Industrial","Home & Garden","Travel","Arts & Entertainment","Sports","Food & Drink","Pets & Animals","Health","Shopping","Finance","Adult","Beauty & Fitness","News","Books & Literature","Online Communities","Law & Government","Sensitive Subjects","Science","Hobbies & Leisure","Games","Jobs & Education","Autos & Vehicles","Computers & Electronics","People & Society","Reference","Internet & Telecom","Real Estate"]
+	print(set(l).difference(set(l2)))
+
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
-	extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
+	extract_lambda_feature_with_ID(args, categories = l2, outlier = True, outlier_scale = 100, normed = True)
 	
 if __name__ == '__main__':
 	main()

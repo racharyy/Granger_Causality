@@ -243,10 +243,13 @@ def main():
 	'People & Society', 
 	'Travel']
 
+	l2 = ["Business & Industrial","Home & Garden","Travel","Arts & Entertainment","Sports","Food & Drink","Pets & Animals","Health","Shopping","Finance","Adult","Beauty & Fitness","News","Books & Literature","Online Communities","Law & Government","Sensitive Subjects","Science","Hobbies & Leisure","Games","Jobs & Education","Autos & Vehicles","Computers & Electronics","People & Society","Reference","Internet & Telecom","Real Estate"]
+	print(set(l).difference(set(l2)))
+
 	# one-hot encoding for each category
 	d = dict()
-	for idx, category in enumerate(l):
-		arr = np.zeros(len(l))
+	for idx, category in enumerate(l2):
+		arr = np.zeros(len(l2))
 		arr[idx] = 1
 		d.update({category: arr})
 	# print(d)
