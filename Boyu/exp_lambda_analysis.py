@@ -469,9 +469,30 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, nor
 				threshold = np.median(row) * outlier_scale
 				row[row >= threshold] = threshold
 
+				'''
 				if normed:
 					row = row / np.linalg.norm(row)
+				'''
+
 				matrix[idx] = row
+
+	# normalize across category for each person
+	if normed:
+
+		# [number of people, 27] after transpose
+		low_matrix = low_matrix.T
+		not_low_matrix = not_low_matrix.T
+
+		# for each group
+		for matrix in [low_matrix, not_low_matrix]:
+
+			# for each person, 27-d vector
+			for idx, row in enumerate(matrix):
+				row = row / np.linalg.norm(row)
+
+		# [27, number of people] after transpose
+		low_matrix = low_matrix.T
+		not_low_matrix = not_low_matrix.T
 
 	# [27, number of people]
 	print('low shape: {}, not low shape: {}'.format(low_matrix.shape, not_low_matrix.shape))
