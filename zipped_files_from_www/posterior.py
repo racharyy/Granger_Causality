@@ -39,8 +39,8 @@ class Bayes_model(object):
 		#If sparsity is added we add the laplace prior
 		if sparsity_Flag:
 			w_prior = w_prior + self.sparsity_hyperparameter *np.linalg.norm(w,ord=1)
-		# else:
-		# 	w_prior = sp.multivariate_normal.logpdf(w, mean=self.mu_W, cov=self.cov_W)	
+		else:
+			w_prior = sp.multivariate_normal.logpdf(w, mean=self.mu_W, cov=self.cov_W)	
 
 		return w_prior
 
