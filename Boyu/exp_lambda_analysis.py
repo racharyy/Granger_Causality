@@ -5,12 +5,13 @@ import argparse
 import os
 import numpy as np 
 import matplotlib.pyplot as plt
-from matplotlib.colors import LogNorm
-from sklearn import mixture
-import pickle
-from io import open
 import scipy.stats as st
 
+from io import open
+import pickle
+import sys
+sys.path.insert(0, '../zipped_files_from_www')
+from helper import *
 
 # helper function
 # generate the date time instance from the raw string
@@ -410,11 +411,33 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, nor
 		with open('./lambda_vectors_with_user_ID.pkl', mode = 'wb') as f:
 			pickle.dump((low_list, not_low_list), f)		
 
+# generate compound feature vector with the WWW 2019 paper
+def generate_compound_features_with_ID(args, cat_ls_path, cat_nls_path, lambda_path):
+
+	cat_ls_list = load_pickle(cat_ls_path) # 51
+	cat_nls_list = load_pickle(cat_nls_path) # 45
+
+	spanish = ['360472c2621eaa', '3651870e0399e4', '3656c6f2301a24']
+	cat_ls_list = [t for t in cat_ls_list if t[0] not in spanish]
+	cat_nls_list = [t for t in cat_nls_list if t[0] not in spanish]
+	print(len(cat_ls_list), len(cat_nls_list))
+
+	with open(lambda_path, 'rb') as f3:
+		(low_list, not_low_list) = pickle.load(f3)
+		print(len(low_list), len(not_low_list)) # 54 38
+
+	cat_ls_set = set([e[0] for e in cat_ls_list])
+	cat_nls_set = set([e[0] for e in cat_nls_list])
+	lam_ls_set = set([e[0].split('_')[1] for e in low_list])
+	lam_nls_set = set([e[0].split('_')[1] for e in not_low_list])
+
+	print(lam_ls_set.difference(cat_ls_set))
+	print(cat_nls_set.difference(lam_nls_set))
 
 def main():
 	parser = argparse.ArgumentParser(description = 'parser for data files')
 	parser.add_argument('--data_path', metavar = 'D', type = str, nargs = 1, 
-						default = '../original-data/',
+						default = '~/Downloads/Campus Study Data V1/original-data/',
 						help = 'data file path')
 	parser.add_argument('--cluster_num', default = 2,
 						help = 'number of clusters')
@@ -458,7 +481,12 @@ def main():
 
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
-	extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100, normed = False)
-	
+	# extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100, normed = False)
+	generate_compound_features_with_ID(
+		args = args, 
+		cat_ls_path = '../searchCatDistData/ls_category_vectors_with_user_ID.pkl', 
+		cat_nls_path = '../searchCatDistData/nls_category_vectors_with_user_ID.pkl', 
+		lambda_path = 'lambda_vectors_with_user_ID.pkl')
+
 if __name__ == '__main__':
 	main()
