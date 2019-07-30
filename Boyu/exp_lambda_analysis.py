@@ -387,8 +387,10 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale):
 		pickle.dump((low_list, not_low_list), f)		
 
 # generate compound feature vector with the WWW 2019 paper
+# for both the NLS/LS and PSI groups
 def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, lambda_path):
 
+	# load categorial vectors
 	cat_ls_list = load_pickle(cat_ls_path) # 51
 	cat_nls_list = load_pickle(cat_nls_path) # 45
 
