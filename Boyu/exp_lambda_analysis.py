@@ -397,29 +397,55 @@ def generate_compound_features_with_ID(args, cat_ls_path, cat_nls_path, lambda_p
 	cat_ls_list = load_pickle(cat_ls_path) # 51
 	cat_nls_list = load_pickle(cat_nls_path) # 45
 
+	# remove invalid data
 	spanish = ['360472c2621eaa', '3651870e0399e4', '3656c6f2301a24']
 	cat_ls_list = [t for t in cat_ls_list if t[0] not in spanish]
 	cat_nls_list = [t for t in cat_nls_list if t[0] not in spanish]
-	print(len(cat_ls_list), len(cat_nls_list))
 
-	for k in cat_ls_list:
-		if k[0] == '35ffb55217e592':
-			print(k)
-	_cat_ls = [t[0] for t in cat_ls_list if t[0] not in spanish]
-	import collections
-	print([item for item, count in collections.Counter(_cat_ls).items() if count > 1])
-
+	# load lambda features
 	with open(lambda_path, 'rb') as f3:
 		(low_list, not_low_list) = pickle.load(f3)
-		print(len(low_list), len(not_low_list)) # 54 38
 
+	# check duplicate '35ffb55217e592'
+	import collections
+	a = [t[0] for t in cat_ls_list]
+	print([item for item, count in collections.Counter(a).items() if count > 1])
+
+	# verify consistency
+	'''
 	cat_ls_set = set([e[0] for e in cat_ls_list])
 	cat_nls_set = set([e[0] for e in cat_nls_list])
 	lam_ls_set = set([e[0].split('_')[1] for e in low_list])
 	lam_nls_set = set([e[0].split('_')[1] for e in not_low_list])
-
 	print(cat_ls_set.difference(lam_ls_set))
 	print(cat_nls_set.difference(lam_nls_set))
+	'''
+
+	print(len(low_list), len(not_low_list)) # 54 38
+	print(len(cat_ls_list), len(cat_nls_list))
+
+	# convert to dict
+	low_list = [(e[0].split('_')[1], e[1]) for e in low_list]
+	not_low_list = [(e[0].split('_')[1], e[1]) for e in not_low_list]
+	cat_low_dict = dict()
+	cat_not_low_dict = dict()
+	for e in cat_ls_list:
+		cat_low_dict.update({e[0] : e[1]})
+	for e in cat_nls_list:
+		cat_not_low_dict.update({e[0] : e[1]})
+
+	# generate the compound data
+	compound_ls_list = []
+	for user_data in low_list:
+		vector = np.concatenate((cat_low_dict.get(user_data[0]), user_data[1]))
+		compound_ls_list.append((user_data[0], vector))
+
+	compound_nls_list = []
+	for user_data in not_low_list:
+		vector = np.concatenate((cat_not_low_dict.get(user_data[0]), user_data[1]))
+		compound_nls_list.append((user_data[0], vector))
+
+	print('low shape: [{} {}], not low shape: [{} {}]'.format(len(compound_ls_list), compound_ls_list[0][1].shape, len(compound_nls_list), compound_nls_list[0][1].shape))
 
 def main():
 	parser = argparse.ArgumentParser(description = 'parser for data files')
