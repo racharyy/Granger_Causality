@@ -280,7 +280,7 @@ def fit_exp_category(args, normed, categories):
 # extract the lambda feature vector for each person
 # 27-d category vector for each person
 # with user id reference
-def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, normed):
+def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, scaled):
 
 	# for each categories; size of [27, number of people]
 	low_matrix = []
@@ -376,38 +376,18 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, nor
 				row[row >= threshold] = threshold
 				matrix[idx] = row
 
-	# normalize across category for each person
-	if normed:
-
-		# [number of people, 27] after transpose
-		low_matrix = low_matrix.T
-		not_low_matrix = not_low_matrix.T
-
-		# for each group
-		for k, matrix in enumerate([low_matrix, not_low_matrix]):
-
-			# for each person, 27-d vector
-			for idx, row in enumerate(matrix):
-				row = row / np.sum(row)
-				matrix[idx] = row
-
-		# [27, number of people] after transpose
-		low_matrix = low_matrix.T
-		not_low_matrix = not_low_matrix.T
-
-	# [27, number of people]
-	print('low shape: {}, not low shape: {}'.format(low_matrix.shape, not_low_matrix.shape))
-
 	low_list = [(user_id, low_matrix[:, idx]) for idx, user_id in enumerate(low_user_id)]
 	not_low_list = [(user_id, not_low_matrix[:, idx]) for idx, user_id in enumerate(not_low_user_id)]
 	print('low shape: [{} {}], not low shape: [{} {}]'.format(len(low_list), low_list[0][1].shape, len(not_low_list), not_low_list[0][1].shape))
 	print('sum {} {}'.format(np.sum(low_list[0][1]), np.sum(not_low_list[0][1])))
 
 	# return list[tuple(user_id, lambda numpy vector)]
-	if normed:
-		with open('./lambda_vectors_with_user_ID_normed.pkl', mode = 'wb') as f:
+	if scaled:
+		print('data scaled!')
+		with open('./lambda_vectors_with_user_ID_scaled.pkl', mode = 'wb') as f:
 			pickle.dump((low_list, not_low_list), f)
 	else:
+		print('raw data; not scaled!')
 		with open('./lambda_vectors_with_user_ID.pkl', mode = 'wb') as f:
 			pickle.dump((low_list, not_low_list), f)		
 
@@ -422,6 +402,13 @@ def generate_compound_features_with_ID(args, cat_ls_path, cat_nls_path, lambda_p
 	cat_nls_list = [t for t in cat_nls_list if t[0] not in spanish]
 	print(len(cat_ls_list), len(cat_nls_list))
 
+	for k in cat_ls_list:
+		if k[0] == '35ffb55217e592':
+			print(k)
+	_cat_ls = [t[0] for t in cat_ls_list if t[0] not in spanish]
+	import collections
+	print([item for item, count in collections.Counter(_cat_ls).items() if count > 1])
+
 	with open(lambda_path, 'rb') as f3:
 		(low_list, not_low_list) = pickle.load(f3)
 		print(len(low_list), len(not_low_list)) # 54 38
@@ -431,13 +418,13 @@ def generate_compound_features_with_ID(args, cat_ls_path, cat_nls_path, lambda_p
 	lam_ls_set = set([e[0].split('_')[1] for e in low_list])
 	lam_nls_set = set([e[0].split('_')[1] for e in not_low_list])
 
-	print(lam_ls_set.difference(cat_ls_set))
+	print(cat_ls_set.difference(lam_ls_set))
 	print(cat_nls_set.difference(lam_nls_set))
 
 def main():
 	parser = argparse.ArgumentParser(description = 'parser for data files')
 	parser.add_argument('--data_path', metavar = 'D', type = str, nargs = 1, 
-						default = '~/Downloads/Campus Study Data V1/original-data/',
+						default = '/Users/mac/Downloads/Campus Study Data V1/original-data/',
 						help = 'data file path')
 	parser.add_argument('--cluster_num', default = 2,
 						help = 'number of clusters')
@@ -481,7 +468,7 @@ def main():
 
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
-	# extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100, normed = False)
+	# extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100, scaled = False)
 	generate_compound_features_with_ID(
 		args = args, 
 		cat_ls_path = '../searchCatDistData/ls_category_vectors_with_user_ID.pkl', 
