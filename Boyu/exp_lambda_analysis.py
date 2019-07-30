@@ -492,7 +492,12 @@ def main():
 
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
-	extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100)
+	extract_lambda_feature_with_ID(
+		args = args, 
+		categories = l, 
+		outlier = True, 
+		outlier_scale = 100)
+	
 	generate_compound_features_with_ID(
 		args = args,
 		scaled = 10**5, 
