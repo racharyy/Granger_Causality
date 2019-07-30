@@ -280,7 +280,7 @@ def fit_exp_category(args, normed, categories):
 # extract the lambda feature vector for each person
 # 27-d category vector for each person
 # with user id reference
-def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, scaled):
+def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale):
 
 	# for each categories; size of [27, number of people]
 	low_matrix = []
@@ -382,17 +382,12 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, sca
 	print('sum {} {}'.format(np.sum(low_list[0][1]), np.sum(not_low_list[0][1])))
 
 	# return list[tuple(user_id, lambda numpy vector)]
-	if scaled:
-		print('data scaled!')
-		with open('./lambda_vectors_with_user_ID_scaled.pkl', mode = 'wb') as f:
-			pickle.dump((low_list, not_low_list), f)
-	else:
-		print('raw data; not scaled!')
-		with open('./lambda_vectors_with_user_ID.pkl', mode = 'wb') as f:
-			pickle.dump((low_list, not_low_list), f)		
+	print('raw data; not scaled!')
+	with open('./lambda_vectors_with_user_ID.pkl', mode = 'wb') as f:
+		pickle.dump((low_list, not_low_list), f)		
 
 # generate compound feature vector with the WWW 2019 paper
-def generate_compound_features_with_ID(args, cat_ls_path, cat_nls_path, lambda_path):
+def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, lambda_path):
 
 	cat_ls_list = load_pickle(cat_ls_path) # 51
 	cat_nls_list = load_pickle(cat_nls_path) # 45
@@ -437,15 +432,18 @@ def generate_compound_features_with_ID(args, cat_ls_path, cat_nls_path, lambda_p
 	# generate the compound data
 	compound_ls_list = []
 	for user_data in low_list:
-		vector = np.concatenate((cat_low_dict.get(user_data[0]), user_data[1]))
+		vector = np.concatenate((cat_low_dict.get(user_data[0]), user_data[1] * scaled))
 		compound_ls_list.append((user_data[0], vector))
 
 	compound_nls_list = []
 	for user_data in not_low_list:
-		vector = np.concatenate((cat_not_low_dict.get(user_data[0]), user_data[1]))
+		vector = np.concatenate((cat_not_low_dict.get(user_data[0]), user_data[1] * scaled))
 		compound_nls_list.append((user_data[0], vector))
 
 	print('low shape: [{} {}], not low shape: [{} {}]'.format(len(compound_ls_list), compound_ls_list[0][1].shape, len(compound_nls_list), compound_nls_list[0][1].shape))
+
+	with open('./compound_vectors_with_user_ID.pkl', mode = 'wb') as f:
+		pickle.dump((compound_ls_list, compound_nls_list), f)	
 
 def main():
 	parser = argparse.ArgumentParser(description = 'parser for data files')
@@ -494,12 +492,13 @@ def main():
 
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
-	# extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100, scaled = False)
+	extract_lambda_feature_with_ID(args, categories = l, outlier = True, outlier_scale = 100)
 	generate_compound_features_with_ID(
-		args = args, 
+		args = args,
+		scaled = 10**5, 
 		cat_ls_path = '../searchCatDistData/ls_category_vectors_with_user_ID.pkl', 
 		cat_nls_path = '../searchCatDistData/nls_category_vectors_with_user_ID.pkl', 
-		lambda_path = 'lambda_vectors_with_user_ID.pkl')
+		lambda_path = './lambda_vectors_with_user_ID.pkl')
 
 if __name__ == '__main__':
 	main()
