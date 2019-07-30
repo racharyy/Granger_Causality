@@ -256,13 +256,13 @@ def main():
 
 	# one loader for each group
 	nls_loader = data_loader(
-		file_path = '../original-data/low_self_esteem/', 
+		file_path = '/Users/mac/Downloads/Campus Study Data V1/original-data/low_self_esteem/', 
 		lag = 1, 
 		interval = 72000, 
 		category_one_hot_dict = d)
 
 	ls_loader = data_loader(
-		file_path = '../original-data/not_low_self_esteem/', 
+		file_path = '/Users/mac/Downloads/Campus Study Data V1/original-data/not_low_self_esteem/', 
 		lag = 1, 
 		interval = 72000, 
 		category_one_hot_dict = d)
