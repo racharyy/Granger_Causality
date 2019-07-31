@@ -462,6 +462,33 @@ def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, 
 	with open('./compound_vectors_psi.pkl', mode = 'wb') as f:
 		pickle.dump((psi, npsi), f)
 
+def _verify_cat(cat_ls_path, cat_nls_path, my_path):
+
+	# load categorial vectors
+	cat_ls_list = load_pickle(cat_ls_path) # 51
+	cat_nls_list = load_pickle(cat_nls_path) # 45
+
+	# remove invalid data
+	spanish = ['360472c2621eaa', '3651870e0399e4', '3656c6f2301a24']
+	cat_ls_list = [t for t in cat_ls_list if t[0] not in spanish]
+	cat_nls_list = [t for t in cat_nls_list if t[0] not in spanish]
+
+	with open(my_path, 'rb') as f:
+		compound_ls_list, compound_nls_list = pickle.load(f)
+
+	for user in compound_ls_list:
+		for u in cat_ls_list:
+			if user[0] == u[0]:
+				print('ls', user[0])
+				# print()
+				assert np.array_equal(user[1][:27], u[1])
+
+	for user in compound_nls_list:
+		for u in cat_nls_list:
+			if user[0] == u[0]:
+				print('nls', user[0])
+				assert np.array_equal(user[1][:27], u[1])
+
 def main():
 	parser = argparse.ArgumentParser(description = 'parser for data files')
 	parser.add_argument('--data_path', metavar = 'D', type = str, nargs = 1, 
@@ -509,6 +536,8 @@ def main():
 
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
+
+	'''
 	extract_lambda_feature_with_ID(
 		args = args, 
 		categories = l, 
@@ -521,6 +550,11 @@ def main():
 		cat_ls_path = '../searchCatDistData/ls_category_vectors_with_user_ID.pkl', 
 		cat_nls_path = '../searchCatDistData/nls_category_vectors_with_user_ID.pkl', 
 		lambda_path = './lambda_vectors_with_user_ID.pkl')
+	'''
+	_verify_cat(
+		cat_ls_path = '../searchCatDistData/ls_category_vectors_with_user_ID.pkl', 
+		cat_nls_path = '../searchCatDistData/nls_category_vectors_with_user_ID.pkl', 
+		my_path = './compound_vectors_self_esteem.pkl')
 
 if __name__ == '__main__':
 	main()
