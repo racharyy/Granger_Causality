@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 
 
-def random_split(low_list,notlow_list,split_ratio=2.0/3,multiplier=10**5):
+def random_split(low_list,notlow_list,split_ratio=2.0/3,multiplier=1):
 
     num_low, num_notlow = len(low_list), len(notlow_list)
     low_train_indices, notlow_train_indices = np.random.choice(num_low,size = int(num_low*split_ratio),replace=False), np.random.choice(num_notlow,size = int(num_notlow*split_ratio),replace=False)

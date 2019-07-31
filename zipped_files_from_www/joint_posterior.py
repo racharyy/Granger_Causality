@@ -5,33 +5,33 @@ from auxilary import *
 from numpy.linalg import inv, det
 from sklearn.metrics import average_precision_score,precision_recall_fscore_support,confusion_matrix, roc_curve, auc, classification_report, average_precision_score, accuracy_score
 
-class Bayes_model(object):
+class Bayes_model_joint(object):
 	"""docstring for Bayes_model"""
-	def __init__(self,data,label ,cov_W,mu_W,alpha=0.02):
+	def __init__(self,data,label,config):
 		super(Bayes_model, self).__init__()
-		self.cov_W = cov_W
-		self.cov_W_determinant = det(cov_W)
-		self.cov_w_inv = inv(cov_W)
-		self.mu_W = mu_W
+		
 		self.data = data
 		self.label = label
 		self.num_cat = data.shape[1]
 		self.num_data = data.shape[0]
-		self.sparsity_hyperparameter = alpha
+		self.config = config
+		if config.regress_lam == True:
+			if 
+		#self.sparsity_hyperparameter = alpha
 		# self.testX = np.load('ls_nls_x_test.npy')
 		# self.testY = np.load('ls_nls_y_test.npy')
 
 
 	def multilaplace(self,x):
 
-		temp =  np.dot(np.dot(x.T,self.cov_w_inv),x)
+		temp =  np.dot(np.dot(x.T,self.cov_cat_inv),x)
 		n = np.shape(x)[0]
 		v = float(2-n)/2.0
-		a = 2.0/((2*np.pi)**(n/2.0) * np.sqrt(self.cov_W_determinant))
+		a = 2.0/((2*np.pi)**(n/2.0) * np.sqrt(self.cov_cat_determinant))
 		return a * (temp/2)**(v/2.0) * sp.kv(v,np.sqrt(temp))
 
 
-	def prior(self,w,sigma,sparsity_Flag):
+	def prior(self,w,sigma,sparsity_Flag=True):
 		w_prior = 0.0
 		# prior of w is a gaussian with mean mu_W and covariance matrix cov_W
 		#w_prior = sp.multivariate_normal.logpdf(w, mean=self.mu_W, cov=self.cov_W)
@@ -55,9 +55,9 @@ class Bayes_model(object):
 		return ep_like+label_like
 
 
-	def posterior(self,epsilon,w,sigma,sparsity_Flag):
+	def posterior(self,epsilon,w,sigma):
 		# print self.prior(w,sigma) + self.likelihood(epsilon,w,sigma), 'From posterior'
-		return self.prior(w,sigma,sparsity_Flag) + self.likelihood(epsilon,w,sigma)
+		return self.prior(w,sigma) + self.likelihood(epsilon,w,sigma)
 
 
 	def assessment_on_test_data(self, w,sig):
@@ -74,7 +74,7 @@ class Bayes_model(object):
 		ratio = total_miss_class/float(len(self.testY))
 		return ratio
 
-	def metropolis_hastings(self, sparsity_Flag=True, iter=2000,sample_size=1000,scale=0.01):
+	def metropolis_hastings(self, iter=2000,sample_size=1000,scale=0.01):
 
 		# w_init = np.random.multivariate_normal(self.mu_W, self.cov_W)
 		#### FOR LS LIWC took abs of the matrix
@@ -103,7 +103,7 @@ class Bayes_model(object):
 			# print 'previous', np.exp(self.posterior(epsilon,w,sigma))
 			# print 'Diff:',np.log(np.random.rand())
 
-			if np.log(np.random.rand()) < (self.posterior(epsilon_star,w_star,sigma_star, sparsity_Flag) - self.posterior(epsilon,w,sigma, sparsity_Flag)):
+			if np.log(np.random.rand()) < (self.posterior(epsilon_star,w_star,sigma_star) - self.posterior(epsilon,w,sigma)):
 				# print 'Accepting'
 				epsilon,w,sigma = epsilon_star,w_star,sigma_star
 			if i>=iter:
