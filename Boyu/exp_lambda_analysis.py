@@ -479,15 +479,41 @@ def _verify_cat(cat_ls_path, cat_nls_path, my_path):
 	for user in compound_ls_list:
 		for u in cat_ls_list:
 			if user[0] == u[0]:
-				print('ls', user[0])
+				# print('ls', user[0])
 				# print()
 				assert np.array_equal(user[1][:27], u[1])
 
 	for user in compound_nls_list:
 		for u in cat_nls_list:
 			if user[0] == u[0]:
-				print('nls', user[0])
+				# print('nls', user[0])
 				assert np.array_equal(user[1][:27], u[1])
+
+	plot_lambda(compound_ls_list, compound_nls_list)
+
+def plot_lambda(ls_list,nls_list,multiplier = 1):
+	
+	low_mean = multiplier * np.mean(np.array([elem[1][27:] for elem in ls_list]),axis=0)
+	notlow_mean = multiplier * np.mean(np.array([elem[1][27:] for elem in nls_list]),axis=0)
+	# print(low_mean)
+	# print(notlow_mean)
+	labels = ["c"+str(i+1) for i in range(27)]
+	xaxis = np.arange(27)
+	width = 0.3 
+
+	fig, ax = plt.subplots()
+	rects1 = ax.bar(xaxis - width/2, low_mean, width, label='Low')
+	rects2 = ax.bar(xaxis + width/2, notlow_mean, width, label='Not Low')
+
+	# Add some text for labels, title and custom x-axis tick labels, etc.
+	ax.set_ylabel('ISI params')
+	ax.set_title('ISI for two groups')
+	ax.set_xticks(xaxis)
+	ax.set_xticklabels(labels)
+	ax.legend()
+	
+	fig.tight_layout() 
+	plt.show()
 
 def main():
 	parser = argparse.ArgumentParser(description = 'parser for data files')
