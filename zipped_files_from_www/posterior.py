@@ -38,7 +38,7 @@ class Bayes_model(object):
 		
 		#If sparsity is added we add the laplace prior
 		if sparsity_Flag:
-			w_prior = w_prior + self.sparsity_hyperparameter *np.linalg.norm(w,ord=1)
+			w_prior = w_prior + self.sparsity_hyperparameter * np.linalg.norm(w,ord=1)
 		else:
 			w_prior = sp.multivariate_normal.logpdf(w, mean=self.mu_W, cov=self.cov_W)	
 
@@ -74,14 +74,18 @@ class Bayes_model(object):
 		ratio = total_miss_class/float(len(self.testY))
 		return ratio
 
-	def metropolis_hastings(self, sparsity_Flag=True, iter=2000,sample_size=1000,scale=0.01):
+	def metropolis_hastings(self, sparsity_Flag=True, iter=2000,sample_size=1000,scale = 0.01):
 
 		# w_init = np.random.multivariate_normal(self.mu_W, self.cov_W)
 		#### FOR LS LIWC took abs of the matrix
+
+		# check for symmetric postive semi definite
+		# print(np.array_equal(self.cov_W, self.cov_W.T))
+		# np.linalg.cholesky(self.cov_W)
+
 		w_init = np.random.multivariate_normal(self.mu_W, self.cov_W)
 		sigma_init = np.random.random()
-		epsilon_init = np.random.normal(0,sigma_init)
-
+		epsilon_init = np.random.normal(0, sigma_init)
 
 		epsilon, w, sigma = epsilon_init, w_init, sigma_init
 		samples_w = np.zeros((sample_size, self.num_cat))
@@ -109,8 +113,6 @@ class Bayes_model(object):
 			if i>=iter:
 				samples_w[i-iter] = w
 				samples_sigma[i-iter] = sigma
-
-
 
 
 		plt.plot(range(len(mis_class_ratios)),mis_class_ratios)

@@ -11,10 +11,9 @@ psi_compound, npsi_compound = load_pickle('../Boyu/compound_vectors_psi.pkl')
 data = (ls_compound, nls_compound, psi_compound, npsi_compound)
 print("Data Load done")
 
-config_list = [{'task':0,'method':0,'features':1,'lambdapriors':0,'catpriors':1,'sparsity_hyperparam':0.02},
+config_list = [
+{'task':0, 'method':1, 'features':1, 'lambdapriors':0, 'catpriors':0, 'sparsity_hyperparam':0.02},
 ]
-
-
 
 
 for config in config_list:
