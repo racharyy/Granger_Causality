@@ -9,6 +9,8 @@ from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 
 
+cats = ["Business & Industrial","Home & Garden","Travel","Arts & Entertainment","Sports","Food & Drink","Pets & Animals","Health","Shopping","Finance","Adult","Beauty & Fitness","News","Books & Literature","Online Communities","Law & Government","Sensitive Subjects","Science","Hobbies & Leisure","Games","Jobs & Education","Autos & Vehicles","Computers & Electronics","People & Society","Reference","Internet & Telecom","Real Estate"]
+
 def random_split(low_list, notlow_list, split_ratio = 2.0/3, multiplier=1):
 
     num_low, num_notlow = len(low_list), len(notlow_list)
@@ -16,6 +18,7 @@ def random_split(low_list, notlow_list, split_ratio = 2.0/3, multiplier=1):
     train_low, test_low, train_notlow, test_notlow = [],[],[],[]
     for i in range(num_low):
         if i in low_train_indices:
+            #print(low_list[i])
             train_low.append(multiplier*low_list[i][1])
         else:
             test_low.append(multiplier*low_list[i][1])
@@ -33,14 +36,14 @@ def random_split(low_list, notlow_list, split_ratio = 2.0/3, multiplier=1):
     return train_lambda, train_label, test_lambda, test_label
 
 
-def plot_features(ls_list,nls_list,multiplier = 10**5):
+def plot_features(ls_list,nls_list,multiplier = 1):
     
     
     low_mean =multiplier* np.mean(np.array([elem[1] for elem in ls_list]),axis=0)
     notlow_mean =multiplier* np.mean(np.array([elem[1] for elem in nls_list]),axis=0)
     # print(low_mean)
     # print(notlow_mean)
-    labels = ["c"+str(i+1) for i in range(27)]
+    labels = [cats[i] for i in range(27)]
     xaxis = np.arange(27)
     width = 0.3 
 
@@ -52,7 +55,7 @@ def plot_features(ls_list,nls_list,multiplier = 10**5):
     ax.set_ylabel('ISI params')
     ax.set_title('ISI for two groups')
     ax.set_xticks(xaxis)
-    ax.set_xticklabels(labels)
+    ax.set_xticklabels(labels,rotation=90)
     ax.legend()
     
     fig.tight_layout() 
@@ -77,5 +80,9 @@ def load_pickle(pickle_file):
  #                   super(ClassName, self).__init__()
  #                   self.arg = arg
                              
-        
+ # def plot_():
+ #     pass
+
+
+
     

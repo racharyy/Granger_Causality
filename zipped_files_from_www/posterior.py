@@ -37,8 +37,9 @@ class Bayes_model(object):
 		#w_prior = sp.multivariate_normal.logpdf(w, mean=self.mu_W, cov=self.cov_W)
 		
 		#If sparsity is added we add the laplace prior
+		
 		if sparsity_Flag:
-			w_prior = w_prior + self.sparsity_hyperparameter * np.linalg.norm(w,ord=1)
+			w_prior = self.sparsity_hyperparameter * np.linalg.norm(w,ord=1)
 		else:
 			w_prior = sp.multivariate_normal.logpdf(w, mean=self.mu_W, cov=self.cov_W)	
 
@@ -74,7 +75,7 @@ class Bayes_model(object):
 		ratio = total_miss_class/float(len(self.testY))
 		return ratio
 
-	def metropolis_hastings(self, sparsity_Flag=True, iter=2000,sample_size=1000,scale = 0.01):
+	def metropolis_hastings(self, sparsity_Flag, iter=2000,sample_size=1000,scale = 0.01):
 
 		# w_init = np.random.multivariate_normal(self.mu_W, self.cov_W)
 		#### FOR LS LIWC took abs of the matrix

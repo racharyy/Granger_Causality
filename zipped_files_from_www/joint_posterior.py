@@ -7,16 +7,19 @@ from sklearn.metrics import average_precision_score,precision_recall_fscore_supp
 
 class Bayes_model_joint(object):
 	"""docstring for Bayes_model"""
-	def __init__(self,data,label,config):
-		super(Bayes_model, self).__init__()
+	def __init__(self,data,label,cov_W, mu_W,config):
+		super(Bayes_model_joint, self).__init__()
 		
 		self.data = data
 		self.label = label
-		self.num_cat = data.shape[1]
-		self.num_data = data.shape[0]
+		self.num_cat = data[0].shape[1]
+		self.num_data = data[0].shape[0]
 		self.config = config
-		if config.regress_lam == True:
-			if 
+		self.cov_W = cov_W
+		self.cov_W_determinant = det(cov_W)
+		self.cov_w_inv = inv(cov_W)
+		self.mu_W = mu_W
+		
 		#self.sparsity_hyperparameter = alpha
 		# self.testX = np.load('ls_nls_x_test.npy')
 		# self.testY = np.load('ls_nls_y_test.npy')
@@ -31,23 +34,33 @@ class Bayes_model_joint(object):
 		return a * (temp/2)**(v/2.0) * sp.kv(v,np.sqrt(temp))
 
 
-	def prior(self,w,sigma,sparsity_Flag=True):
+	def prior(self,w1,w2,sigma):
 		w_prior = 0.0
 		# prior of w is a gaussian with mean mu_W and covariance matrix cov_W
 		#w_prior = sp.multivariate_normal.logpdf(w, mean=self.mu_W, cov=self.cov_W)
 		
 		#If sparsity is added we add the laplace prior
-		if sparsity_Flag:
-			w_prior = w_prior + self.sparsity_hyperparameter *np.linalg.norm(w,ord=1)
+		if self.config['lambdapriors'] == 0:
+			w_prior = w_prior + self.config['sparsity_hyperparam'] *np.linalg.norm(w1,ord=1)
 		else:
-			w_prior = sp.multivariate_normal.logpdf(w, mean=self.mu_W, cov=self.cov_W)	
+			w_prior = w_prior + sp.multivariate_normal.logpdf(w1, mean=self.mu_W, cov=self.cov_W)	
+
+
+		if self.config['catpriors'] == 0:
+			w_prior = w_prior + self.config['sparsity_hyperparam'] *np.linalg.norm(w2,ord=1)
+		else:
+			w_prior = w_prior + sp.multivariate_normal.logpdf(w2, mean=self.mu_W, cov=self.cov_W)	
+
+
 
 		return w_prior
 
 
-	def likelihood(self,epsilon,w,sigma):
+	def likelihood(self,epsilon,w1,w2,sigma):
 
-		p = vec_sigmoid(np.dot(self.data,w)+ epsilon)		
+		lamb_feat, cat_feat = self.data
+
+		p = vec_sigmoid(np.dot(lamb_feat,w1)+np.dot(cat_feat,w2)+ epsilon)		
 		ep_like  =  sp.norm.logpdf(epsilon,scale=sigma)
 		label_like = np.sum(vec_Bern_pdf(p,self.label))
 		# if np.isnan(ep_like+label_like):
@@ -55,9 +68,9 @@ class Bayes_model_joint(object):
 		return ep_like+label_like
 
 
-	def posterior(self,epsilon,w,sigma):
+	def posterior(self,epsilon,w1,w2,sigma):
 		# print self.prior(w,sigma) + self.likelihood(epsilon,w,sigma), 'From posterior'
-		return self.prior(w,sigma) + self.likelihood(epsilon,w,sigma)
+		return self.prior(w1,w2,sigma) + self.likelihood(epsilon,w1,w2,sigma)
 
 
 	def assessment_on_test_data(self, w,sig):
@@ -83,16 +96,18 @@ class Bayes_model_joint(object):
 		epsilon_init = np.random.normal(0,sigma_init)
 
 
-		epsilon, w, sigma = epsilon_init, w_init, sigma_init
-		samples_w = np.zeros((sample_size, self.num_cat))
+		epsilon, w1,w2, sigma = epsilon_init, w_init,w_init, sigma_init
+		samples_w1 = np.zeros((sample_size, self.num_cat))
+		samples_w2 = np.zeros((sample_size, self.num_cat))
 		samples_sigma = np.zeros((sample_size, 1))
 		mis_class_ratios = []
 		
 		for i in range(iter+sample_size):
-			mis_class_ratios.append(-1*self.likelihood(epsilon,w,sigma)/float(self.num_data))
+			mis_class_ratios.append(-1*self.likelihood(epsilon,w1,w2,sigma)/float(self.num_data))
 			#Proposed next states
 			epsilon_star = epsilon + np.random.normal(scale=scale)
-			w_star = w + np.random.normal(scale=scale, size=self.num_cat)
+			w1_star = w1 + np.random.normal(scale=scale, size=self.num_cat)
+			w2_star = w2 + np.random.normal(scale=scale, size=self.num_cat)
 			sigma_star = sigma
 			prop_sigma_star = sigma + np.random.normal(scale=scale)
 			if prop_sigma_star >= 0:
@@ -103,11 +118,12 @@ class Bayes_model_joint(object):
 			# print 'previous', np.exp(self.posterior(epsilon,w,sigma))
 			# print 'Diff:',np.log(np.random.rand())
 
-			if np.log(np.random.rand()) < (self.posterior(epsilon_star,w_star,sigma_star) - self.posterior(epsilon,w,sigma)):
+			if np.log(np.random.rand()) < (self.posterior(epsilon_star,w1_star,w2_star,sigma_star) - self.posterior(epsilon,w1,w2,sigma)):
 				# print 'Accepting'
-				epsilon,w,sigma = epsilon_star,w_star,sigma_star
+				epsilon,w1,w2,sigma = epsilon_star,w1_star,w2_star,sigma_star
 			if i>=iter:
-				samples_w[i-iter] = w
+				samples_w1[i-iter] = w1
+				samples_w2[i-iter] = w2
 				samples_sigma[i-iter] = sigma
 
 
@@ -117,8 +133,8 @@ class Bayes_model_joint(object):
 		plt.xlabel('# Iteration')
 		plt.ylabel('Normalized Negative Likelyhood Loss')
 		plt.grid()
-		# plt.show()
-		return samples_w, samples_sigma
+		#plt.show()
+		return samples_w1,samples_w2, samples_sigma
 
 
 	

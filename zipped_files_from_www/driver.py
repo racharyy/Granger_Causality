@@ -5,6 +5,7 @@ sys.path.insert(0,'./zipped_files_from_www')
 sys.path.insert(0,'./Boyu')
 
 from posterior import *
+from joint_posterior import *
 from sklearn.metrics import average_precision_score,precision_recall_fscore_support,confusion_matrix, roc_curve, auc, classification_report, average_precision_score, accuracy_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
@@ -29,6 +30,7 @@ class worker(object):
 		if self.config['task'] == 0:
 			train_feature, train_label, test_feature, test_label = random_split(ls_compound,nls_compound,split_ratio)
 		else:
+			#print(psi_compound)
 			train_feature, train_label, test_feature, test_label = random_split(psi_compound,npsi_compound,split_ratio)
 		
 		train_lambda, train_cat, test_lambda, test_cat = [], [], [], []	
@@ -48,7 +50,7 @@ class worker(object):
 
 			bmodel = Bayes_model(np.array(train_lambda), train_label, cov_W, mu_W, self.config['sparsity_hyperparam'])
 			if self.config['lambdapriors'] == 0:
-				samples_w, samples_sigma = bmodel.metropolis_hastings()
+				samples_w, samples_sigma = bmodel.metropolis_hastings(sparsity_Flag = True)
 			else:
 				samples_w, samples_sigma = bmodel.metropolis_hastings(sparsity_Flag = False)
 			w = np.mean(samples_w, axis=0)
@@ -80,7 +82,7 @@ class worker(object):
 
 			bmodel = Bayes_model(np.array(train_cat), train_label, cov_W, mu_W, self.config['sparsity_hyperparam'])
 			if self.config['catpriors'] ==0:
-				samples_w, samples_sigma = bmodel.metropolis_hastings()
+				samples_w, samples_sigma = bmodel.metropolis_hastings(sparsity_Flag = True)
 			else:
 				samples_w, samples_sigma = bmodel.metropolis_hastings(sparsity_Flag = False)
 			w = np.mean(samples_w, axis=0)
@@ -106,16 +108,30 @@ class worker(object):
 
 		elif self.config['features'] == 2 and self.config['method'] == 0:
 
-			raise NotImplementedError
+			bmodel = Bayes_model_joint((np.array(train_lambda),np.array(train_cat)),train_label,cov_W, mu_W,self.config)
+			samples_w1,samples_w2, samples_sigma = bmodel.metropolis_hastings()
+
+			w1 = np.mean(samples_w1, axis=0)
+			w2 = np.mean(samples_w2, axis=0)
+			sig = np.mean(samples_sigma)
+
+			p = sigmoid(np.dot(test_lambda, w1)+np.dot(test_cat, w2) + sig*np.random.normal())
+			y_hat = []
+			for i in p:
+				if i <= 0.5:
+					y_hat.append(1)
+				else:
+					y_hat.append(0)
 
 		elif self.config['features'] == 2 and self.config['method'] == 1:
 
 			clf = LogisticRegression(random_state=0, solver='lbfgs').fit(train_feature,train_label)
-			y_hat=clf.predict(test_lambda)
+			y_hat=clf.predict(test_feature)
 
 		elif self.config['features'] == 2 and self.config['method'] == 2:
 
-			raise NotImplementedError
+			clf = SVC(gamma='auto').fit(train_feature,train_label)
+			y_hat = clf.predict(test_feature)
 
 		cr = classification_report(test_label, y_hat)
 		cm = confusion_matrix(test_label, y_hat)
