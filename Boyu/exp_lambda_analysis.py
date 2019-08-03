@@ -386,9 +386,33 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale):
 	with open('./lambda_vectors_with_user_ID.pkl', mode = 'wb') as f:
 		pickle.dump((low_list, not_low_list), f)		
 
+# enlarge the features by exp
+# (49, 27) (43, 27)
+def _enlarge_feature(ls, nls, multiplier = 1):
+
+	assert multiplier > 0
+
+	ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
+	nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
+
+	raw_delta = ls_mean - nls_mean
+	delta_new = np.absolute(raw_delta) * multiplier
+	for idx, d in enumerate(raw_delta):
+		if d > 0:
+			ls[:, idx] += delta_new[idx]
+			nls[:, idx] -= delta_new[idx]
+		elif d < 0:
+			ls[:, idx] -= delta_new[idx]
+			nls[:, idx] += delta_new[idx]
+
+	ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
+	nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
+
+	return ls, nls
+
 # generate compound feature vector with the WWW 2019 paper
 # for both the NLS/LS and PSI groups
-def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, lambda_path):
+def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, lambda_path, enlarge):
 
 	# load categorial vectors
 	cat_ls_list = load_pickle(cat_ls_path) # 51
@@ -429,15 +453,23 @@ def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, 
 	cat_low_dict.update(cat_ls_list)
 	cat_not_low_dict.update(cat_nls_list)
 
+	# scale up first
+	low = np.stack([user[1] * scaled for user in low_list])
+	not_low = np.stack([user[1] * scaled for user in not_low_list])
+
+	# enlarge feature
+	if enlarge:
+		low, not_low = _enlarge_feature(low, not_low)
+
 	# generate the compound data
 	compound_ls_list = []
-	for user_data in low_list:
-		vector = np.concatenate((cat_low_dict.get(user_data[0]), user_data[1] * scaled))
+	for idx, user_data in enumerate(low_list):
+		vector = np.concatenate((cat_low_dict.get(user_data[0]), low[idx]))
 		compound_ls_list.append((user_data[0], vector))
 
 	compound_nls_list = []
-	for user_data in not_low_list:
-		vector = np.concatenate((cat_not_low_dict.get(user_data[0]), user_data[1] * scaled))
+	for idx, user_data in enumerate(not_low_list):
+		vector = np.concatenate((cat_not_low_dict.get(user_data[0]), not_low[idx]))
 		compound_nls_list.append((user_data[0], vector))
 
 	print('low shape: [{} {}], not low shape: [{} {}]'.format(len(compound_ls_list), compound_ls_list[0][1].shape, len(compound_nls_list), compound_nls_list[0][1].shape))
@@ -445,9 +477,8 @@ def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, 
 		pickle.dump((compound_ls_list, compound_nls_list), f)	
 
 	# for PSI data mapping
-	# remove '365705c34176a4':
 	all_psi_users = ['35808080808080', '3603a2c8d630e8', '360f70686ed3c2', '35f88eac597396', '36047578a646d8', '36103c719a02b8', '35f96084a59be8', '3605480ff725aa', '3610e92d3ff426', '35f98283c97fa4', '3606012f7da94c', '35fd53a205f032', '360ea61b204b08', '35818181818181', '35fa42ba5190a4', '360ea7d4ca7b3e', '35f955ff00cba2', '360e98e333ab46', '364d68a4996976', '36517e923dda2c', '3651870e0399e4', '3652ed3ac0fb96', '3656c6f2301a24', '365de175913efe', '3661cbdf582378']
-	all_npsi_users = ['35777777777777', '35fed6a9a0bf1c', '360ddfbd854066', '35787878787878', '35fed7c5974de0', '360e93d13eabc4', '35797979797979', '35fed90a9f8324', '360e9521584ce6', '35fa3211bd0a02', '35fee27f6a26ca', '360eacde42f07c', '35fa42ba5190a4', '35fef442aba2f8', '360f61a2ebff78', '35faf634ba1e9e', '35ffa65213cd1a', '36102f386840b2', '35fafa696f1180', '35ffb55217e592', '36103b2f43f810', '35fb0466ef53b6', '3600808bcb8f78', '361044da6b5d9a', '35fb0a1ac2e81c', '360088be33e584', '36104a968d9ee2', '35fd4f85e6ad56', '360472c2621eaa', '3611064f3a7244', '35fd5b83b88b12', '360518c09b9ff4', '36110ae10c3d3e', '35fd5d66c7e2f0', '36051ecd8c4ca2', '3626f6903354b2', '35fe072bb73ce2', '3605f60c751daa', '3626f804162108', '35fe13b4df2dc8', '3605fc6be3d63c', '35f9679e778d20', '35ff04767aa900', '36103eac87dde6', '35f9891dbcb4bc', '3602d0b7f8f7de', '361042a326fdc0', '35fa37921286fe', '3603b99b42d928', '3610ffb257067e', '35fafcced91e3a', '360521efaa3e7e', '35fd568f77d0de', '360e9006cc0942', '365c81adeeeb2e', '365c866bbabc36', '3665f2fe0de374', '3665f8af1aef52', '36674fded9458e', '3667533c957a12', '36675399d93e54', '366e83536e78e2', '367d82e66579f4', '368e04e9e9a792', '368f888e953e5a']
+	all_npsi_users = ['35777777777777', '35fed6a9a0bf1c', '360ddfbd854066', '35787878787878', '35fed7c5974de0', '360e93d13eabc4', '35797979797979', '35fed90a9f8324', '360e9521584ce6', '35fa3211bd0a02', '35fee27f6a26ca', '360eacde42f07c', '35fa42ba5190a4', '35fef442aba2f8', '360f61a2ebff78', '35faf634ba1e9e', '35ffa65213cd1a', '36102f386840b2', '35fafa696f1180', '35ffb55217e592', '36103b2f43f810', '35fb0466ef53b6', '3600808bcb8f78', '361044da6b5d9a', '35fb0a1ac2e81c', '360088be33e584', '36104a968d9ee2', '35fd4f85e6ad56', '360472c2621eaa', '3611064f3a7244', '35fd5b83b88b12', '360518c09b9ff4', '36110ae10c3d3e', '35fd5d66c7e2f0', '36051ecd8c4ca2', '3626f6903354b2', '35fe072bb73ce2', '3605f60c751daa', '3626f804162108', '35fe13b4df2dc8', '3605fc6be3d63c', '35f9679e778d20', '35ff04767aa900', '36103eac87dde6', '35f9891dbcb4bc', '3602d0b7f8f7de', '361042a326fdc0', '35fa37921286fe', '3603b99b42d928', '3610ffb257067e', '35fafcced91e3a', '360521efaa3e7e', '35fd568f77d0de', '360e9006cc0942', '365c81adeeeb2e', '365c866bbabc36', '3665f2fe0de374', '3665f8af1aef52', '36674fded9458e', '3667533c957a12', '36675399d93e54', '366e83536e78e2', '367d82e66579f4', '368e04e9e9a792']
 	print(len(all_psi_users), len(all_npsi_users))
 
 	# clean up invalid and duplicate data
@@ -589,12 +620,15 @@ def main():
 		scaled = 10**5, 
 		cat_ls_path = '../searchCatDistData/ls_category_vectors_with_user_ID.pkl', 
 		cat_nls_path = '../searchCatDistData/nls_category_vectors_with_user_ID.pkl', 
-		lambda_path = './lambda_vectors_with_user_ID.pkl')
+		lambda_path = './lambda_vectors_with_user_ID.pkl', 
+		enlarge = True)
 
+	'''
 	_verify_cat(
 		cat_ls_path = '../searchCatDistData/ls_category_vectors_with_user_ID.pkl', 
 		cat_nls_path = '../searchCatDistData/nls_category_vectors_with_user_ID.pkl', 
 		my_path = './compound_vectors_self_esteem.pkl')
+	'''
 
 if __name__ == '__main__':
 	main()
