@@ -11,25 +11,37 @@ import umap
 
 # enlarge the features by exp
 # (49, 27) (43, 27)
-def _enlarge_feature(ls, nls, multiplier = 1):
-
-	assert multiplier > 0
+def _enlarge_feature(ls, nls, mode, multiplier = 1):
 
 	ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
 	nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
 
-	raw_delta = ls_mean - nls_mean
-	delta_new = np.absolute(raw_delta) * multiplier
-	for idx, d in enumerate(raw_delta):
-		if d > 0:
-			ls[:, idx] += delta_new[idx]
-			nls[:, idx] -= delta_new[idx]
-		elif d < 0:
-			ls[:, idx] -= delta_new[idx]
-			nls[:, idx] += delta_new[idx]
+	if mode == 'delta':
+		assert multiplier > 0
 
-	ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
-	nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
+		raw_delta = ls_mean - nls_mean
+		delta_new = np.absolute(raw_delta) * multiplier
+		for idx, d in enumerate(raw_delta):
+			if d > 0:
+				ls[:, idx] += delta_new[idx]
+				nls[:, idx] -= delta_new[idx]
+			elif d < 0:
+				ls[:, idx] -= delta_new[idx]
+				nls[:, idx] += delta_new[idx]
+
+		ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
+		nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
+
+	else:
+
+		ls = np.exp(ls)
+		nls = np.exp(nls)
+		
+		ls = np.exp(ls)
+		nls = np.exp(nls)
+		for v in ls:
+			print(v[3], v[7])
+		print('mean: ', np.mean(ls[:, 3]), np.mean(ls[:, 7]))
 
 	return ls, nls
 
@@ -42,11 +54,11 @@ def plot_tSNE(file, algo, alpha, dimension, scale, enlarge):
 	# scale up first
 	low = np.stack([user[1] * scale for user in low_list])
 	not_low = np.stack([user[1] * scale for user in not_low_list])
-	plot_lambda(low, not_low, multiplier = 1)
+	# plot_lambda(low, not_low, multiplier = 1)
 
 	if enlarge:
-		low, not_low = _enlarge_feature(low, not_low)
-		plot_lambda(low, not_low, multiplier = 1)
+		low, not_low = _enlarge_feature(low, not_low, mode = 'exp')
+		plot_lambda(low, not_low)
 	print('shapes', low.shape, not_low.shape)
 
 	low_num = low.shape[0]
@@ -129,16 +141,16 @@ def plot_tSNE(file, algo, alpha, dimension, scale, enlarge):
 		title = 'Lambda Features_' + algo + '_2d'
 		plt.title(title)
 		plt.grid(True)
-		plt.show()
+		# plt.show()
 		plt.savefig(title, format='png', dpi=150, bbox_inches='tight')
 
-def plot_lambda(ls_list, nls_list, multiplier = 1):
+def plot_lambda(ls_list, nls_list):
 	
-	low_mean = multiplier * np.mean(np.array(ls_list), axis=0)
-	notlow_mean = multiplier * np.mean(np.array(nls_list), axis=0)
+	low_mean = np.mean(np.array(ls_list), axis=0)
+	notlow_mean = np.mean(np.array(nls_list), axis=0)
 
-	# print(low_mean)
-	# print(notlow_mean)
+	print('low mean', low_mean)
+	print('not low mean', notlow_mean)
 	labels = ["c"+str(i+1) for i in range(27)]
 	xaxis = np.arange(27)
 	width = 0.3 
@@ -158,17 +170,75 @@ def plot_lambda(ls_list, nls_list, multiplier = 1):
 	plt.show()
 	plt.close()
 
+# (49, 27) (43, 27)
+def lambda_hist(lambda_path, cats, multiplier = 10**5):
+
+	with open(lambda_path, 'rb') as f:
+		(low_list, not_low_list) = pickle.load(f)
+
+	# scale up first
+	low = np.stack([user[1] * multiplier for user in low_list])
+	not_low = np.stack([user[1] * multiplier for user in not_low_list])
+	plot_lambda(low, not_low)
+
+	for idx, c in enumerate(cats):
+		plt.figure(idx)
+
+		ls = low[:, idx]
+		nls = not_low[:, idx]
+
+		plt.hist(ls, bins = 'auto', alpha = 0.5, label = 'low')
+		plt.hist(nls, bins = 'auto', alpha = 0.5, label = 'not_low')
+		plt.legend(loc='best')
+		plt.savefig('../Plots/' + c + '_hist')
+		plt.close()
 
 plot_tSNE(
 	file = './lambda_vectors_with_user_ID.pkl', 
 	algo = 'tSNE', 
 	alpha = 0.7,
 	dimension = 2, 
-	scale = 10**5, 
+	scale = 10**4, 
 	enlarge = True)
+
+l = [
+"Business & Industrial",
+"Home & Garden",
+"Travel",
+"Arts & Entertainment",
+"Sports",
+"Food & Drink",
+"Pets & Animals",
+"Health",
+"Shopping",
+"Finance",
+"Adult",
+"Beauty & Fitness",
+"News",
+"Books & Literature",
+"Online Communities",
+"Law & Government",
+"Sensitive Subjects",
+"Science",
+"Hobbies & Leisure",
+"Games",
+"Jobs & Education",
+"Autos & Vehicles",
+"Computers & Electronics",
+"People & Society",
+"Reference",
+"Internet & Telecom",
+"Real Estate"]
+
+'''
+lambda_hist(
+	lambda_path = './lambda_vectors_with_user_ID.pkl', 
+	cats = l, 
+	multiplier = 10**5)
 
 '''
 
+'''
 b1 = [0.41323691, 0.10256799, 0.33442297, 1.87672492, 0.59377013, 0.32891397, 0.07773937, 0.83892633, 0.38159667, 0.19727683, 0.09810761, 0.17052776, 0.27473965, 0.2998026,  0.1646275,  0.18843744, 0.09216614, 0.51360599, 0.29093614, 0.30276502, 0.65227786, 0.18002815, 0.58324862, 0.40844325, 0.733122, 0.57482068, 0.06468569]
 b2 = [0.30347907, 0.08550423, 0.20939409, 1.24217429, 0.1897198,  0.2654285, 0.17053899, 0.30057931, 0.31235085, 0.56038426, 0.07994414, 0.16532287, 0.22400172, 0.16320343, 0.14177989, 0.1575167,  0.09351142, 0.4587919, 0.21412693, 0.18938543, 0.6570595,  0.08136606, 0.46751621, 0.34257651, 0.72109435, 0.23860313, 0.02443967]
 b1 = np.asarray(b1)

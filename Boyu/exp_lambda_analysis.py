@@ -388,25 +388,32 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale):
 
 # enlarge the features by exp
 # (49, 27) (43, 27)
-def _enlarge_feature(ls, nls, multiplier = 1):
+def _enlarge_feature(ls, nls, mode, multiplier = 1):
 
-	assert multiplier > 0
+	if mode == 'delta':
+		assert multiplier > 0
 
-	ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
-	nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
+		ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
+		nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
 
-	raw_delta = ls_mean - nls_mean
-	delta_new = np.absolute(raw_delta) * multiplier
-	for idx, d in enumerate(raw_delta):
-		if d > 0:
-			ls[:, idx] += delta_new[idx]
-			nls[:, idx] -= delta_new[idx]
-		elif d < 0:
-			ls[:, idx] -= delta_new[idx]
-			nls[:, idx] += delta_new[idx]
+		raw_delta = ls_mean - nls_mean
+		delta_new = np.absolute(raw_delta) * multiplier
+		for idx, d in enumerate(raw_delta):
+			if d > 0:
+				ls[:, idx] += delta_new[idx]
+				nls[:, idx] -= delta_new[idx]
+			elif d < 0:
+				ls[:, idx] -= delta_new[idx]
+				nls[:, idx] += delta_new[idx]
 
-	ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
-	nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
+		ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
+		nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
+
+	else:
+
+		ls = np.exp(ls)
+		nls = np.exp(nls)
+		plot_lambda(ls, nls)
 
 	return ls, nls
 
@@ -459,7 +466,7 @@ def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, 
 
 	# enlarge feature
 	if enlarge:
-		low, not_low = _enlarge_feature(low, not_low)
+		low, not_low = _enlarge_feature(low, not_low, mode = 'delta')
 
 	# generate the compound data
 	compound_ls_list = []
@@ -535,10 +542,10 @@ def _verify_cat(cat_ls_path, cat_nls_path, my_path):
 	plot_lambda(compound_ls_list, compound_nls_list)
 	'''
 
-def plot_lambda(ls_list,nls_list,multiplier = 1):
+def plot_lambda(ls_list, nls_list):
 	
-	low_mean = multiplier * np.mean(np.array([elem[1][27:] for elem in ls_list]),axis=0)
-	notlow_mean = multiplier * np.mean(np.array([elem[1][27:] for elem in nls_list]),axis=0)
+	low_mean = np.mean(np.array(ls_list),axis=0)
+	notlow_mean = np.mean(np.array(nls_list),axis=0)
 	# print(low_mean)
 	# print(notlow_mean)
 	labels = ["c"+str(i+1) for i in range(27)]
