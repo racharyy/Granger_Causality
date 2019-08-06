@@ -33,16 +33,11 @@ def _enlarge_feature(ls, nls, mode, multiplier = 1):
 		nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
 
 	else:
+		ls[ls == 0] = 
+		nls[nls == 0] = 
 
-		ls = np.exp(ls)
-		nls = np.exp(nls)
-		
-		ls = np.exp(ls)
-		nls = np.exp(nls)
-		for v in ls:
-			print(v[3], v[7])
-		print('mean: ', np.mean(ls[:, 3]), np.mean(ls[:, 7]))
-
+		ls = np.log(ls)
+		nls = np.log(nls)
 	return ls, nls
 
 # may use tSNE or UMAP
@@ -57,7 +52,7 @@ def plot_tSNE(file, algo, alpha, dimension, scale, enlarge):
 	# plot_lambda(low, not_low, multiplier = 1)
 
 	if enlarge:
-		low, not_low = _enlarge_feature(low, not_low, mode = 'exp')
+		low, not_low = _enlarge_feature(low, not_low, mode = 'log')
 		plot_lambda(low, not_low)
 	print('shapes', low.shape, not_low.shape)
 
@@ -194,11 +189,11 @@ def lambda_hist(lambda_path, cats, multiplier = 10**5):
 		plt.close()
 
 plot_tSNE(
-	file = './lambda_vectors_with_user_ID.pkl', 
+	file = './lambda_vectors_minutes.pkl', 
 	algo = 'tSNE', 
 	alpha = 0.7,
 	dimension = 2, 
-	scale = 10**4, 
+	scale = 1, 
 	enlarge = True)
 
 l = [

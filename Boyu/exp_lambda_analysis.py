@@ -333,7 +333,9 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale):
 									date_time = _trim_date(instance['qtime'])
 
 									# get the time difference in minutes
-									delta = (previous - date_time).total_seconds()
+									delta = (previous - date_time).total_seconds() / 3600
+									if delta < 0 and previous != datetime.combine(date(2000, 1, 1), time(00, 00, 00)):
+										print(current, file.name, previous, date_time)
 
 									# print(delta)
 									delta_list.append(delta)
@@ -383,8 +385,22 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale):
 
 	# return list[tuple(user_id, lambda numpy vector)]
 	print('raw data; not scaled!')
-	with open('./lambda_vectors_with_user_ID.pkl', mode = 'wb') as f:
+	with open('./lambda_vectors_minutes.pkl', mode = 'wb') as f:
 		pickle.dump((low_list, not_low_list), f)		
+
+
+def _verify(path):
+
+	with open('./lambda_vectors_minutes.pkl', mode = 'rb') as f:
+		(low_list, not_low_list) = pickle.load(f)
+	print('low shape: [{} {}], not low shape: [{} {}]'.format(len(low_list), low_list[0][1].shape, len(not_low_list), not_low_list[0][1].shape))
+
+	print('first sample: {} {}'.format(low_list[0][1], not_low_list[0][1]))
+
+	low_list = np.stack([user[1] for user in low_list])
+	not_low_list = np.stack([user[1] for user in not_low_list])
+
+	plot_lambda(low_list, not_low_list)
 
 # enlarge the features by exp
 # (49, 27) (43, 27)
@@ -438,17 +454,6 @@ def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, 
 	import collections
 	a = [t[0] for t in cat_ls_list]
 	print([item for item, count in collections.Counter(a).items() if count > 1])
-
-	# verify consistency
-	'''
-	cat_ls_set = set([e[0] for e in cat_ls_list])
-	cat_nls_set = set([e[0] for e in cat_nls_list])
-	lam_ls_set = set([e[0].split('_')[1] for e in low_list])
-	lam_nls_set = set([e[0].split('_')[1] for e in not_low_list])
-	print(cat_ls_set.difference(lam_ls_set))
-	print(cat_nls_set.difference(lam_nls_set))
-	'''
-
 	print(len(low_list), len(not_low_list)) # 54 38
 	print(len(cat_ls_list), len(cat_nls_list))
 
@@ -544,8 +549,8 @@ def _verify_cat(cat_ls_path, cat_nls_path, my_path):
 
 def plot_lambda(ls_list, nls_list):
 	
-	low_mean = np.mean(np.array(ls_list),axis=0)
-	notlow_mean = np.mean(np.array(nls_list),axis=0)
+	low_mean = np.log(np.mean(np.array(ls_list),axis=0))
+	notlow_mean = np.log(np.mean(np.array(nls_list),axis=0))
 	# print(low_mean)
 	# print(notlow_mean)
 	labels = ["c"+str(i+1) for i in range(27)]
@@ -618,9 +623,11 @@ def main():
 	extract_lambda_feature_with_ID(
 		args = args, 
 		categories = l, 
-		outlier = True, 
+		outlier = False, 
 		outlier_scale = 100)
 	'''
+
+	# _verify('./lambda_vectors_minutes.pkl')
 	
 	generate_compound_features_with_ID(
 		args = args,
@@ -628,7 +635,7 @@ def main():
 		cat_ls_path = '../searchCatDistData/ls_category_vectors_with_user_ID.pkl', 
 		cat_nls_path = '../searchCatDistData/nls_category_vectors_with_user_ID.pkl', 
 		lambda_path = './lambda_vectors_with_user_ID.pkl', 
-		enlarge = True)
+		enlarge = False)
 
 	'''
 	_verify_cat(
