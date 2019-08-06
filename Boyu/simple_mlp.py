@@ -21,7 +21,6 @@ class SimpleMLP(nn.Module):
 		self.relu = nn.ReLU()
 		self.w2 = nn.Linear(hidden_size, out_size)
 		self.dropout = nn.Dropout(p = dropout)
-		self.sigmoid = nn.Sigmoid()
 		self.initialize()
 
 	def initialize(self):
@@ -37,7 +36,6 @@ class SimpleMLP(nn.Module):
 		a = self.relu(h1)
 		# a = self.dropout(a)
 		h2 = self.w2(a)
-		# h2 = self.sigmoid(h2)
 		return h2
 
 # load the data for pretraining
@@ -84,7 +82,7 @@ mlp = SimpleMLP(
 		hidden_size = 100).to(device)
 
 criterion = nn.BCEWithLogitsLoss()
-optimizer = optim.Adam(mlp.parameters())
+optimizer = optim.Adam(mlp.parameters(), weight_decay = 1e-5)
 
 loss_history = []
 best_loss = float('inf')
