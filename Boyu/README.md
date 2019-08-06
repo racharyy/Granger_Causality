@@ -1,10 +1,15 @@
 # Code
 
-`exp_lambda_analysis.py` contains all the analysis with fitting the search time interval with expoential distributions. It also includes extracting the lambda feature vectors for each user.
+1. `exp_lambda_analysis.py` contains all the analysis with fitting the search time interval with expoential distributions. It also includes extracting the lambda feature vectors for each user.
+Scaling options are provided in the method `extract_lambda_feature_with_ID`, and we normally use hour (3600 times) as the scaling factor. Default setting is in minutes.
 
-`plot_time_interval.py` contains codes to analysis and visualize the raw search time interval.
+2. `plot_time_interval.py` contains codes to analysis and visualize the raw search time interval.
 
-`data_loader.py` contains the loader that parses frequency vectors for each user. There are two parsing methods: `parse()` and `parse_by_month()`, please check the code comments for details.
+3. `data_loader.py` contains the loader that parses frequency vectors for each user. There are two parsing methods: `parse()` and `parse_by_month()`, please check the code comments for details.
+
+4. `simple_mlp.py` contains a small two-layer MLP. It is able to find a meaningful hidden representation for the Lambda features in another dimension (like an automatic kernel projection). I was inspired by the pretraining process standard among NLP tasks. By setting hidden sizes to around 100 to 200, I obtained clusters showing a great pattern of separation vidsualized by tSNE. 
+
+Notice that the MLP is only used as a pretraining method. In order to utilize the full capacity of it, we did not use as an end-to-end classifier. Instead, we train it by batch GD over the whole dataset and take the hidden layer as high dimensional representation.
 
 # Data
 
@@ -36,3 +41,7 @@ import pickle
 with open('compound_vectors_psi.pkl', 'rb') as f:
 	(psi, npsi) = pickle.load(f)
 ```
+
+4. `lambda_vectors_with_user_ID.pkl` is the data of the raw Lambdas extracted WITHOUT any scaling. The format is the same (list of tuples) as above, containg user-to-lambda mapping.
+
+5. `lambda_vectors_cleaned_3600.pkl` and `lambda_vectors_3600.pkl` are lambda data scaled by hours (3600 times) since the default unit is in seconds. It also produced the best pretraining performance. 
