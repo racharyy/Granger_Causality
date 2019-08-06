@@ -40,14 +40,16 @@ class SimpleMLP(nn.Module):
 		# h2 = self.sigmoid(h2)
 		return h2
 
-def load_data_MLP(path):
+# load the data for pretraining
+# ONLY use the scale parameter when the data is the raw lambda file!!!
+def load_data_MLP(path, scale):
 
 	with open(path, 'rb') as f:
 		(low_list, not_low_list) = pickle.load(f)
 
 	# [number of users, number of features]
-	ls = np.stack([user[1] for user in low_list])
-	nls = np.stack([user[1] for user in not_low_list])
+	ls = np.stack([user[1] * scale for user in low_list])
+	nls = np.stack([user[1] * scale for user in not_low_list])
 	print('low shape: [{}], not low shape: [{}]'.format(ls.shape, nls.shape))
 	assert ls.shape[1] == nls.shape[1]
 	in_size = ls.shape[1]
@@ -69,7 +71,8 @@ def load_data_MLP(path):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 data, in_size, ls_num, nls_num= load_data_MLP(
-		path = 'lambda_vectors_cleaned_3600.pkl')
+		path = 'lambda_vectors_cleaned_3600.pkl', 
+		scale = 1)
 
 # X: [batch, num of features]
 # Y: [batch, num of labels]
@@ -78,14 +81,14 @@ print('X: {}, Y: {}'.format(X.shape, Y.shape))
 
 mlp = SimpleMLP(
 		in_size = in_size, 
-		hidden_size = 200).to(device)
+		hidden_size = 100).to(device)
 
 criterion = nn.BCEWithLogitsLoss()
 optimizer = optim.Adam(mlp.parameters())
 
 loss_history = []
 best_loss = float('inf')
-n_epoch = 1500
+n_epoch = 1000
 for epoch in range(n_epoch):
 
 	optimizer.zero_grad()
