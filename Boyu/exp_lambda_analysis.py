@@ -619,16 +619,15 @@ def main():
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
 
-	'''
 	extract_lambda_feature_with_ID(
 		args = args, 
 		categories = l, 
-		outlier = False, 
+		outlier = True, 
 		outlier_scale = 100)
-	'''
 
 	# _verify('./lambda_vectors_minutes.pkl')
 	
+	'''
 	generate_compound_features_with_ID(
 		args = args,
 		scaled = 10**5, 
@@ -636,6 +635,7 @@ def main():
 		cat_nls_path = '../searchCatDistData/nls_category_vectors_with_user_ID.pkl', 
 		lambda_path = './lambda_vectors_with_user_ID.pkl', 
 		enlarge = False)
+	'''
 
 	'''
 	_verify_cat(

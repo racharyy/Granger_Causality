@@ -33,9 +33,6 @@ def _enlarge_feature(ls, nls, mode, multiplier = 1):
 		nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
 
 	else:
-		ls[ls == 0] = 
-		nls[nls == 0] = 
-
 		ls = np.log(ls)
 		nls = np.log(nls)
 	return ls, nls
@@ -139,6 +136,91 @@ def plot_tSNE(file, algo, alpha, dimension, scale, enlarge):
 		# plt.show()
 		plt.savefig(title, format='png', dpi=150, bbox_inches='tight')
 
+# may use tSNE or UMAP
+def plot_hidden(file, algo, alpha, dimension):
+
+	with open(file, 'rb') as f:
+		(low, not_low) = pickle.load(f)
+
+	low_num = low.shape[0]
+	not_low_num = not_low.shape[0]
+
+	total = np.concatenate((low, not_low), axis=0)
+	print('total size', total.shape)
+
+	# fit tSNE
+	if dimension == 3: 
+
+		if algo == 'umap':
+			fit = umap.UMAP(
+				n_neighbors = 25,
+				min_dist = 0.1,
+				n_components = 3,
+				metric = 'euclidean')
+			embeddings = fit.fit_transform(total)
+		else:
+			embeddings = TSNE(n_components = 3).fit_transform(total)
+		print(embeddings.shape)
+
+		fig = plt.figure(figsize=(16, 9))
+		ax = fig.add_subplot(111, projection='3d')
+
+		low_matrix = embeddings[:low_num, :]
+		print(low_matrix.shape)
+		x = low_matrix[:, 0]
+		y = low_matrix[:, 1]
+		z = low_matrix[:, 2]
+		ax.scatter(x, y, z, alpha = alpha, label = 'low')
+
+		not_low_matrix = embeddings[low_num:, :]
+		print(not_low_matrix.shape)
+		x = not_low_matrix[:, 0]
+		y = not_low_matrix[:, 1]
+		z = not_low_matrix[:, 2]
+		ax.scatter(x, y, z, alpha = alpha, label = 'not_low')
+
+		plt.legend(loc = 'best')
+		title = 'Lambda Features_' + algo + '_3d'
+		plt.title(title)
+		plt.grid(True)
+		plt.show()
+		plt.savefig(title, format='png', dpi=150, bbox_inches='tight')
+
+	else:
+
+		if algo == 'umap':
+			fit = umap.UMAP(
+				n_neighbors = 50,
+				min_dist = 0.1,
+				n_components = 2,
+				metric = 'euclidean')
+			embeddings = fit.fit_transform(total)
+		else:
+			embeddings = TSNE(n_components = 2).fit_transform(total)
+		print(embeddings.shape)
+
+		fig = plt.figure(figsize=(16, 9))
+
+		low_matrix = embeddings[:low_num, :]
+		print(low_matrix.shape)
+		x = low_matrix[:, 0]
+		y = low_matrix[:, 1]
+		plt.scatter(x, y, alpha = alpha, label = 'low')
+
+		not_low_matrix = embeddings[low_num:, :]
+		print(not_low_matrix.shape)
+		x = not_low_matrix[:, 0]
+		y = not_low_matrix[:, 1]
+		plt.scatter(x, y, alpha = alpha, label = 'not_low')
+
+		plt.legend(loc = 'best')
+		title = 'Lambda_hidden_' + algo + '_2d.png'
+		plt.title(title)
+		plt.grid(True)
+		# plt.show()
+		plt.savefig(title, format='png', dpi=150, bbox_inches='tight')
+
+
 def plot_lambda(ls_list, nls_list):
 	
 	low_mean = np.mean(np.array(ls_list), axis=0)
@@ -188,6 +270,7 @@ def lambda_hist(lambda_path, cats, multiplier = 10**5):
 		plt.savefig('../Plots/' + c + '_hist')
 		plt.close()
 
+'''
 plot_tSNE(
 	file = './lambda_vectors_minutes.pkl', 
 	algo = 'tSNE', 
@@ -195,6 +278,13 @@ plot_tSNE(
 	dimension = 2, 
 	scale = 1, 
 	enlarge = True)
+'''
+
+plot_hidden(
+	file = './best_representation.pkl', 
+	algo = 'tSNE', 
+	alpha = 0.7,
+	dimension = 2)
 
 l = [
 "Business & Industrial",
@@ -225,43 +315,5 @@ l = [
 "Internet & Telecom",
 "Real Estate"]
 
-'''
-lambda_hist(
-	lambda_path = './lambda_vectors_with_user_ID.pkl', 
-	cats = l, 
-	multiplier = 10**5)
-
-'''
-
-'''
-b1 = [0.41323691, 0.10256799, 0.33442297, 1.87672492, 0.59377013, 0.32891397, 0.07773937, 0.83892633, 0.38159667, 0.19727683, 0.09810761, 0.17052776, 0.27473965, 0.2998026,  0.1646275,  0.18843744, 0.09216614, 0.51360599, 0.29093614, 0.30276502, 0.65227786, 0.18002815, 0.58324862, 0.40844325, 0.733122, 0.57482068, 0.06468569]
-b2 = [0.30347907, 0.08550423, 0.20939409, 1.24217429, 0.1897198,  0.2654285, 0.17053899, 0.30057931, 0.31235085, 0.56038426, 0.07994414, 0.16532287, 0.22400172, 0.16320343, 0.14177989, 0.1575167,  0.09351142, 0.4587919, 0.21412693, 0.18938543, 0.6570595,  0.08136606, 0.46751621, 0.34257651, 0.72109435, 0.23860313, 0.02443967]
-b1 = np.asarray(b1)
-b2 = np.asarray(b2)
-
-d1 = []
-d2 = []
-
-for i in range(100):
-	d1.append(np.random.rand(27)  + b1)
-	d2.append(np.random.rand(27)  + b2)
-
-d1 = np.stack(d1)
-d2 = np.stack(d2)	
-d = np.concatenate((d1, d2), axis = 0)
-print(d.shape)
-
-d1_l = [v for v in d1]
-d2_l = [v for v in d2]
-plot_lambda(d1_l, d2_l, multiplier = 1)
-
-embeddings = TSNE(n_components = 2).fit_transform(d)
-
-fig = plt.figure(figsize=(16, 9))
-ax = fig.add_subplot(111)
-ax.scatter(embeddings[:100,0], embeddings[:100,1])
-ax.scatter(embeddings[100:,0], embeddings[100:,1])
-plt.show()
-'''
 
 
