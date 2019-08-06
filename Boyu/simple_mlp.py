@@ -51,6 +51,8 @@ def load_data_MLP(path):
 	print('low shape: [{}], not low shape: [{}]'.format(ls.shape, nls.shape))
 	assert ls.shape[1] == nls.shape[1]
 	in_size = ls.shape[1]
+	ls_num = ls.shape[0]
+	nls_num = nls.shape[0]
 
 	# add label [number of users, number of features]
 	ls_label = np.stack([np.asarray([1, 0]) for user in ls])
@@ -63,11 +65,11 @@ def load_data_MLP(path):
 	data = np.concatenate((ls, nls), axis = 0)
 	np.random.shuffle(data)
 	data = torch.from_numpy(data).float()
-	return data, in_size
+	return data, in_size, ls_num, nls_num
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-data, in_size = load_data_MLP(
-		path = 'lambda_vectors_60.pkl')
+data, in_size, ls_num, nls_num= load_data_MLP(
+		path = 'lambda_vectors_cleaned_3600.pkl')
 
 # X: [batch, num of features]
 # Y: [batch, num of labels]
@@ -92,9 +94,33 @@ for epoch in range(n_epoch):
 	loss.backward()
 	optimizer.step()
 
-	if epoch % 10 == 0:
+	if epoch % 1000 == 0:
 		print('Epoch [{}/{}] Loss: {}'.format(epoch, n_epoch, loss.item()))
 	loss_history.append(loss.item())
+
+# final training acc.
+with torch.no_grad():
+	outputs = mlp(X)
+	results = []
+	for user in outputs:
+		if user[0] >= user[1]:
+			results.append(np.asarray([1, 0]))
+		else:
+			results.append(np.asarray([0, 1]))
+	results = np.stack(results)
+	Y_temp = Y.numpy() 
+
+	correct = 0
+	c_ls = 0
+	c_nls = 0
+	for idx, user in enumerate(results):
+		if np.array_equal(Y_temp[idx], user):
+			correct += 1
+			if np.array_equal(np.asarray([1, 0]), user):
+				c_ls += 1
+			else:
+				c_nls += 1
+	print('acc: {}, ls acc: {}, nls acc: {}'.format(correct / len(results), c_ls / ls_num, c_nls / nls_num))
 
 # store the best hidden representations
 with open('./best_representation.pkl', 'wb') as f:
