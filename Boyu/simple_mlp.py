@@ -67,7 +67,7 @@ def load_data_MLP(path):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 data, in_size = load_data_MLP(
-		path = './lambda_vectors_minutes.pkl')
+		path = 'lambda_vectors_60.pkl')
 
 # X: [batch, num of features]
 # Y: [batch, num of labels]
@@ -76,7 +76,7 @@ print('X: {}, Y: {}'.format(X.shape, Y.shape))
 
 mlp = SimpleMLP(
 		in_size = in_size, 
-		hidden_size = 100).to(device)
+		hidden_size = 200).to(device)
 
 criterion = nn.BCEWithLogitsLoss()
 optimizer = optim.Adam(mlp.parameters())

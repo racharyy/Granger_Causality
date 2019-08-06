@@ -280,7 +280,7 @@ def fit_exp_category(args, normed, categories):
 # extract the lambda feature vector for each person
 # 27-d category vector for each person
 # with user id reference
-def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale):
+def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale, scale):
 
 	# for each categories; size of [27, number of people]
 	low_matrix = []
@@ -333,9 +333,7 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale):
 									date_time = _trim_date(instance['qtime'])
 
 									# get the time difference in minutes
-									delta = (previous - date_time).total_seconds() / 3600
-									if delta < 0 and previous != datetime.combine(date(2000, 1, 1), time(00, 00, 00)):
-										print(current, file.name, previous, date_time)
+									delta = (previous - date_time).total_seconds() / scale
 
 									# print(delta)
 									delta_list.append(delta)
@@ -381,11 +379,15 @@ def extract_lambda_feature_with_ID(args, categories, outlier, outlier_scale):
 	low_list = [(user_id, low_matrix[:, idx]) for idx, user_id in enumerate(low_user_id)]
 	not_low_list = [(user_id, not_low_matrix[:, idx]) for idx, user_id in enumerate(not_low_user_id)]
 	print('low shape: [{} {}], not low shape: [{} {}]'.format(len(low_list), low_list[0][1].shape, len(not_low_list), not_low_list[0][1].shape))
-	print('sum {} {}'.format(np.sum(low_list[0][1]), np.sum(not_low_list[0][1])))
+	print('examples {} {}'.format(low_list[0][1], not_low_list[0][1]))
 
 	# return list[tuple(user_id, lambda numpy vector)]
-	print('raw data; not scaled!')
-	with open('./lambda_vectors_minutes.pkl', mode = 'wb') as f:
+	if outlier:
+		file_name = './lambda_vectors_cleaned_' + str(scale) + '.pkl'
+	else:
+		file_name = './lambda_vectors_' + str(scale) + '.pkl'
+
+	with open(file_name, mode = 'wb') as f:
 		pickle.dump((low_list, not_low_list), f)		
 
 
@@ -402,40 +404,10 @@ def _verify(path):
 
 	plot_lambda(low_list, not_low_list)
 
-# enlarge the features by exp
-# (49, 27) (43, 27)
-def _enlarge_feature(ls, nls, mode, multiplier = 1):
-
-	if mode == 'delta':
-		assert multiplier > 0
-
-		ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
-		nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
-
-		raw_delta = ls_mean - nls_mean
-		delta_new = np.absolute(raw_delta) * multiplier
-		for idx, d in enumerate(raw_delta):
-			if d > 0:
-				ls[:, idx] += delta_new[idx]
-				nls[:, idx] -= delta_new[idx]
-			elif d < 0:
-				ls[:, idx] -= delta_new[idx]
-				nls[:, idx] += delta_new[idx]
-
-		ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
-		nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
-
-	else:
-
-		ls = np.exp(ls)
-		nls = np.exp(nls)
-		plot_lambda(ls, nls)
-
-	return ls, nls
 
 # generate compound feature vector with the WWW 2019 paper
 # for both the NLS/LS and PSI groups
-def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, lambda_path, enlarge):
+def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, lambda_path):
 
 	# load categorial vectors
 	cat_ls_list = load_pickle(cat_ls_path) # 51
@@ -468,10 +440,6 @@ def generate_compound_features_with_ID(args, scaled, cat_ls_path, cat_nls_path, 
 	# scale up first
 	low = np.stack([user[1] * scaled for user in low_list])
 	not_low = np.stack([user[1] * scaled for user in not_low_list])
-
-	# enlarge feature
-	if enlarge:
-		low, not_low = _enlarge_feature(low, not_low, mode = 'delta')
 
 	# generate the compound data
 	compound_ls_list = []
@@ -622,8 +590,9 @@ def main():
 	extract_lambda_feature_with_ID(
 		args = args, 
 		categories = l, 
-		outlier = True, 
-		outlier_scale = 100)
+		outlier = False, 
+		outlier_scale = 100, 
+		scale = 60)
 
 	# _verify('./lambda_vectors_minutes.pkl')
 	
@@ -633,8 +602,7 @@ def main():
 		scaled = 10**5, 
 		cat_ls_path = '../searchCatDistData/ls_category_vectors_with_user_ID.pkl', 
 		cat_nls_path = '../searchCatDistData/nls_category_vectors_with_user_ID.pkl', 
-		lambda_path = './lambda_vectors_with_user_ID.pkl', 
-		enlarge = False)
+		lambda_path = './lambda_vectors_with_user_ID.pkl')
 	'''
 
 	'''

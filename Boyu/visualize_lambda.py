@@ -9,36 +9,8 @@ import math
 import itertools
 import umap
 
-# enlarge the features by exp
-# (49, 27) (43, 27)
-def _enlarge_feature(ls, nls, mode, multiplier = 1):
-
-	ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
-	nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
-
-	if mode == 'delta':
-		assert multiplier > 0
-
-		raw_delta = ls_mean - nls_mean
-		delta_new = np.absolute(raw_delta) * multiplier
-		for idx, d in enumerate(raw_delta):
-			if d > 0:
-				ls[:, idx] += delta_new[idx]
-				nls[:, idx] -= delta_new[idx]
-			elif d < 0:
-				ls[:, idx] -= delta_new[idx]
-				nls[:, idx] += delta_new[idx]
-
-		ls_mean, ls_var = np.mean(ls, axis = 0), np.var(ls, axis = 0)
-		nls_mean, nls_var = np.mean(nls, axis = 0), np.var(nls, axis = 0)
-
-	else:
-		ls = np.log(ls)
-		nls = np.log(nls)
-	return ls, nls
-
 # may use tSNE or UMAP
-def plot_tSNE(file, algo, alpha, dimension, scale, enlarge):
+def plot_tSNE(file, algo, alpha, dimension, scale):
 
 	with open(file, 'rb') as f:
 		(low_list, not_low_list) = pickle.load(f)
@@ -48,9 +20,6 @@ def plot_tSNE(file, algo, alpha, dimension, scale, enlarge):
 	not_low = np.stack([user[1] * scale for user in not_low_list])
 	# plot_lambda(low, not_low, multiplier = 1)
 
-	if enlarge:
-		low, not_low = _enlarge_feature(low, not_low, mode = 'log')
-		plot_lambda(low, not_low)
 	print('shapes', low.shape, not_low.shape)
 
 	low_num = low.shape[0]
@@ -58,11 +27,6 @@ def plot_tSNE(file, algo, alpha, dimension, scale, enlarge):
 
 	total = np.concatenate((low, not_low), axis=0)
 	print('total size', total.shape)
-
-	low_list = [(low_list[idx][0], vec) for idx, vec in enumerate(low)]
-	not_low_list = [(not_low_list[idx][0], vec) for idx, vec in enumerate(not_low)]
-	with open('lambda_enlarged', 'wb') as f:
-		pickle.dump((low_list, not_low_list), f)
 
 	# fit tSNE
 	if dimension == 3: 
@@ -276,8 +240,7 @@ plot_tSNE(
 	algo = 'tSNE', 
 	alpha = 0.7,
 	dimension = 2, 
-	scale = 1, 
-	enlarge = True)
+	scale = 1)
 '''
 
 plot_hidden(
