@@ -83,7 +83,7 @@ optimizer = optim.Adam(mlp.parameters())
 
 loss_history = []
 best_loss = float('inf')
-n_epoch = 1000
+n_epoch = 1500
 for epoch in range(n_epoch):
 
 	optimizer.zero_grad()
