@@ -45,3 +45,5 @@ with open('compound_vectors_psi.pkl', 'rb') as f:
 4. `lambda_vectors_with_user_ID.pkl` is the data of the raw Lambdas extracted WITHOUT any scaling. The format is the same (list of tuples) as above, containg user-to-lambda mapping.
 
 5. `lambda_vectors_cleaned_3600.pkl` and `lambda_vectors_3600.pkl` are lambda data scaled by hours (3600 times) since the default unit is in seconds. It also produced the best pretraining performance. 
+
+All the other files are temporary files or for testing purpose. Other instructions will ne added soon. 
