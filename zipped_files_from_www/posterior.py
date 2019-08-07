@@ -116,10 +116,10 @@ class Bayes_model(object):
 				samples_sigma[i-iter] = sigma
 
 
-		plt.plot(range(len(mis_class_ratios)),mis_class_ratios)
-		plt.xlabel('# Iteration')
-		plt.ylabel('Normalized Negative Likelyhood Loss')
-		plt.grid()
+		# plt.plot(range(len(mis_class_ratios)),mis_class_ratios)
+		# plt.xlabel('# Iteration')
+		# plt.ylabel('Normalized Negative Likelyhood Loss')
+		# plt.grid()
 		# plt.show()
 		return samples_w, samples_sigma
 

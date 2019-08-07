@@ -124,6 +124,6 @@ samples_w, samples_sigma = bmodel.metropolis_hastings()
 # np.savetxt('experiments/sample_sigma_0.001_false.csv', samples_sigma, delimiter=',')
 
 
-np.savetxt('experiments/cat/0.1/false/sample_w_0.1_false.csv', samples_w, delimiter=',')
-np.savetxt('experiments/cat/0.1/false/sample_sigma_0.1_false.csv', samples_sigma, delimiter=',')
+np.savetxt('sample_w.csv', samples_w, delimiter=',')
+np.savetxt('sample_sigma.csv', samples_sigma, delimiter=',')
 

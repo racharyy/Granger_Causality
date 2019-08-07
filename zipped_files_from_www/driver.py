@@ -10,10 +10,10 @@ from sklearn.metrics import average_precision_score,precision_recall_fscore_supp
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 import matplotlib.pyplot as plt
-
+from copy import copy
 #from config import config
 from helper import random_split
-from config import cats
+from config import *
 
 class worker(object):
 	"""docstring for worker"""
@@ -53,16 +53,36 @@ class worker(object):
 				samples_w, samples_sigma = bmodel.metropolis_hastings(sparsity_Flag = True)
 			else:
 				samples_w, samples_sigma = bmodel.metropolis_hastings(sparsity_Flag = False)
-			w = np.mean(samples_w, axis=0)
-			sig = np.mean(samples_sigma)
+			
+			best_f1 = 0
+			y_best = 0
+			f1s =[]
+			for i in range(len(samples_w)):
 
-			p = sigmoid(np.dot(test_lambda, w) + sig*np.random.normal())
-			y_hat = []
-			for i in p:
-				if i <= 0.5:
-					y_hat.append(1)
-				else:
-					y_hat.append(0)
+				w = samples_w[i]
+				sig = samples_sigma[i]
+
+				p = sigmoid(np.dot(test_lambda, w) + sig*np.random.normal())
+				y_hat = [np.random.binomial(1, j) for j in p]
+
+				cr = classification_report(test_label, y_hat)
+				avg_prec, avg_recal,avg_f1,_ = cr.split('avg / total')[-1].strip().split()[-4:]
+				# print(cr.split('avg / total')[-1].strip().split())
+				# print(avg_prec, avg_recal,avg_f1)
+				# assert(False)
+				f1s.append(float(avg_f1))
+				if best_f1<float(avg_f1):
+					best_f1 = copy(float(avg_f1))
+					y_best=copy(y_hat)
+			y_hat = copy(y_best)
+			#print(best_f1)
+
+			exp_name = tasks[self.config['task']]+"_"+features[self.config['features']]+"_"+lambdapriors[self.config['lambdapriors']]
+			plot_name = '_avgf1_hist.png'
+			plt.hist(f1s,bins=30)
+			plt.title('f1s')
+			plt.savefig('../Plots/'+exp_name +plot_name)
+			plt.close()
 
 
 		elif self.config['features'] == 0 and self.config['method'] == 1:
@@ -85,16 +105,32 @@ class worker(object):
 				samples_w, samples_sigma = bmodel.metropolis_hastings(sparsity_Flag = True)
 			else:
 				samples_w, samples_sigma = bmodel.metropolis_hastings(sparsity_Flag = False)
-			w = np.mean(samples_w, axis=0)
-			sig = np.mean(samples_sigma)
+			
 
-			p = sigmoid(np.dot(test_cat, w) + sig*np.random.normal())
-			y_hat = []
-			for i in p:
-				if i <= 0.5:
-					y_hat.append(1)
-				else:
-					y_hat.append(0)
+			best_f1 = 0
+			y_best = 0
+			f1s =[]
+			for i in range(len(samples_w)):
+
+				w = samples_w[i]
+				sig = samples_sigma[i]
+
+				p = sigmoid(np.dot(test_lambda, w) + sig*np.random.normal())
+				y_hat = [np.random.binomial(1, j) for j in p]
+
+				cr = classification_report(test_label, y_hat)
+				avg_prec, avg_recal,avg_f1,_ = cr.split('avg / total')[-1].strip().split()[-4:]
+				f1s.append(float(avg_f1))
+				if best_f1<float(avg_f1):
+					best_f1 = copy(float(avg_f1))
+					y_best=copy(y_hat)
+			y_hat = copy(y_best)
+			exp_name = tasks[self.config['task']]+"_"+features[self.config['features']]+"_"+catpriors[self.config['catpriors']]
+			plot_name = '_avgf1_hist.png'
+			plt.hist(f1s,bins=30)
+			plt.title('f1s')
+			plt.savefig('../Plots/'+exp_name +plot_name)
+			plt.close()
 
 		elif self.config['features'] == 1 and self.config['method'] == 1:
 
@@ -111,17 +147,32 @@ class worker(object):
 			bmodel = Bayes_model_joint((np.array(train_lambda),np.array(train_cat)),train_label,cov_W, mu_W,self.config)
 			samples_w1,samples_w2, samples_sigma = bmodel.metropolis_hastings()
 
-			w1 = np.mean(samples_w1, axis=0)
-			w2 = np.mean(samples_w2, axis=0)
-			sig = np.mean(samples_sigma)
+			best_f1 = 0
+			y_best = []
+			f1s =[]
+			for i in range(len(samples_w1)):
 
-			p = sigmoid(np.dot(test_lambda, w1)+np.dot(test_cat, w2) + sig*np.random.normal())
-			y_hat = []
-			for i in p:
-				if i <= 0.5:
-					y_hat.append(1)
-				else:
-					y_hat.append(0)
+				w1 = samples_w1[i]
+				w2 = samples_w2[i]
+				sig = samples_sigma[i]
+
+				p = sigmoid(np.dot(test_lambda, w1)+ np.dot(test_cat, w2)+ sig*np.random.normal())
+				y_hat = [np.random.binomial(1, j) for j in p]
+
+				cr = classification_report(test_label, y_hat)
+				avg_prec, avg_recal,avg_f1,_ = cr.split('avg / total')[-1].strip().split()[-4:]
+				
+				f1s.append(float(avg_f1))
+				if best_f1<float(avg_f1):
+					best_f1 = copy(float(avg_f1))
+					y_best=copy(y_hat)
+			y_hat = copy(y_best)
+			exp_name = tasks[self.config['task']]+"_"+features[self.config['features']]+"_"+lambdapriors[self.config['lambdapriors']]+"_"+catpriors[self.config['catpriors']]
+			plot_name = '_avgf1_hist.png'
+			plt.hist(f1s,bins=30)
+			plt.title('f1s')
+			plt.savefig('../Plots/'+exp_name +plot_name)
+			plt.close()
 
 		elif self.config['features'] == 2 and self.config['method'] == 1:
 
@@ -134,6 +185,7 @@ class worker(object):
 			y_hat = clf.predict(test_feature)
 
 		cr = classification_report(test_label, y_hat)
+		#print(cr)
 		cm = confusion_matrix(test_label, y_hat)
 		return cr,cm
 

@@ -1,0 +1,792 @@
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.58      0.47      0.52        15
+           1       0.60      0.71      0.65        17
+
+   micro avg       0.59      0.59      0.59        32
+   macro avg       0.59      0.59      0.58        32
+weighted avg       0.59      0.59      0.59        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.62      0.67      0.65        15
+           1       0.69      0.65      0.67        17
+
+   micro avg       0.66      0.66      0.66        32
+   macro avg       0.66      0.66      0.66        32
+weighted avg       0.66      0.66      0.66        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.73      0.73      0.73        15
+           1       0.76      0.76      0.76        17
+
+   micro avg       0.75      0.75      0.75        32
+   macro avg       0.75      0.75      0.75        32
+weighted avg       0.75      0.75      0.75        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.71      0.67      0.69        15
+           1       0.72      0.76      0.74        17
+
+   micro avg       0.72      0.72      0.72        32
+   macro avg       0.72      0.72      0.72        32
+weighted avg       0.72      0.72      0.72        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.64      0.47      0.54        15
+           1       0.62      0.76      0.68        17
+
+   micro avg       0.62      0.62      0.62        32
+   macro avg       0.63      0.62      0.61        32
+weighted avg       0.63      0.62      0.62        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.80      0.80      0.80        15
+           1       0.82      0.82      0.82        17
+
+   micro avg       0.81      0.81      0.81        32
+   macro avg       0.81      0.81      0.81        32
+weighted avg       0.81      0.81      0.81        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.54      1.00      0.70        15
+           1       1.00      0.24      0.38        17
+
+   micro avg       0.59      0.59      0.59        32
+   macro avg       0.77      0.62      0.54        32
+weighted avg       0.78      0.59      0.53        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.58      0.93      0.72        15
+           1       0.88      0.41      0.56        17
+
+   micro avg       0.66      0.66      0.66        32
+   macro avg       0.73      0.67      0.64        32
+weighted avg       0.74      0.66      0.63        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.69      0.73      0.71        15
+           1       0.75      0.71      0.73        17
+
+   micro avg       0.72      0.72      0.72        32
+   macro avg       0.72      0.72      0.72        32
+weighted avg       0.72      0.72      0.72        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.61      0.73      0.67        15
+           1       0.71      0.59      0.65        17
+
+   micro avg       0.66      0.66      0.66        32
+   macro avg       0.66      0.66      0.66        32
+weighted avg       0.67      0.66      0.66        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.75      0.40      0.52        15
+           1       0.62      0.88      0.73        17
+
+   micro avg       0.66      0.66      0.66        32
+   macro avg       0.69      0.64      0.63        32
+weighted avg       0.68      0.66      0.63        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Bayesian ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.90      0.60      0.72        15
+           1       0.73      0.94      0.82        17
+
+   micro avg       0.78      0.78      0.78        32
+   macro avg       0.81      0.77      0.77        32
+weighted avg       0.81      0.78      0.77        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.57      0.53      0.55        15
+           1       0.61      0.65      0.63        17
+
+   micro avg       0.59      0.59      0.59        32
+   macro avg       0.59      0.59      0.59        32
+weighted avg       0.59      0.59      0.59        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.47      0.47      0.47        15
+           1       0.53      0.53      0.53        17
+
+   micro avg       0.50      0.50      0.50        32
+   macro avg       0.50      0.50      0.50        32
+weighted avg       0.50      0.50      0.50        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.47      0.53      0.50        15
+           1       0.53      0.47      0.50        17
+
+   micro avg       0.50      0.50      0.50        32
+   macro avg       0.50      0.50      0.50        32
+weighted avg       0.50      0.50      0.50        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.59      0.67      0.62        15
+           1       0.67      0.59      0.62        17
+
+   micro avg       0.62      0.62      0.62        32
+   macro avg       0.63      0.63      0.62        32
+weighted avg       0.63      0.62      0.62        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.42      0.33      0.37        15
+           1       0.50      0.59      0.54        17
+
+   micro avg       0.47      0.47      0.47        32
+   macro avg       0.46      0.46      0.46        32
+weighted avg       0.46      0.47      0.46        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.35      0.40      0.38        15
+           1       0.40      0.35      0.38        17
+
+   micro avg       0.38      0.38      0.38        32
+   macro avg       0.38      0.38      0.38        32
+weighted avg       0.38      0.38      0.38        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.50      0.33      0.40        15
+           1       0.55      0.71      0.62        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.52      0.52      0.51        32
+weighted avg       0.52      0.53      0.51        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.33      0.13      0.19        15
+           1       0.50      0.76      0.60        17
+
+   micro avg       0.47      0.47      0.47        32
+   macro avg       0.42      0.45      0.40        32
+weighted avg       0.42      0.47      0.41        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.75      0.20      0.32        15
+           1       0.57      0.94      0.71        17
+
+   micro avg       0.59      0.59      0.59        32
+   macro avg       0.66      0.57      0.51        32
+weighted avg       0.66      0.59      0.53        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.39      0.73      0.51        15
+           1       0.00      0.00      0.00        17
+
+   micro avg       0.34      0.34      0.34        32
+   macro avg       0.20      0.37      0.26        32
+weighted avg       0.18      0.34      0.24        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.52      0.94      0.67        17
+
+   micro avg       0.50      0.50      0.50        32
+   macro avg       0.26      0.47      0.33        32
+weighted avg       0.27      0.50      0.35        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  ls_nls_detection ||||||||| Method:  svm ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.53      1.00      0.69        17
+
+   micro avg       0.53      0.53      0.53        32
+   macro avg       0.27      0.50      0.35        32
+weighted avg       0.28      0.53      0.37        32
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.83      0.90      0.86        21
+           1       0.67      0.50      0.57         8
+
+   micro avg       0.79      0.79      0.79        29
+   macro avg       0.75      0.70      0.72        29
+weighted avg       0.78      0.79      0.78        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.89      0.38      0.53        21
+           1       0.35      0.88      0.50         8
+
+   micro avg       0.52      0.52      0.52        29
+   macro avg       0.62      0.63      0.52        29
+weighted avg       0.74      0.52      0.52        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.79      0.90      0.84        21
+           1       0.60      0.38      0.46         8
+
+   micro avg       0.76      0.76      0.76        29
+   macro avg       0.70      0.64      0.65        29
+weighted avg       0.74      0.76      0.74        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.83      0.90      0.86        21
+           1       0.67      0.50      0.57         8
+
+   micro avg       0.79      0.79      0.79        29
+   macro avg       0.75      0.70      0.72        29
+weighted avg       0.78      0.79      0.78        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.78      1.00      0.88        21
+           1       1.00      0.25      0.40         8
+
+   micro avg       0.79      0.79      0.79        29
+   macro avg       0.89      0.62      0.64        29
+weighted avg       0.84      0.79      0.74        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.86      0.57      0.69        21
+           1       0.40      0.75      0.52         8
+
+   micro avg       0.62      0.62      0.62        29
+   macro avg       0.63      0.66      0.60        29
+weighted avg       0.73      0.62      0.64        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.90      0.43      0.58        21
+           1       0.37      0.88      0.52         8
+
+   micro avg       0.55      0.55      0.55        29
+   macro avg       0.63      0.65      0.55        29
+weighted avg       0.75      0.55      0.56        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.75      1.00      0.86        21
+           1       1.00      0.12      0.22         8
+
+   micro avg       0.76      0.76      0.76        29
+   macro avg       0.88      0.56      0.54        29
+weighted avg       0.82      0.76      0.68        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.86      0.86      0.86        21
+           1       0.62      0.62      0.62         8
+
+   micro avg       0.79      0.79      0.79        29
+   macro avg       0.74      0.74      0.74        29
+weighted avg       0.79      0.79      0.79        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.90      0.90      0.90        21
+           1       0.75      0.75      0.75         8
+
+   micro avg       0.86      0.86      0.86        29
+   macro avg       0.83      0.83      0.83        29
+weighted avg       0.86      0.86      0.86        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       1.00      0.76      0.86        21
+           1       0.62      1.00      0.76         8
+
+   micro avg       0.83      0.83      0.83        29
+   macro avg       0.81      0.88      0.81        29
+weighted avg       0.89      0.83      0.84        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Bayesian ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.82      0.86      0.84        21
+           1       0.57      0.50      0.53         8
+
+   micro avg       0.76      0.76      0.76        29
+   macro avg       0.69      0.68      0.69        29
+weighted avg       0.75      0.76      0.75        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.74      0.95      0.83        21
+           1       0.50      0.12      0.20         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.62      0.54      0.52        29
+weighted avg       0.67      0.72      0.66        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.75      0.86      0.80        21
+           1       0.40      0.25      0.31         8
+
+   micro avg       0.69      0.69      0.69        29
+   macro avg       0.57      0.55      0.55        29
+weighted avg       0.65      0.69      0.66        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.78      1.00      0.88        21
+           1       1.00      0.25      0.40         8
+
+   micro avg       0.79      0.79      0.79        29
+   macro avg       0.89      0.62      0.64        29
+weighted avg       0.84      0.79      0.74        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.78      1.00      0.88        21
+           1       1.00      0.25      0.40         8
+
+   micro avg       0.79      0.79      0.79        29
+   macro avg       0.89      0.62      0.64        29
+weighted avg       0.84      0.79      0.74        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.75      1.00      0.86        21
+           1       1.00      0.12      0.22         8
+
+   micro avg       0.76      0.76      0.76        29
+   macro avg       0.88      0.56      0.54        29
+weighted avg       0.82      0.76      0.68        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  Logistic_regression ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.74      0.95      0.83        21
+           1       0.50      0.12      0.20         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.62      0.54      0.52        29
+weighted avg       0.67      0.72      0.66        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.71      0.95      0.82        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.69      0.69      0.69        29
+   macro avg       0.36      0.48      0.41        29
+weighted avg       0.52      0.69      0.59        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  lambda ||||||||| lambdapriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.74      0.95      0.83        21
+           1       0.50      0.12      0.20         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.62      0.54      0.52        29
+weighted avg       0.67      0.72      0.66        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  lambda ||||||||| lambdapriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  category ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  category ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.74      0.95      0.83        21
+           1       0.50      0.12      0.20         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.62      0.54      0.52        29
+weighted avg       0.67      0.72      0.66        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  both ||||||||| lambdapriors:  Sparse ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  Sparse
+              precision    recall  f1-score   support
+
+           0       0.71      0.95      0.82        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.69      0.69      0.69        29
+   macro avg       0.36      0.48      0.41        29
+weighted avg       0.52      0.69      0.59        29
+
+==================
+Task:  psi_npsi_detection ||||||||| Method:  svm ||||||||| Features:  both ||||||||| lambdapriors:  NLP ||||||||| catpriors:  NLP
+              precision    recall  f1-score   support
+
+           0       0.72      1.00      0.84        21
+           1       0.00      0.00      0.00         8
+
+   micro avg       0.72      0.72      0.72        29
+   macro avg       0.36      0.50      0.42        29
+weighted avg       0.52      0.72      0.61        29
+
+==================

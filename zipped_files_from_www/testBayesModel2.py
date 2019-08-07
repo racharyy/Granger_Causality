@@ -17,7 +17,7 @@ learned_parameters = [
 	# ("experiments/sample_sigma_0.001_true.csv", "experiments/sample_w_0.001_true.csv"),
 	# ("experiments/sample_sigma_0.1_true.csv","experiments/sample_w_0.1_true.csv"),
 	# ("experiments/sample_sigma_0.01_true.csv", "experiments/sample_w_0.01_true.csv"),
-	('experiments/cat/0.1/false/sample_sigma_0.1_false.csv','experiments/cat/0.1/false/sample_w_0.1_false.csv')
+	('sample_sigma.csv','sample_w.csv')
 ]
 
 
