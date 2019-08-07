@@ -69,8 +69,8 @@ def load_data_MLP(path, scale):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 data, in_size, ls_num, nls_num= load_data_MLP(
-		path = 'lambda_vectors_cleaned_3600.pkl', 
-		scale = 1)
+		path = 'lambda_vectors_with_user_ID.pkl', 
+		scale = 10**5)
 
 # X: [batch, num of features]
 # Y: [batch, num of labels]
@@ -79,10 +79,11 @@ print('X: {}, Y: {}'.format(X.shape, Y.shape))
 
 mlp = SimpleMLP(
 		in_size = in_size, 
-		hidden_size = 100).to(device)
+		hidden_size = 10).to(device)
 
 criterion = nn.BCEWithLogitsLoss()
-optimizer = optim.Adam(mlp.parameters(), weight_decay = 1e-5)
+# optimizer = optim.Adam(mlp.parameters(), weight_decay = 0.0001)
+optimizer = optim.SGD(mlp.parameters(), lr = 0.01, momentum = 0.9, weight_decay = 0)
 
 loss_history = []
 best_loss = float('inf')
@@ -95,7 +96,7 @@ for epoch in range(n_epoch):
 	loss.backward()
 	optimizer.step()
 
-	if epoch % 1000 == 0:
+	if epoch % 100 == 0:
 		print('Epoch [{}/{}] Loss: {}'.format(epoch, n_epoch, loss.item()))
 	loss_history.append(loss.item())
 
