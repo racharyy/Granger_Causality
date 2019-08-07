@@ -129,10 +129,10 @@ class Bayes_model_joint(object):
 
 
 
-		plt.plot(range(len(mis_class_ratios)),mis_class_ratios)
-		plt.xlabel('# Iteration')
-		plt.ylabel('Normalized Negative Likelyhood Loss')
-		plt.grid()
+		# plt.plot(range(len(mis_class_ratios)),mis_class_ratios)
+		# plt.xlabel('# Iteration')
+		# plt.ylabel('Normalized Negative Likelyhood Loss')
+		# plt.grid()
 		#plt.show()
 		return samples_w1,samples_w2, samples_sigma
 

@@ -36,11 +36,57 @@ def random_split(low_list, notlow_list, split_ratio = 2.0/3, multiplier=1):
     return train_lambda, train_label, test_lambda, test_label
 
 
-def plot_features(ls_list,nls_list,multiplier = 1):
+def plot_features(ls_list,nls_list,multiplier = 1,op='None'):
     
+    if op=='exp':
+        low_mean = np.mean(np.exp(multiplier*np.array([elem[1] for elem in ls_list])),axis=0)
+        notlow_mean =np.mean(np.exp(multiplier*np.array([elem[1] for elem in nls_list])),axis=0)
+    elif op == 'inv':
+        low, notlow = [],[]
+        for elem in ls_list:
+            x= elem[1]
+            for i in range(len(x)):
+                if x[i] == 0:
+                    x[i] = 1000
+                else:
+                    x[i] = 1.0/x[i]
+            low.append(np.array(x))
+
+        for elem in nls_list:
+            x= elem[1]
+            for i in range(len(x)):
+                if x[i] == 0:
+                    x[i] = 1000
+                else:
+                    x[i] = 1.0/x[i]
+            notlow.append(np.array(x))
+        low_mean,notlow_mean = np.mean(low,axis=0), np.mean(notlow,axis=0)
+
+    elif op == 'log':
+
+        low, notlow = [],[]
+        for elem in ls_list:
+            x= elem[1]
+            for i in range(len(x)):
+                if x[i] == 0:
+                    x[i] = -8
+                else:
+                    x[i] = math.log(x[i])/math.log(10)
+            low.append(np.array(x))
+
+        for elem in nls_list:
+            x= elem[1]
+            for i in range(len(x)):
+                if x[i] == 0:
+                    x[i] = -8
+                else:
+                    x[i] = math.log(x[i])/math.log(10)
+            notlow.append(np.array(x))
+        low_mean,notlow_mean = np.mean(low,axis=0), np.mean(notlow,axis=0)
     
-    low_mean =multiplier* np.mean(np.array([elem[1] for elem in ls_list]),axis=0)
-    notlow_mean =multiplier* np.mean(np.array([elem[1] for elem in nls_list]),axis=0)
+    else:
+        low_mean =multiplier* np.mean(np.array([elem[1] for elem in ls_list]),axis=0)
+        notlow_mean =multiplier* np.mean(np.array([elem[1] for elem in nls_list]),axis=0)
     # print(low_mean)
     # print(notlow_mean)
     labels = [cats[i] for i in range(27)]
