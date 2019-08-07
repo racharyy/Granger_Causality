@@ -83,11 +83,11 @@ mlp = SimpleMLP(
 
 criterion = nn.BCEWithLogitsLoss()
 # optimizer = optim.Adam(mlp.parameters(), weight_decay = 0.0001)
-optimizer = optim.SGD(mlp.parameters(), lr = 0.01, momentum = 0.9, weight_decay = 0)
+optimizer = optim.SGD(mlp.parameters(), lr = 0.01, momentum = 0.9, weight_decay = 0.00001)
 
 loss_history = []
 best_loss = float('inf')
-n_epoch = 1000
+n_epoch = 2000
 for epoch in range(n_epoch):
 
 	optimizer.zero_grad()

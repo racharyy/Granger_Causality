@@ -587,23 +587,23 @@ def main():
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
 
+	'''
 	extract_lambda_feature_with_ID(
 		args = args, 
 		categories = l, 
 		outlier = False, 
 		outlier_scale = 100, 
 		scale = 60)
-
+	'''
+	
 	# _verify('./lambda_vectors_minutes.pkl')
 	
-	'''
 	generate_compound_features_with_ID(
 		args = args,
 		scaled = 10**5, 
 		cat_ls_path = '../searchCatDistData/ls_category_vectors_with_user_ID.pkl', 
 		cat_nls_path = '../searchCatDistData/nls_category_vectors_with_user_ID.pkl', 
 		lambda_path = './lambda_vectors_with_user_ID.pkl')
-	'''
 
 	'''
 	_verify_cat(
