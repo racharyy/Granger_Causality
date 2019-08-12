@@ -12,7 +12,7 @@ from sklearn.svm import SVC
 import matplotlib.pyplot as plt
 from copy import copy
 #from config import config
-from helper import random_split
+from helper import *
 from config import *
 
 class worker(object):
@@ -23,7 +23,7 @@ class worker(object):
 		self.config = config
 		
 
-	def train_and_test(self, split_ratio = 2/3):
+	def train_and_test(self, split_ratio = 3/4):
 
 		ls_compound, nls_compound, psi_compound, npsi_compound = self.data
 		
@@ -183,6 +183,62 @@ class worker(object):
 
 			clf = SVC(gamma='auto').fit(train_feature,train_label)
 			y_hat = clf.predict(test_feature)
+
+
+		elif self.config['features'] == 3:
+
+			psi, npsi = load_pickle('../Boyu/best_representation.pkl')
+			train_lambda, train_label, test_lambda, test_label = random_split(psi,npsi)
+			num_hidden_features = len(psi[0][1])
+			mu_W = np.zeros(num_hidden_features)
+			cov_W = np.eye(num_hidden_features)
+
+			if self.config['method'] == 0:
+				bmodel = Bayes_model(np.array(train_lambda), train_label, cov_W, mu_W, self.config['sparsity_hyperparam'])
+				if self.config['lambdapriors'] == 0:
+					samples_w, samples_sigma = bmodel.metropolis_hastings(sparsity_Flag = True)
+				else:
+					samples_w, samples_sigma = bmodel.metropolis_hastings(sparsity_Flag = False)
+				
+				best_f1 = 0
+				y_best = 0
+				f1s =[]
+				for i in range(len(samples_w)):
+
+					w = samples_w[i]
+					sig = samples_sigma[i]
+
+					p = sigmoid(np.dot(test_lambda, w) + sig*np.random.normal())
+					y_hat = [np.random.binomial(1, j) for j in p]
+
+					cr = classification_report(test_label, y_hat)
+					avg_prec, avg_recal,avg_f1,_ = cr.split('avg / total')[-1].strip().split()[-4:]
+					# print(cr.split('avg / total')[-1].strip().split())
+					# print(avg_prec, avg_recal,avg_f1)
+					# assert(False)
+					f1s.append(float(avg_f1))
+					if best_f1<float(avg_f1):
+						best_f1 = copy(float(avg_f1))
+						y_best=copy(y_hat)
+				y_hat = copy(y_best)
+				#print(best_f1)
+
+				exp_name = tasks[self.config['task']]+"_"+features[self.config['features']]+"_"+lambdapriors[self.config['lambdapriors']]
+				plot_name = '_avgf1_hist.png'
+				plt.hist(f1s,bins=30)
+				plt.title('f1s')
+				plt.savefig('../Plots/'+exp_name +plot_name)
+				plt.close()
+
+			elif self.config['method'] == 1:
+
+				clf = LogisticRegression(random_state=0, solver='lbfgs').fit(train_lambda,train_label)
+				y_hat=clf.predict(test_lambda)
+
+			elif self.config['method'] == 2:
+
+				clf = SVC(gamma='auto').fit(train_lambda,train_label)
+				y_hat = clf.predict(test_lambda)
 
 		cr = classification_report(test_label, y_hat)
 		#print(cr)

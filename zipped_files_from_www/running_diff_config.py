@@ -18,9 +18,9 @@ with open('../Plots/out.txt', 'a') as f:
 
 	config_list = []
 
-	for i in range(len(tasks)):
+	for i in [1]:#range(len(tasks)):
 		for j in range(len(methods)):
-			for k in range(len(features)):
+			for k in [3]:#range(len(features)):
 				for l in range(len(lambdapriors)):
 					for m in range(len(catpriors)):
 

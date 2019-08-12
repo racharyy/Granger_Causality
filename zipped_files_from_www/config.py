@@ -4,7 +4,7 @@ cats = ["Business & Industrial","Home & Garden","Travel","Arts & Entertainment",
 
 tasks =['ls_nls_detection','psi_npsi_detection']
 methods = ['Bayesian','Logistic_regression','svm']
-features = ['lambda','category','both']
+features = ['lambda','category','both','Pretrained']
 lambdapriors = ['Sparse','NLP']
 catpriors = ['Sparse','NLP']
 

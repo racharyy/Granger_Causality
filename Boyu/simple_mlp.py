@@ -6,6 +6,9 @@ import random
 import pickle
 import numpy as np
 import torch.optim as optim
+import sys
+sys.path.insert(0,'../zipped_files_from_www')
+from helper import *
 
 class SimpleMLP(nn.Module):
 
@@ -67,15 +70,69 @@ def load_data_MLP(path, scale):
 	data = torch.from_numpy(data).float()
 	return data, in_size, ls_num, nls_num
 
+
+def load_data_MLP_with_userid(path, scale):
+
+    with open(path, 'rb') as f:
+        (low_list, not_low_list) = pickle.load(f)
+    # [number of users, number of features]
+    ls = np.stack([user[1][:27] * scale for user in low_list])
+    nls = np.stack([user[1][:27] * scale for user in not_low_list])
+
+    print(ls)
+
+    ls_users = np.stack([[user[0]] for user in low_list])
+    nls_users = np.stack([[user[0]] for user in not_low_list])
+    print('low shape: [{}], not low shape: [{}]'.format(ls.shape, nls.shape))
+    assert ls.shape[1] == nls.shape[1]
+    in_size = ls.shape[1]
+    ls_num = ls.shape[0]
+    nls_num = nls.shape[0]
+
+    # add label [number of users, number of features]
+    ls_label = np.stack([np.asarray([1, 0]) for user in ls])
+    ls = np.concatenate((ls_users,ls, ls_label), axis = 1)
+    nls_label = np.stack([np.asarray([0, 1]) for user in nls])
+    nls = np.concatenate((nls_users,nls, nls_label), axis = 1)
+    # print('ls example: [{}], nls example: [{}]'.format(ls[0], nls[0]))
+
+    # [number of users, number of features + number of labels]
+    data = np.concatenate((ls, nls), axis = 0)
+    np.random.shuffle(data)
+    #data = torch.from_numpy(data).float()
+    return data, in_size, ls_num, nls_num
+
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-data, in_size, ls_num, nls_num= load_data_MLP(
-		path = 'lambda_vectors_with_user_ID.pkl', 
-		scale = 10**5)
+# data, in_size, ls_num, nls_num= load_data_MLP(
+# 		path = 'lambda_vectors_with_user_ID.pkl', 
+# 		scale = 10**5)
+
+
+data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
+		path = 'compound_vectors_self_esteem.pkl', 
+		scale = 1)
+
+
+
+userid,X, Y = data[:, 0], data[:, 1:in_size+1], data[:, in_size+1:]
+vfloat = np.vectorize(float)
+X,Y = torch.from_numpy(vfloat(X)).float().to(device), torch.from_numpy(vfloat(Y)).float().to(device)
+print('X: {}, Y: {}'.format(X.shape, Y.shape))
+#assert(False)
 
 # X: [batch, num of features]
 # Y: [batch, num of labels]
-X, Y = data[:, :in_size].to(device), data[:, in_size:].to(device)
-print('X: {}, Y: {}'.format(X.shape, Y.shape))
+# X, Y = data[:, :in_size].to(device), data[:, in_size:].to(device)
+# print('X: {}, Y: {}'.format(X.shape, Y.shape))
+
+
+ls_compound, nls_compound = load_pickle("compound_vectors_self_esteem.pkl")
+psi_compound, npsi_compound = load_pickle('compound_vectors_psi.pkl')
+psi_users = [i[0] for i in psi_compound]
+npsi_users = [i[0] for i in npsi_compound]
+
+
 
 mlp = SimpleMLP(
 		in_size = in_size, 
@@ -87,7 +144,9 @@ optimizer = optim.SGD(mlp.parameters(), lr = 0.01, momentum = 0.9, weight_decay 
 
 loss_history = []
 best_loss = float('inf')
-n_epoch = 2000
+
+n_epoch = 30000
+
 for epoch in range(n_epoch):
 
 	optimizer.zero_grad()
@@ -99,6 +158,8 @@ for epoch in range(n_epoch):
 	if epoch % 100 == 0:
 		print('Epoch [{}/{}] Loss: {}'.format(epoch, n_epoch, loss.item()))
 	loss_history.append(loss.item())
+
+
 
 # final training acc.
 with torch.no_grad():
@@ -124,6 +185,10 @@ with torch.no_grad():
 				c_nls += 1
 	print('acc: {}, ls acc: {}, nls acc: {}'.format(correct / len(results), c_ls / ls_num, c_nls / nls_num))
 
+
+
+
+
 # store the best hidden representations
 with open('./best_representation.pkl', 'wb') as f:
 	with torch.no_grad():
@@ -134,16 +199,35 @@ with open('./best_representation.pkl', 'wb') as f:
 	# put into 2 groups
 	ls = []
 	nls = []
-	for idx, user in enumerate(Y):
+	psi=[]
+	npsi = []
+	# for idx, user in enumerate(Y):
+	# 	vec = best_representation[idx, :]
+	# 	# ls
+	# 	if user[0] == 1:
+	# 		ls.append(vec)
+	# 	# nls
+	# 	else:
+	# 		nls.append(vec)
+
+	# ls = np.stack(ls)
+	# nls = np.stack(nls)
+	# print(ls.shape, nls.shape)
+	# pickle.dump((ls, nls), f)
+
+
+	for idx, user in enumerate(userid):
 		vec = best_representation[idx, :]
 		# ls
-		if user[0] == 1:
-			ls.append(vec)
+		if user in psi_users:
+			psi.append((user,vec))
 		# nls
 		else:
-			nls.append(vec)
-
-	ls = np.stack(ls)
-	nls = np.stack(nls)
-	print(ls.shape, nls.shape)
-	pickle.dump((ls, nls), f)
+			npsi.append((user,vec))
+	# print('\n\n\n\n\n')
+	# print(psi[0])
+	# print('\n\n\n\n\n')
+	psi = psi
+	npsi = npsi
+	#print(psi.shape, npsi.shape)
+	pickle.dump((psi, npsi), f)
