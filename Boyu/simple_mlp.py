@@ -79,11 +79,11 @@ def load_data_MLP_with_userid(path, scale):
     ls = np.stack([user[1][:27] * scale for user in low_list])
     nls = np.stack([user[1][:27] * scale for user in not_low_list])
 
-    print(ls)
+    #print(ls)
 
     ls_users = np.stack([[user[0]] for user in low_list])
     nls_users = np.stack([[user[0]] for user in not_low_list])
-    print('low shape: [{}], not low shape: [{}]'.format(ls.shape, nls.shape))
+    #print('low shape: [{}], not low shape: [{}]'.format(ls.shape, nls.shape))
     assert ls.shape[1] == nls.shape[1]
     in_size = ls.shape[1]
     ls_num = ls.shape[0]
@@ -109,10 +109,13 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # 		scale = 10**5)
 
 
-data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
-		path = 'compound_vectors_self_esteem.pkl', 
-		scale = 1)
+# data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
+# 		path = 'compound_vectors_self_esteem.pkl', 
+# 		scale = 1)
 
+data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
+		path = 'compound_vectors_psi.pkl', 
+		scale = 1)
 
 
 userid,X, Y = data[:, 0], data[:, 1:in_size+1], data[:, in_size+1:]
@@ -131,8 +134,8 @@ ls_compound, nls_compound = load_pickle("compound_vectors_self_esteem.pkl")
 psi_compound, npsi_compound = load_pickle('compound_vectors_psi.pkl')
 psi_users = [i[0] for i in psi_compound]
 npsi_users = [i[0] for i in npsi_compound]
-
-
+ls_users = [i[0] for i in ls_compound]
+nls_users = [i[0] for i in nls_compound]
 
 mlp = SimpleMLP(
 		in_size = in_size, 
@@ -145,7 +148,7 @@ optimizer = optim.SGD(mlp.parameters(), lr = 0.01, momentum = 0.9, weight_decay 
 loss_history = []
 best_loss = float('inf')
 
-n_epoch = 30000
+n_epoch = 5000
 
 for epoch in range(n_epoch):
 
@@ -183,7 +186,8 @@ with torch.no_grad():
 				c_ls += 1
 			else:
 				c_nls += 1
-	print('acc: {}, ls acc: {}, nls acc: {}'.format(correct / len(results), c_ls / ls_num, c_nls / nls_num))
+		#print('acc: {}, ls acc: {}, nls acc: {}'.format(correct / len(results), c_ls / ls_num, c_nls / nls_num))
+	print('acc: {}, psi acc: {}, npsi acc: {}'.format(correct / len(results), c_ls / ls_num, c_nls / nls_num))
 
 
 
@@ -224,10 +228,16 @@ with open('./best_representation.pkl', 'wb') as f:
 		# nls
 		else:
 			npsi.append((user,vec))
+
+
+		if user in ls_users:
+			ls.append((user,vec))
+		else:
+			nls.append((user,vec))
 	# print('\n\n\n\n\n')
 	# print(psi[0])
 	# print('\n\n\n\n\n')
-	psi = psi
-	npsi = npsi
+	# psi = psi
+	# npsi = npsi
 	#print(psi.shape, npsi.shape)
-	pickle.dump((psi, npsi), f)
+	pickle.dump((psi, npsi,ls,nls), f)

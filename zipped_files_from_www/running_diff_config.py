@@ -18,11 +18,11 @@ with open('../Plots/out.txt', 'a') as f:
 
 	config_list = []
 
-	for i in [1]:#range(len(tasks)):
-		for j in range(len(methods)):
-			for k in [3]:#range(len(features)):
-				for l in range(len(lambdapriors)):
-					for m in range(len(catpriors)):
+	for i in [0]:#range(len(tasks)):
+		for j in [1]:#range(len(methods)):
+			for k in range(len(features)):
+				for l in [0]:#range(len(lambdapriors)):
+					for m in [0]:#range(len(catpriors)):
 
 						config_dic = {'task':i, 'method':j, 'features':k, 'lambdapriors':l, 'catpriors':m, 'sparsity_hyperparam':0.02}
 						config_list.append(config_dic)
@@ -30,9 +30,11 @@ with open('../Plots/out.txt', 'a') as f:
 
 
 
-
+	driver = worker(data,{})
+	driver.data_split()
 
 	for ind,config in enumerate(config_list):
+		driver.config = config
 		print(ind)
 		if config["features"]==0:
 			print("Task: ",tasks[config["task"]], "||||||||| Method: ", methods[config["method"]], "||||||||| Features: ", features[config["features"]], "||||||||| lambdapriors: ", lambdapriors[config["lambdapriors"]],file=f)
@@ -42,7 +44,7 @@ with open('../Plots/out.txt', 'a') as f:
 			print("Task: ",tasks[config["task"]], "||||||||| Method: ", methods[config["method"]], "||||||||| Features: ", features[config["features"]], "||||||||| lambdapriors: ", lambdapriors[config["lambdapriors"]], "||||||||| catpriors: ", catpriors[config["catpriors"]],file=f)
 
 
-		driver = worker(data,config)
+		
 		cr,cm = driver.train_and_test()
 
 		

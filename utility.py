@@ -3,8 +3,10 @@ from sklearn.model_selection import LeaveOneOut
 from scipy import interp
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
+from sklearn.linear_model import LogisticRegression 
+from sklearn.svm import SVC
 #from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-
+import scikitplot as skplt
 
 # link to vader
 # https://github.com/cjhutto/vaderSentiment
@@ -46,40 +48,47 @@ def get_data_for_leave_one_out(X, y):
 		yield X_train, y_train, X_test, y_test
 
 
-def plot_roc_auc_for_each_fold()
+# def plot_roc_auc_for_each_fold()
 
 if __name__ == '__main__':
-	X = np.array([[1, 2], [3, 4], [5,6],[7,8]])
-	y = np.array([1, 0, 1, 0])
-
-
+	X = np.random.normal(size=(100,3))
+	y = np.random.randint(2,size=100)
+	# print(X)
+	# print(y)
+	i=0
 	tprs = []
 	aucs = []
 	mean_fpr = np.linspace(0, 1, 100)
+	lr = LogisticRegression(random_state=0, solver='liblinear')
+	y_true, prob = [], []
 	for X_train, y_train, X_test, y_test in get_data_for_leave_one_out(X, y):
-		print('Do trianing on the x train, y train and test on the x test and y_test')
-		print(X_train.shape, y_train.shape)
+		#print('Do trianing on the x train, y train and test on the x test and y_test')
+		# print(X_train.shape, y_train.shape)
+		# print(X_train,y_train)
 		# ******************************************
 		# prediction probabilities on test set
-		probas_ = classifier.fit(X[train], y[train]).predict_proba(X[test])
+		probas_ = lr.fit(X_train, y_train).predict_proba(X_test)
 		# ******************************************
+		#print(probas_)
+		y_true.append(y_test[0])
+		prob.append(probas_[:, 1][0])
+	# Compute ROC curve and area the curve
+	fpr, tpr, thresholds = roc_curve(y_true, prob)
+	#print(y_test,  probas_[:, 1])
+	tprs.append(interp(mean_fpr, fpr, tpr))
+	tprs[-1][0] = 0.0
+	roc_auc = auc(fpr, tpr)
 
+	aucs.append(roc_auc)
+	plt.plot(
+		fpr, 
+		tpr, 
+		lw=1, 
+		alpha=0.3
+		#label='ROC fold %d (AUC = %0.2f)' % (i, roc_auc)
+	)
 
-		# Compute ROC curve and area the curve
-		fpr, tpr, thresholds = roc_curve(y[test], probas_[:, 1])
-		tprs.append(interp(mean_fpr, fpr, tpr))
-		tprs[-1][0] = 0.0
-		roc_auc = auc(fpr, tpr)
-		aucs.append(roc_auc)
-		plt.plot(
-			fpr, 
-			tpr, 
-			lw=1, 
-			alpha=0.3,
-			label='ROC fold %d (AUC = %0.2f)' % (i, roc_auc)
-		)
-
-    	i += 1
+	# i = i+ 1
 	plt.plot(
 		[0, 1],
 		[0, 1],
@@ -120,3 +129,8 @@ if __name__ == '__main__':
 	plt.title('Receiver operating characteristic example')
 	plt.legend(loc="lower right")
 	plt.show()
+
+
+
+
+
