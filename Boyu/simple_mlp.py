@@ -76,8 +76,8 @@ def load_data_MLP_with_userid(path, scale):
     with open(path, 'rb') as f:
         (low_list, not_low_list) = pickle.load(f)
     # [number of users, number of features]
-    ls = np.stack([user[1][:27] * scale for user in low_list])
-    nls = np.stack([user[1][:27] * scale for user in not_low_list])
+    ls = np.stack([user[1][27:] * scale for user in low_list])
+    nls = np.stack([user[1][27:] * scale for user in not_low_list])
 
     #print(ls)
 
@@ -109,13 +109,13 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # 		scale = 10**5)
 
 
-# data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
-# 		path = 'compound_vectors_self_esteem.pkl', 
-# 		scale = 1)
-
 data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
-		path = 'compound_vectors_psi.pkl', 
+		path = 'compound_vectors_self_esteem.pkl', 
 		scale = 1)
+
+# data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
+# 		path = 'compound_vectors_psi.pkl', 
+# 		scale = 1)
 
 
 userid,X, Y = data[:, 0], data[:, 1:in_size+1], data[:, in_size+1:]
@@ -199,12 +199,14 @@ with open('./best_representation.pkl', 'wb') as f:
 		h = mlp.w1(X)
 		a = mlp.relu(h)
 		best_representation = a.numpy()
+		best_lin_rep = h.numpy()
 
 	# put into 2 groups
 	ls = []
 	nls = []
 	psi=[]
 	npsi = []
+	ls_lin, nls_lin,psi_lin,npsi_lin = [],[],[],[]
 	# for idx, user in enumerate(Y):
 	# 	vec = best_representation[idx, :]
 	# 	# ls
@@ -222,22 +224,27 @@ with open('./best_representation.pkl', 'wb') as f:
 
 	for idx, user in enumerate(userid):
 		vec = best_representation[idx, :]
+		vec1 = best_lin_rep[idx,:]
 		# ls
 		if user in psi_users:
 			psi.append((user,vec))
+			psi_lin.append((user,vec1))
 		# nls
 		else:
 			npsi.append((user,vec))
+			npsi_lin.append((user,vec1))
 
 
 		if user in ls_users:
 			ls.append((user,vec))
+			ls_lin.append((user,vec1))
 		else:
 			nls.append((user,vec))
+			nls_lin.append((user,vec1))
 	# print('\n\n\n\n\n')
 	# print(psi[0])
 	# print('\n\n\n\n\n')
 	# psi = psi
 	# npsi = npsi
 	#print(psi.shape, npsi.shape)
-	pickle.dump((psi, npsi,ls,nls), f)
+	pickle.dump((psi, npsi,ls,nls,ls_lin, nls_lin,psi_lin,npsi_lin), f)

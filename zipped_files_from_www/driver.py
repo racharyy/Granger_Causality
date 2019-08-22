@@ -27,7 +27,7 @@ class worker(object):
 	def data_split(self, split_ratio = 3.0/4):
 		
 		ls_compound, nls_compound, psi_compound, npsi_compound = self.data
-		psi_pretrained, npsi_pretrained, ls_pretrained,nls_pretrained  = load_pickle('../Boyu/best_representation.pkl')
+		#psi_pretrained, npsi_pretrained, ls_pretrained,nls_pretrained  = load_pickle('../Boyu/best_representation.pkl')
 		
 		
 		lsnls_train_feature, lsnls_train_label, lsnls_test_feature, lsnls_test_label, lsnls_train_user, lsnls_test_user = random_split(ls_compound,nls_compound,split_ratio)
@@ -119,7 +119,8 @@ class worker(object):
 				# tprs[-1][0] = 0.0
 				aucs[i]=auc(fpr, tpr)
 			mean_auc = np.mean(aucs)
-			print(mean_auc)
+			mean_f1 = np.median(np.array(f1s))
+			print(mean_f1,features[self.config['features']])
 			y_hat = copy(y_best)
 			#print(best_f1)
 
@@ -136,7 +137,7 @@ class worker(object):
 			clf = LogisticRegression(random_state=0, solver='liblinear').fit(train_lambda,train_label)
 			y_hat = clf.predict(test_lambda)
 			# clf.predict_proba(test_lambda)
-			print(clf.predict_proba(test_lambda))
+			#print(clf.predict_proba(test_lambda))
 			# fpr, tpr, thresholds = roc_curve(test_label, p)
 			# 	#print(y_test,  probas_[:, 1])
 			# 	# tprs.append(interp(mean_fpr, fpr, tpr))
@@ -185,7 +186,8 @@ class worker(object):
 				# tprs[-1][0] = 0.0
 				aucs[i]=auc(fpr, tpr)
 			mean_auc = np.mean(aucs)
-			print(mean_auc)
+			mean_f1 = np.median(np.array(f1s))
+			print(mean_f1,features[self.config['features']])
 			y_hat = copy(y_best)
 			exp_name = tasks[self.config['task']]+"_"+features[self.config['features']]+"_"+catpriors[self.config['catpriors']]
 			plot_name = '_avgf1_hist.png'
@@ -197,7 +199,7 @@ class worker(object):
 		elif self.config['features'] == 1 and self.config['method'] == 1:
 
 			clf = LogisticRegression(random_state=0, solver='liblinear').fit(train_cat,train_label)
-			print(clf.predict_proba(test_cat))
+			#print(clf.predict_proba(test_cat))
 			y_hat=clf.predict(test_cat)
 
 		elif self.config['features'] == 1 and self.config['method'] == 2:
@@ -236,7 +238,8 @@ class worker(object):
 				# tprs[-1][0] = 0.0
 				aucs[i]=auc(fpr, tpr)
 			mean_auc = np.mean(aucs)
-			print(mean_auc)
+			mean_f1 = np.median(np.array(f1s))
+			print(mean_f1,features[self.config['features']])
 			y_hat = copy(y_best)
 			exp_name = tasks[self.config['task']]+"_"+features[self.config['features']]+"_"+lambdapriors[self.config['lambdapriors']]+"_"+catpriors[self.config['catpriors']]
 			plot_name = '_avgf1_hist.png'
@@ -248,7 +251,7 @@ class worker(object):
 		elif self.config['features'] == 2 and self.config['method'] == 1:
 
 			clf = LogisticRegression(random_state=0, solver='liblinear').fit(train_feature,train_label)
-			print(clf.predict_proba(test_feature))
+			#print(clf.predict_proba(test_feature))
 			y_hat=clf.predict(test_feature)
 
 		elif self.config['features'] == 2 and self.config['method'] == 2:
@@ -259,15 +262,22 @@ class worker(object):
 
 		elif self.config['features'] == 3:
 
-			psi, npsi, ls,nls  = load_pickle('../Boyu/best_representation.pkl')
+			psi, npsi,ls,nls,ls_lin, nls_lin,psi_lin,npsi_lin  = load_pickle('../Boyu/best_representation.pkl')
+			psi_c, npsi_c,ls_c,nls_c,ls_lin_c, nls_lin_c,psi_lin_c,npsi_lin_c  = load_pickle('../Boyu/best_representation_1.pkl')
 
-			if self.config['task'] == 0:
-				train_lambda, train_label, test_lambda, test_label = extract_index(ls,nls,train_user,test_user)
+			if self.config['task'] == 0: 
+				if self.config['method'] == 0: #or self.config['method'] == 1:
+					train_lambda, train_label, test_lambda, test_label = extract_index(ls_lin,nls_lin,train_user,test_user)
+				else:
+					train_lambda, train_label, test_lambda, test_label = extract_index(ls,nls,train_user,test_user)
 			else:
-				train_lambda, train_label, test_lambda, test_label = extract_index(psi,npsi,train_user,test_user)
+				if self.config['method'] == 0:# or self.config['method'] == 1:
+					train_lambda, train_label, test_lambda, test_label = extract_index(psi_lin,npsi_lin,train_user,test_user)
+				else:
+					train_lambda, train_label, test_lambda, test_label = extract_index(psi,npsi,train_user,test_user)
 			#print(len(train_lambda),len(test_lambda))
 			#train_lambda, train_label, test_lambda, test_label = random_split(psi,npsi,split_ratio)
-			num_hidden_features = len(psi[0][1])
+			num_hidden_features = len(train_lambda[0])
 			mu_W = np.zeros(num_hidden_features)
 			cov_W = np.eye(num_hidden_features)
 
@@ -305,7 +315,8 @@ class worker(object):
 				# tprs[-1][0] = 0.0
 					aucs[i]=auc(fpr, tpr)
 				mean_auc = np.mean(aucs)
-				print(mean_auc)
+				mean_f1 = np.median(np.array(f1s))
+				print(mean_f1,features[self.config['features']])
 				y_hat = copy(y_best)
 				#print(best_f1)
 
@@ -318,13 +329,17 @@ class worker(object):
 
 			elif self.config['method'] == 1:
 				#print(len(train_lambda[0]))
+				# print("=========")
+				# print(train_user)
+				# print("---------")
+				# print(test_user)
 				clf = LogisticRegression(random_state=0, solver='liblinear',max_iter=3000).fit(train_lambda,train_label)
-				print(clf.predict_proba(test_lambda))
+				#print(clf.predict_proba(test_lambda))
 				y_hat=clf.predict(test_lambda)
 
 			elif self.config['method'] == 2:
 
-				clf = SVC(gamma='auto').fit(train_lambda,train_label)
+				clf = SVC(gamma='auto',kernel='sigmoid').fit(train_lambda,train_label)
 				y_hat = clf.predict(test_lambda)
 
 		cr = classification_report(test_label, y_hat)
