@@ -148,7 +148,7 @@ optimizer = optim.SGD(mlp.parameters(), lr = 0.01, momentum = 0.9, weight_decay 
 loss_history = []
 best_loss = float('inf')
 
-n_epoch = 5000
+n_epoch = 7000
 
 for epoch in range(n_epoch):
 
