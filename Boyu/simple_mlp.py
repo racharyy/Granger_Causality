@@ -109,13 +109,13 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # 		scale = 10**5)
 
 
-data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
-		path = 'compound_vectors_self_esteem.pkl', 
-		scale = 1)
-
 # data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
-# 		path = 'compound_vectors_psi.pkl', 
+# 		path = 'compound_vectors_self_esteem.pkl', 
 # 		scale = 1)
+
+data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
+		path = 'compound_vectors_psi.pkl', 
+		scale = 1)
 
 
 userid,X, Y = data[:, 0], data[:, 1:in_size+1], data[:, in_size+1:]
