@@ -142,7 +142,7 @@ def train_and_test(u_dim,method='not_basic'):
 	if method =='basic':
 		trace = model_fit_basic(train_data_dict,u_dim=u_dim,num_iter=20000)
 	else:
-		trace = model_fit_using_se(train_data_dict,u_dim=u_dim,num_iter=20000)
+		trace = model_fit_using_se(train_data_dict,u_dim=u_dim,num_iter=20000,num_sample=500)
 	n=trace['search_si'].shape[0]
 	f1s = []
 	for i in range(n):
@@ -190,7 +190,7 @@ for key in data:
 
 
 
-median_f1,mean_f1 = train_and_test(10)
+median_f1,mean_f1 = train_and_test(12)
 print(median_f1,mean_f1)
 # num_obs=40
 # search_dim=10
