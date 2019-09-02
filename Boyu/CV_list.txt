@@ -1,0 +1,54 @@
+low_self_esteem/ Business & Industrial 2.7588102546186137
+not_low_self_esteem/ Business & Industrial 3.0583778940167345
+low_self_esteem/ Home & Garden 2.0720992284592143
+not_low_self_esteem/ Home & Garden 2.147787707342748
+low_self_esteem/ Travel 3.061129942035227
+not_low_self_esteem/ Travel 3.152607503914657
+low_self_esteem/ Arts & Entertainment 4.287519788841939
+not_low_self_esteem/ Arts & Entertainment 5.3154638939459495
+low_self_esteem/ Sports 3.079568642522084
+not_low_self_esteem/ Sports 2.7600157373928442
+low_self_esteem/ Food & Drink 3.0491428909052987
+not_low_self_esteem/ Food & Drink 2.9930580188560194
+low_self_esteem/ Pets & Animals 1.8900311514670842
+not_low_self_esteem/ Pets & Animals 2.0283053344049264
+low_self_esteem/ Health 3.234263666642778
+not_low_self_esteem/ Health 2.90134748041615
+low_self_esteem/ Shopping 3.1117172332627976
+not_low_self_esteem/ Shopping 2.972036404201177
+low_self_esteem/ Finance 2.233864903262285
+not_low_self_esteem/ Finance 2.254966592356963
+low_self_esteem/ Adult 1.6764133317213492
+not_low_self_esteem/ Adult 1.6900040553082465
+low_self_esteem/ Beauty & Fitness 2.3902446993692856
+not_low_self_esteem/ Beauty & Fitness 2.408404102900017
+low_self_esteem/ News 2.8786572366358
+not_low_self_esteem/ News 2.6916441687851966
+low_self_esteem/ Books & Literature 2.590152971349035
+not_low_self_esteem/ Books & Literature 2.503461215281006
+low_self_esteem/ Online Communities 2.378864828053611
+not_low_self_esteem/ Online Communities 2.230321425237219
+low_self_esteem/ Law & Government 2.4134736777429975
+not_low_self_esteem/ Law & Government 2.5529397603414417
+low_self_esteem/ Sensitive Subjects 2.0218786191984317
+not_low_self_esteem/ Sensitive Subjects 2.0810228342979378
+low_self_esteem/ Science 3.906327628921468
+not_low_self_esteem/ Science 3.730974368211551
+low_self_esteem/ Hobbies & Leisure 2.6438067415528095
+not_low_self_esteem/ Hobbies & Leisure 2.902347430351104
+low_self_esteem/ Games 2.436778150189776
+not_low_self_esteem/ Games 2.408346296795472
+low_self_esteem/ Jobs & Education 3.8131147447706923
+not_low_self_esteem/ Jobs & Education 3.9626538484267892
+low_self_esteem/ Autos & Vehicles 2.3701769352496105
+not_low_self_esteem/ Autos & Vehicles 2.101733129158129
+low_self_esteem/ Computers & Electronics 3.1737732645533123
+not_low_self_esteem/ Computers & Electronics 3.5539819955937095
+low_self_esteem/ People & Society 3.1016602972289395
+not_low_self_esteem/ People & Society 3.3110263566250895
+low_self_esteem/ Reference 4.038128876500018
+not_low_self_esteem/ Reference 3.964798220065817
+low_self_esteem/ Internet & Telecom 2.7554389685361227
+not_low_self_esteem/ Internet & Telecom 2.758117218269617
+low_self_esteem/ Real Estate 1.4857359932934158
+not_low_self_esteem/ Real Estate 1.461243607932523

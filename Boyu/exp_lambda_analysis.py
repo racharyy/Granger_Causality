@@ -277,6 +277,87 @@ def fit_exp_category(args, normed, categories):
 		'''
 		print(category, 'all done')
 
+
+# find CV
+def find_CV(args, normed, categories):
+
+	# for each categories
+	for i, category in enumerate(categories):
+
+		# for both groups
+		# all_CV_dict = {'low':[], 'not_low':[]}
+
+		for group in ['low_self_esteem/', 'not_low_self_esteem/']:
+			path = args.data_path + group
+
+			mean_list = []
+			std_list = []
+
+			# per peron 
+			for file in os.scandir(path):
+				if file.name.endswith('.json'):
+
+					whole_name = path + file.name
+					# print(file.name)
+
+					# previous timestamp, first place holder
+					previous = datetime.combine(date(2000, 1, 1), time(00, 00, 00))
+
+					# the time difference list per person
+					delta_list = []
+
+					# per search history
+					with open(whole_name, 'r') as json_file:  
+						search_history = [json.loads(line) for line in json_file]
+						for idx, instance in enumerate(search_history):
+
+							# only record the given category
+							appeared_cat = set()
+							for c in instance['category']:
+								current = c[0].split('/')[1]
+
+								if current == category and current not in appeared_cat:
+
+									# do not count duplicate
+									appeared_cat.add(current)
+
+									# print(instance['qtime'])
+									date_time = _trim_date(instance['qtime'])
+
+									# get the time difference in minutes
+									delta = (previous - date_time).total_seconds()
+
+									# print(delta)
+									delta_list.append(delta)
+									previous = date_time
+
+					# fit the exponential distribution for each category
+					# remove the first place holder
+					if len(delta_list[1:]) > 0:
+
+						mean = np.mean(delta_list[1:])
+						std = np.std(delta_list[1:])
+						# param = _fit_exp_per_person(delta_list[1:])
+						mean_list.append(mean)
+						std_list.append(std)
+					'''
+					else:
+						print(group, file.name, category, 'only searched once')
+					'''
+					
+			# remove outlier by 100 * median
+			'''
+			x_100_median = np.median(np.asarray(param_list)) * 100
+			old_len = len(param_list)
+			param_list = [p for p in param_list if p < x_100_median]
+			if old_len != len(param_list):
+				print('outlier:', old_len - len(param_list), path, category)
+			'''
+			assert len(std_list) == len(mean_list)
+			CV = np.mean(np.asarray(std_list) / np.asarray(mean_list))
+			print(group, category, CV)
+
+
 # extract the lambda feature vector for each person
 # 27-d category vector for each person
 # with user id reference
@@ -586,6 +667,7 @@ def main():
 
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
+	find_CV(args, normed = True, categories = l)
 
 	'''
 	extract_lambda_feature_with_ID(
@@ -597,13 +679,15 @@ def main():
 	'''
 	
 	# _verify('./lambda_vectors_minutes.pkl')
-	
+		
+	'''
 	generate_compound_features_with_ID(
 		args = args,
 		scaled = 10**5, 
 		cat_ls_path = '../searchCatDistData/ls_category_vectors_with_user_ID.pkl', 
 		cat_nls_path = '../searchCatDistData/nls_category_vectors_with_user_ID.pkl', 
 		lambda_path = './lambda_vectors_with_user_ID.pkl')
+	'''
 
 	'''
 	_verify_cat(
