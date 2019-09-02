@@ -97,15 +97,18 @@ def plot_hist(args, file_path):
 	# plot the raw version to get the log bins
 	f = plt.figure(1)
 	hist, bins, _ = plt.hist(total_delta_list, bins = 'auto')
-	plt.xlabel('Seconds')
-	plt.ylabel('Frequency')
+	plt.xlabel('Seconds', fontsize = 14)
+	plt.ylabel('Frequency', fontsize = 14)
 	title = 'Idle Time Between Searches (upper: ' + str(args.threshold) + ', lower: ' + str(args.lower_bound) + ')'
-	plt.title(title)
+	plt.title(title, fontsize = 18)
 	name = '../../upper_' + str(args.threshold) + '_lower_' + str(args.lower_bound) + '_abs'
-	plt.show()
-	f.savefig(name)
+	# plt.show()
+	plt.tight_layout()
+	print('in')
+	f.savefig(name, dpi = 300)
 
 	# get the log scale plot
+	'''
 	logbins = np.logspace(np.log10(bins[0]), np.log10(bins[-1]), args.bin_size)
 	g = plt.figure(2)
 	plt.hist(total_delta_list, bins = logbins, density = False)
@@ -118,7 +121,7 @@ def plot_hist(args, file_path):
 	plt.show()
 	name = '../../upper_' + str(args.threshold) + '_lower_' + str(args.lower_bound)
 	g.savefig(name)
-
+	'''
 
 def main():
 	parser = argparse.ArgumentParser(description = 'parser for data files')
@@ -129,15 +132,15 @@ def main():
 						help = 'number of clusters')
 	parser.add_argument('--bin_size', default = 0,
 						help = 'bin size for the inter-time histogram')
-	parser.add_argument('--threshold', default = 100000000,
+	parser.add_argument('--threshold', default = 3000,
 						help = 'the max delta time between two searches in minutes')
 	parser.add_argument('--lower_bound', default = 0,
 						help = 'the min delta time between two searches in minutes')
 
 	args = parser.parse_args()
 
-	# _get_delta_time(args)
-	# plot_hist(args, './total_list.pkl')
+	_get_delta_time(args)
+	plot_hist(args, './total_list.pkl')
 
 if __name__ == '__main__':
 	main()
