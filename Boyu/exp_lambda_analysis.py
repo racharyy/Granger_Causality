@@ -361,7 +361,7 @@ def find_CV(args, normed, categories):
 			else:
 				nls_cv.append(CV)
 			print(group, category, CV)
-			return ls_cv,nls_cv
+	return ls_cv,nls_cv
 
 
 # extract the lambda feature vector for each person
