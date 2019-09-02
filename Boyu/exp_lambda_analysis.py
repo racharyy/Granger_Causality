@@ -282,6 +282,7 @@ def fit_exp_category(args, normed, categories):
 def find_CV(args, normed, categories):
 
 	# for each categories
+	ls_cv, nls_cv = [], []
 	for i, category in enumerate(categories):
 
 		# for both groups
@@ -355,7 +356,12 @@ def find_CV(args, normed, categories):
 			'''
 			assert len(std_list) == len(mean_list)
 			CV = np.mean(np.asarray(std_list) / np.asarray(mean_list))
+			if group == 'low_self_esteem/':
+				ls_cv.append(CV)
+			else:
+				nls_cv.append(CV)
 			print(group, category, CV)
+			return ls_cv,nls_cv
 
 
 # extract the lambda feature vector for each person
@@ -667,7 +673,8 @@ def main():
 
 	# fit_exp_category(args, normed = True, categories = l)
 	# extract_lambda_feature(args, categories = l, outlier = True, outlier_scale = 100, normed = True)
-	find_CV(args, normed = True, categories = l)
+	ls_cv,nls_cv=find_CV(args, normed = True, categories = l)
+	pickle.dump((ls_cv,nls_cv),open('cv_list.pkl','wb'))
 
 	'''
 	extract_lambda_feature_with_ID(
