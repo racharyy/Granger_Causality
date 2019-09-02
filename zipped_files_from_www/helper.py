@@ -192,6 +192,11 @@ def get_data_for_leave_one_out(X, y):
         yield X_train, y_train, X_test, y_test
 
 
+def required_list(lst,index):
+    return [lst[ind] for ind in index]
+
+
+
 # def plot_roc_auc_for_each_fold()
 
 # if __name__ == '__main__':

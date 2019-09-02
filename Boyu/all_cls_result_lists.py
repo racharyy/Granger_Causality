@@ -2,7 +2,7 @@ methods = ["Logistic Regression", "Nearest Neighbors", "Linear SVM", "RBF SVM", 
 		 "Decision Tree", "Random Forest", "Neural Net", "AdaBoost",
 		 "Naive Bayes", "QDA"]
 
-features = ['lambda','category','both','Pretrained', '28-d']
+features = ['lambda','category','Pretrained', '28-d']
 
 lambda_results = [
 0.6651000000000004, 
@@ -56,15 +56,15 @@ pretrained_results = [
 0.36330000000000007, 
 0.1458999999999999]
 
-28_d_results = [
-0.6850000000000006
-0.7024000000000006
-0.6189999999999999
-0.6128000000000002
-0.6261
-0.6074000000000002
-0.6247000000000008
-0.6820000000000005
-0.6355
-0.6352000000000002
+lambda_and_se_results = [
+0.6850000000000006,
+0.7024000000000006,
+0.6189999999999999,
+0.6128000000000002,
+0.6261,
+0.6074000000000002,
+0.6247000000000008,
+0.6820000000000005,
+0.6355,
+0.6352000000000002,
 0.6081999999999997]
