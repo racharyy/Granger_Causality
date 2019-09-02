@@ -68,6 +68,25 @@ def model_fit_using_se(data,u_dim,method='mcmc', num_iter = 10,num_sample=1000):
 
 	return trace
 
+
+# def model_fit_generative(data,bn_dim,method='mcmc', num_iter = 10,num_sample=1000):
+
+# 	search_dim = data['search'].shape[1]
+# 	num_obs = data['search'].shape[0]
+
+# 	cov_bn, mu_bn = np.eye(u_dim),np.zeros(u_dim)
+# 	cov_nlp, mu_nlp = np.eye(search_dim),np.zeros(search_dim)
+
+# 	cov_nlp = np.loadtxt("similarity_matrix.csv",dtype='float32', delimiter=',')
+
+# 	with pm.Model() as model:
+
+
+# 		bn = pm.MvNormal('bn',mu=mu_bn,cov=cov_bn,shape=(num_obs,bn_dim))
+
+
+
+
 def model_fit_basic(data,u_dim,method='mcmc', num_iter = 10,num_sample=1000,use_u=False):
 
 
@@ -135,19 +154,25 @@ def predict_gm(test_data,param_dic,u_dim,u_sample_num=100):
 
 #train_data, test_data = load_pickle('../data_split.pkl')
 
-def train_and_test(u_dim,method='not_basic'):
+
+
+
+
+def train_and_test(train_data_dict,test_data_dict,u_dim,method='not_basic'):
 
 	
 	param_dic = {}
 	if method =='basic':
 		trace = model_fit_basic(train_data_dict,u_dim=u_dim,num_iter=20000)
+	elif method=='generative':
+		trace = model_fit_generative(train_data_dict,u_dim=u_dim,num_iter=10000,num_sample=200)
 	else:
-		trace = model_fit_using_se(train_data_dict,u_dim=u_dim,num_iter=20000,num_sample=500)
+		trace = model_fit_using_se(train_data_dict,u_dim=u_dim,num_iter=10000,num_sample=1000)
 	n=trace['search_si'].shape[0]
 	f1s = []
 	for i in range(n):
-		if i%100==0:
-			print(i)
+		# if i%100==0:
+		# 	print(i)
 		for key in key_list:
 			param_dic[key] = trace[key][i]
 		#print(trace[key].shape)
@@ -162,36 +187,57 @@ def train_and_test(u_dim,method='not_basic'):
 	#print(f1s)
 	median_f1 = np.median(np.array(f1s))
 	mean_f1 = np.mean(np.array(f1s))
-	return median_f1,mean_f1
+	return trace,median_f1,mean_f1
 	#print(cr)
 
 
 
 
+def run():
+	data = load_pickle('data_for_graphical_model.pkl')
+	N= len(data['se'])
 
-data = load_pickle('data_for_graphical_model.pkl')
-N= len(data['se'])
-train_index = np.random.choice(N,int(0.8*N),replace=False)
-train_data_dict, test_data_dict = {}, {}
-for key in data:
-    train_data_dict[key] = []
-for key in data:
-    test_data_dict[key] = []
-for ind in range(N):
-    if ind in train_index:    
-        for key in data:
-            train_data_dict[key].append(data[key][ind])
-    else:
-        for key in data:
-            test_data_dict[key].append(data[key][ind])
-for key in data:
-    train_data_dict[key] = np.array(train_data_dict[key])
-    test_data_dict[key] = np.array(test_data_dict[key])
+	good_set = [] 
+	good_num = 0
+	median_f1_ar, mean_f1_ar = [], []
+	for i in range(100):
 
 
+		train_index = np.random.choice(N,int(0.8*N),replace=False)
+		prob_cand = set(train_index)
+		train_data_dict, test_data_dict = {}, {}
+		for key in data:
+		    train_data_dict[key] = []
+		for key in data:
+		    test_data_dict[key] = []
+		for ind in range(N):
+		    if ind in train_index:    
+		        for key in data:
+		            train_data_dict[key].append(data[key][ind])
+		    else:
+		        for key in data:
+		            test_data_dict[key].append(data[key][ind])
+		for key in data:
+		    train_data_dict[key] = np.array(train_data_dict[key])
+		    test_data_dict[key] = np.array(test_data_dict[key])
 
-median_f1,mean_f1 = train_and_test(12)
-print(median_f1,mean_f1)
+
+
+		trace,median_f1,mean_f1 = train_and_test(train_data_dict,test_data_dict,12)
+		median_f1_ar.append(median_f1)
+		mean_f1_ar.append(mean_f1)
+		print(median_f1,mean_f1)
+		if median_f1 >= 0.67:
+			good_num = good_num+1
+			print(good_num)
+			dic ={}
+			dic['trace'] = trace
+			dic['train_index'] = train_index
+			good_set.append(dic)
+	pickle.dump(good_set,open('good_set_gen.pkl','wb'))
+	print(np.mean(np.array(median_f1_ar)),' : mean of the medians')
+	print(np.mean(np.array(mean_f1_ar)),' : mean of the means')
+	#print(median_f1,mean_f1)
 # num_obs=40
 # search_dim=10
 # data = {}

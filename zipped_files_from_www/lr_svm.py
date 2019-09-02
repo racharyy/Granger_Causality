@@ -25,7 +25,7 @@ class light_worker(object):
 		self.config = config
 
 
-	def data_split(self, split_ratio = 3.0/4):
+	def data_split(self, split_ratio = 2.0/3):
 		
 		ls_compound, nls_compound, psi_compound, npsi_compound = self.data
 		#psi_pretrained, npsi_pretrained, ls_pretrained,nls_pretrained  = load_pickle('../Boyu/best_representation.pkl')
@@ -72,6 +72,8 @@ class light_worker(object):
 		else:
 			train_feature,train_lambda,train_cat,train_label,test_feature,test_lambda,test_cat,test_label = self.psinpsi_data
 			train_user, test_user = self.psinpsi_user
+
+			
 
 
 		if self.config['method'] == 0:

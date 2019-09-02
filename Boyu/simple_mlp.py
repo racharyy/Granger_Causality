@@ -113,11 +113,10 @@ data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
 		path = 'compound_vectors_self_esteem.pkl', 
 		scale = 1)
 
-'''
-data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
-		path = 'compound_vectors_psi.pkl', 
-		scale = 1)
-'''
+
+# data, in_size, ls_num, nls_num= load_data_MLP_with_userid(
+# 		path = 'compound_vectors_psi.pkl', 
+# 		scale = 1)
 
 userid,X, Y = data[:, 0], data[:, 1:in_size+1], data[:, in_size+1:]
 vfloat = np.vectorize(float)
@@ -140,7 +139,7 @@ nls_users = [i[0] for i in nls_compound]
 
 mlp = SimpleMLP(
 		in_size = in_size, 
-		hidden_size = 10).to(device)
+		hidden_size = 12).to(device)
 
 criterion = nn.BCEWithLogitsLoss()
 # optimizer = optim.Adam(mlp.parameters(), weight_decay = 0.0001)
