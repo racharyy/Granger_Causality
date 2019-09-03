@@ -1,0 +1,204 @@
+--------------   Precission Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average precesion is:  0.522
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average precesion is:  0.28800000000000003
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average precesion is:  0.5100000000000001
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average precesion is:  0.56
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average precesion is:  0.42700000000000005
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average precesion is:  0.29
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average precesion is:  0.323
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average precesion is:  0.6480000000000001
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average precesion is:  0.661
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average precesion is:  0.5300000000000001
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average precesion is:  0.661
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average precesion is:  0.9279999999999999
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average precesion is:  0.5290000000000002
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average precesion is:  0.5300000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average precesion is:  0.5290000000000002
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average precesion is:  0.8170000000000001
+--------------   Recall Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average recall is:  0.52
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average recall is:  0.532
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average recall is:  0.507
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average recall is:  0.557
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average recall is:  0.508
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average recall is:  0.54
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average recall is:  0.52
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average recall is:  0.6270000000000001
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average recall is:  0.737
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average recall is:  0.7300000000000001
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average recall is:  0.737
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average recall is:  0.915
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average recall is:  0.7250000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average recall is:  0.7300000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average recall is:  0.7250000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average recall is:  0.806
+--------------   F1 Score Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average F1 Score is:  0.5090000000000001
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average F1 Score is:  0.37599999999999995
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average F1 Score is:  0.4960000000000001
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average F1 Score is:  0.512
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average F1 Score is:  0.411
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average F1 Score is:  0.37999999999999995
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average F1 Score is:  0.39199999999999996
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average F1 Score is:  0.557
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average F1 Score is:  0.6599999999999999
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average F1 Score is:  0.6100000000000001
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average F1 Score is:  0.6599999999999999
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average F1 Score is:  0.908
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average F1 Score is:  0.6080000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average F1 Score is:  0.6100000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average F1 Score is:  0.6080000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average F1 Score is:  0.764
+--------------   Precission Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average precesion is:  0.49999999999999994
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average precesion is:  0.337
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average precesion is:  0.49
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average precesion is:  0.919
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average precesion is:  0.368
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average precesion is:  0.29
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average precesion is:  0.37
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average precesion is:  0.8740000000000001
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average precesion is:  0.694
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average precesion is:  0.5300000000000001
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average precesion is:  0.694
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average precesion is:  0.757
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average precesion is:  0.5280000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average precesion is:  0.5300000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average precesion is:  0.5290000000000002
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average precesion is:  0.536
+--------------   Recall Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average recall is:  0.496
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average recall is:  0.544
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average recall is:  0.488
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average recall is:  0.9139999999999999
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average recall is:  0.488
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average recall is:  0.54
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average recall is:  0.512
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average recall is:  0.835
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average recall is:  0.737
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average recall is:  0.7300000000000001
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average recall is:  0.737
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average recall is:  0.7650000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average recall is:  0.7210000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average recall is:  0.7300000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average recall is:  0.7250000000000002
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average recall is:  0.726
+--------------   F1 Score Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average F1 Score is:  0.497
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average F1 Score is:  0.389
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average F1 Score is:  0.488
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average F1 Score is:  0.9119999999999999
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average F1 Score is:  0.386
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average F1 Score is:  0.37999999999999995
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average F1 Score is:  0.395
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average F1 Score is:  0.8240000000000001
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average F1 Score is:  0.6679999999999999
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average F1 Score is:  0.6100000000000001
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average F1 Score is:  0.6679999999999999
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average F1 Score is:  0.7250000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average F1 Score is:  0.6060000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average F1 Score is:  0.6100000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average F1 Score is:  0.6080000000000001
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average F1 Score is:  0.6180000000000001
+--------------   Precission Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average precesion is:  0.49
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average precesion is:  0.29
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average precesion is:  0.54
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average precesion is:  0.96
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average precesion is:  0.27
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average precesion is:  0.29
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average precesion is:  0.29
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average precesion is:  0.87
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average precesion is:  0.85
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average precesion is:  0.53
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average precesion is:  0.85
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average precesion is:  0.76
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average precesion is:  0.52
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average precesion is:  0.53
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average precesion is:  0.59
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average precesion is:  0.53
+--------------   Recall Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average recall is:  0.5
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average recall is:  0.54
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average recall is:  0.54
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average recall is:  0.96
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average recall is:  0.46
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average recall is:  0.54
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average recall is:  0.54
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average recall is:  0.83
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average recall is:  0.82
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average recall is:  0.73
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average recall is:  0.82
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average recall is:  0.77
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average recall is:  0.68
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average recall is:  0.73
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average recall is:  0.64
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average recall is:  0.73
+--------------   F1 Score Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average F1 Score is:  0.49
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average F1 Score is:  0.38
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average F1 Score is:  0.54
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average F1 Score is:  0.96
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average F1 Score is:  0.34
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average F1 Score is:  0.38
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average F1 Score is:  0.38
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average F1 Score is:  0.83
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average F1 Score is:  0.78
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average F1 Score is:  0.61
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average F1 Score is:  0.78
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average F1 Score is:  0.74
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average F1 Score is:  0.59
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average F1 Score is:  0.61
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average F1 Score is:  0.61
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average F1 Score is:  0.61
+--------------   Precission Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average precesion is:  0.41
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average precesion is:  0.29
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average precesion is:  0.41
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average precesion is:  0.93
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average precesion is:  0.35
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average precesion is:  0.29
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average precesion is:  0.28
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average precesion is:  0.9
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average precesion is:  0.53
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average precesion is:  0.53
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average precesion is:  0.53
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average precesion is:  0.52
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average precesion is:  0.53
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average precesion is:  0.53
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average precesion is:  0.53
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average precesion is:  0.53
+--------------   Recall Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average recall is:  0.42
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average recall is:  0.54
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average recall is:  0.42
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average recall is:  0.92
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average recall is:  0.42
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average recall is:  0.54
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average recall is:  0.5
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average recall is:  0.88
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average recall is:  0.73
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average recall is:  0.73
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average recall is:  0.73
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average recall is:  0.68
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average recall is:  0.73
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average recall is:  0.73
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average recall is:  0.73
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average recall is:  0.73
+--------------   F1 Score Results   --------------
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  lambda  Average F1 Score is:  0.41
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  category  Average F1 Score is:  0.38
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  both  Average F1 Score is:  0.41
+For Task:  ls_nls_detection  with method:  Logistic_regression  with feature:  Pretrained  Average F1 Score is:  0.92
+For Task:  ls_nls_detection  with method:  svm  with feature:  lambda  Average F1 Score is:  0.36
+For Task:  ls_nls_detection  with method:  svm  with feature:  category  Average F1 Score is:  0.38
+For Task:  ls_nls_detection  with method:  svm  with feature:  both  Average F1 Score is:  0.36
+For Task:  ls_nls_detection  with method:  svm  with feature:  Pretrained  Average F1 Score is:  0.87
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  lambda  Average F1 Score is:  0.61
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  category  Average F1 Score is:  0.61
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  both  Average F1 Score is:  0.61
+For Task:  psi_npsi_detection  with method:  Logistic_regression  with feature:  Pretrained  Average F1 Score is:  0.59
+For Task:  psi_npsi_detection  with method:  svm  with feature:  lambda  Average F1 Score is:  0.61
+For Task:  psi_npsi_detection  with method:  svm  with feature:  category  Average F1 Score is:  0.61
+For Task:  psi_npsi_detection  with method:  svm  with feature:  both  Average F1 Score is:  0.61
+For Task:  psi_npsi_detection  with method:  svm  with feature:  Pretrained  Average F1 Score is:  0.61
