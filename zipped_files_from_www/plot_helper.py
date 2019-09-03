@@ -6,7 +6,7 @@ sys.path.insert(0,'../Boyu')
 from all_cls_result_lists import *
 #features = ['Lambda','Pretrained','Lambda+Self_Esteem']
  
-method_index = [0,1,2,7]
+method_index = [0,1,2,5,7]
 
 required_methods = required_list(methods,method_index)
 
@@ -21,16 +21,17 @@ m3 = required_list(pretrained_results,method_index)
 m4 = required_list(lambda_and_se_results,method_index)
 
 #print(m1)
+plt.grid()
 
-r1 = ax.bar(xaxis, m1, bar_width,label = features[0])
+r1 = ax.bar(xaxis, m2, bar_width,label = features[1],color = '#a6611a')
 
-r2 = ax.bar(xaxis + bar_width, m2, bar_width,label = features[1])
+r2 = ax.bar(xaxis + bar_width, m1, bar_width,label = features[0],color = '#dfc27d')
 
-r3 = ax.bar(xaxis + bar_width+ bar_width, m3, bar_width,label = features[2])
+r3 = ax.bar(xaxis + bar_width+ bar_width, m3, bar_width,label = features[2],color = '#80cdc1')
 
-r4 = ax.bar(xaxis + bar_width+ bar_width+ bar_width, m4, bar_width, label = features[3])
+r4 = ax.bar(xaxis + bar_width+ bar_width+ bar_width, m4, bar_width, label = features[3],color = '#018571')
 
-ax.set_ylim([0, 1])
+ax.set_ylim([0, 0.75])
 
 # r1 = ax.barh(xaxis, m1, bar_width,label = features[0])
 
@@ -46,8 +47,9 @@ ax.set_ylabel('Average F1 Score',fontsize=16)
 ax.set_title('F1 Score for different classifiers Using different features',fontsize=16)
 ax.set_xticks(xaxis+1.5*bar_width)
 ax.set_xticklabels(required_methods,fontsize=16)
-ax.text(2,0.8,'Lambda Feature is stronger')
-ax.legend()
+#ax.set_yticklabels(fontsize=18)
+#ax.text(2,0.8,'Lambda Feature is stronger')
+ax.legend(loc='lower right',fontsize=16)
 
 # f, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex='col', sharey='row')
 
