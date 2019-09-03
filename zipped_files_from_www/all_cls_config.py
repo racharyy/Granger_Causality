@@ -6,6 +6,7 @@ methods = ["Logistic Regression", "Nearest Neighbors", "Linear SVM", "RBF SVM", 
 		 "Naive Bayes", "QDA"]
 features = ['lambda','category','both','Pretrained', '28-d']
 
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler

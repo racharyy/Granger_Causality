@@ -1,0 +1,224 @@
+--------------   Precission Results   --------------
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  lambda  Average precesion is:  0.6767000000000001
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  category  Average precesion is:  0.5300000000000007
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  both  Average precesion is:  0.6767000000000001
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  Pretrained  Average precesion is:  0.6335000000000003
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  28-d  Average precesion is:  0.6878000000000001
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  lambda  Average precesion is:  0.6677000000000004
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  category  Average precesion is:  0.6215000000000007
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  both  Average precesion is:  0.6375000000000006
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  Pretrained  Average precesion is:  0.6194000000000004
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  28-d  Average precesion is:  0.6764000000000001
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  lambda  Average precesion is:  0.5742000000000004
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  category  Average precesion is:  0.5300000000000007
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  both  Average precesion is:  0.5613000000000006
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  Pretrained  Average precesion is:  0.6089000000000001
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  28-d  Average precesion is:  0.5742000000000004
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  lambda  Average precesion is:  0.5370000000000007
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  category  Average precesion is:  0.5300000000000007
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  both  Average precesion is:  0.5314000000000008
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  Pretrained  Average precesion is:  0.5347000000000003
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  28-d  Average precesion is:  0.5370000000000007
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  lambda  Average precesion is:  0.5994000000000004
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  category  Average precesion is:  0.5320000000000007
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  both  Average precesion is:  0.5662000000000005
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  Pretrained  Average precesion is:  0.5758
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  28-d  Average precesion is:  0.6022000000000004
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  lambda  Average precesion is:  0.6191000000000004
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  category  Average precesion is:  0.5910000000000006
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  both  Average precesion is:  0.5926000000000003
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  Pretrained  Average precesion is:  0.6018999999999999
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  28-d  Average precesion is:  0.6205000000000003
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  lambda  Average precesion is:  0.5972000000000004
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  category  Average precesion is:  0.5907000000000006
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  both  Average precesion is:  0.5902000000000003
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  Pretrained  Average precesion is:  0.5879000000000001
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  28-d  Average precesion is:  0.6010000000000002
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  lambda  Average precesion is:  0.6780000000000003
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  category  Average precesion is:  0.5300000000000007
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  both  Average precesion is:  0.6675000000000003
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  Pretrained  Average precesion is:  0.5959000000000001
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  28-d  Average precesion is:  0.6733000000000002
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  lambda  Average precesion is:  0.6224000000000004
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  category  Average precesion is:  0.6096000000000001
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  both  Average precesion is:  0.6099
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  Pretrained  Average precesion is:  0.6188000000000002
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  28-d  Average precesion is:  0.6198000000000004
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  lambda  Average precesion is:  0.6912999999999999
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  category  Average precesion is:  0.5927
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  both  Average precesion is:  0.6144000000000002
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  Pretrained  Average precesion is:  0.5467000000000002
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  28-d  Average precesion is:  0.6939000000000002
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  lambda  Average precesion is:  0.5282000000000007
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  category  Average precesion is:  0.5297000000000007
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  both  Average precesion is:  0.5771999999999999
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  Pretrained  Average precesion is:  0.5071999999999999
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  28-d  Average precesion is:  0.5283000000000007
+--------------   Recall Results   --------------
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  lambda  Average recall is:  0.7452999999999999
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  category  Average recall is:  0.7299999999999993
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  both  Average recall is:  0.7452999999999999
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  Pretrained  Average recall is:  0.7153
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  28-d  Average recall is:  0.7373000000000001
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  lambda  Average recall is:  0.6991999999999997
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  category  Average recall is:  0.6651000000000002
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  both  Average recall is:  0.6839000000000002
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  Pretrained  Average recall is:  0.6889000000000003
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  28-d  Average recall is:  0.7021000000000001
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  lambda  Average recall is:  0.7331999999999995
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  category  Average recall is:  0.7299999999999993
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  both  Average recall is:  0.7325999999999995
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  Pretrained  Average recall is:  0.7352999999999998
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  28-d  Average recall is:  0.7331999999999995
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  lambda  Average recall is:  0.7005999999999998
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  category  Average recall is:  0.7299999999999993
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  both  Average recall is:  0.7171999999999996
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  Pretrained  Average recall is:  0.7211999999999997
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  28-d  Average recall is:  0.7005999999999998
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  lambda  Average recall is:  0.7178999999999993
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  category  Average recall is:  0.7218999999999994
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  both  Average recall is:  0.7352999999999995
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  Pretrained  Average recall is:  0.7319999999999997
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  28-d  Average recall is:  0.7197999999999994
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  lambda  Average recall is:  0.6253000000000002
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  category  Average recall is:  0.5974000000000003
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  both  Average recall is:  0.5969000000000003
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  Pretrained  Average recall is:  0.6458999999999999
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  28-d  Average recall is:  0.6251000000000003
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  lambda  Average recall is:  0.6916999999999999
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  category  Average recall is:  0.6983999999999999
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  both  Average recall is:  0.7014999999999997
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  Pretrained  Average recall is:  0.6966
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  28-d  Average recall is:  0.6813
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  lambda  Average recall is:  0.7062000000000006
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  category  Average recall is:  0.7299999999999993
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  both  Average recall is:  0.7339
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  Pretrained  Average recall is:  0.6780000000000004
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  28-d  Average recall is:  0.7003000000000007
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  lambda  Average recall is:  0.6405000000000002
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  category  Average recall is:  0.6441000000000002
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  both  Average recall is:  0.6413
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  Pretrained  Average recall is:  0.6404000000000001
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  28-d  Average recall is:  0.6384000000000004
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  lambda  Average recall is:  0.6084999999999999
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  category  Average recall is:  0.5201000000000002
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  both  Average recall is:  0.5473
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  Pretrained  Average recall is:  0.5879999999999995
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  28-d  Average recall is:  0.6108999999999999
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  lambda  Average recall is:  0.7209999999999995
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  category  Average recall is:  0.7284999999999994
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  both  Average recall is:  0.48940000000000006
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  Pretrained  Average recall is:  0.4556000000000001
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  28-d  Average recall is:  0.7214999999999995
+--------------   F1 Score Results   --------------
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  lambda  Average F1 Score is:  0.6721000000000003
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  category  Average F1 Score is:  0.6099999999999995
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  both  Average F1 Score is:  0.6721000000000003
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  Pretrained  Average F1 Score is:  0.6485000000000004
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  28-d  Average F1 Score is:  0.6830000000000004
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  lambda  Average F1 Score is:  0.6675000000000005
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  category  Average F1 Score is:  0.6311000000000005
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  both  Average F1 Score is:  0.6464000000000004
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  Pretrained  Average F1 Score is:  0.6355000000000001
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  28-d  Average F1 Score is:  0.6736000000000005
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  lambda  Average F1 Score is:  0.6244999999999998
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  category  Average F1 Score is:  0.6099999999999995
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  both  Average F1 Score is:  0.6203999999999998
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  Pretrained  Average F1 Score is:  0.6426
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  28-d  Average F1 Score is:  0.6244999999999998
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  lambda  Average F1 Score is:  0.6029000000000001
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  category  Average F1 Score is:  0.6099999999999995
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  both  Average F1 Score is:  0.6058999999999999
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  Pretrained  Average F1 Score is:  0.6137999999999998
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  28-d  Average F1 Score is:  0.6029000000000001
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  lambda  Average F1 Score is:  0.6317
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  category  Average F1 Score is:  0.6078999999999998
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  both  Average F1 Score is:  0.6226999999999997
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  Pretrained  Average F1 Score is:  0.6306999999999997
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  28-d  Average F1 Score is:  0.6336
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  lambda  Average F1 Score is:  0.6151000000000001
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  category  Average F1 Score is:  0.5880999999999998
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  both  Average F1 Score is:  0.5891999999999998
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  Pretrained  Average F1 Score is:  0.6138
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  28-d  Average F1 Score is:  0.6148
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  lambda  Average F1 Score is:  0.6249000000000006
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  category  Average F1 Score is:  0.6239000000000003
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  both  Average F1 Score is:  0.6215000000000004
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  Pretrained  Average F1 Score is:  0.6223000000000001
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  28-d  Average F1 Score is:  0.6207000000000003
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  lambda  Average F1 Score is:  0.6752000000000007
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  category  Average F1 Score is:  0.6099999999999995
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  both  Average F1 Score is:  0.6674000000000005
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  Pretrained  Average F1 Score is:  0.6209000000000006
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  28-d  Average F1 Score is:  0.6703000000000006
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  lambda  Average F1 Score is:  0.6225
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  category  Average F1 Score is:  0.6188999999999999
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  both  Average F1 Score is:  0.6181999999999999
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  Pretrained  Average F1 Score is:  0.622
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  28-d  Average F1 Score is:  0.6205000000000003
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  lambda  Average F1 Score is:  0.6189000000000003
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  category  Average F1 Score is:  0.5379999999999998
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  both  Average F1 Score is:  0.5595999999999998
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  Pretrained  Average F1 Score is:  0.5238999999999997
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  28-d  Average F1 Score is:  0.6221000000000002
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  lambda  Average F1 Score is:  0.6063999999999998
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  category  Average F1 Score is:  0.6093999999999996
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  both  Average F1 Score is:  0.4860999999999997
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  Pretrained  Average F1 Score is:  0.3987
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  28-d  Average F1 Score is:  0.6065999999999998
+--------------   AIC Score Results   --------------
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  lambda  Average AIC Score is:  30.767466256831632
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  category  Average AIC Score is:  30.598565968260566
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  both  Average AIC Score is:  30.767466256831632
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  Pretrained  Average AIC Score is:  30.557325637928702
+For Task:  psi_npsi_detection  with method:  Logistic Regression  with feature:  28-d  Average AIC Score is:  30.719610220553655
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  lambda  Average AIC Score is:  18.469863553377362
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  category  Average AIC Score is:  18.233210974662473
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  both  Average AIC Score is:  18.345900475840374
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  Pretrained  Average AIC Score is:  18.382092122938023
+For Task:  psi_npsi_detection  with method:  Nearest Neighbors  with feature:  28-d  Average AIC Score is:  18.501395235128616
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  lambda  Average AIC Score is:  30.633637518640803
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  category  Average AIC Score is:  30.598565968260566
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  both  Average AIC Score is:  30.62521782129038
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  Pretrained  Average AIC Score is:  30.678238785504362
+For Task:  psi_npsi_detection  with method:  Linear SVM  with feature:  28-d  Average AIC Score is:  30.633637518640803
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  lambda  Average AIC Score is:  30.42248551295293
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  category  Average AIC Score is:  30.598565968260566
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  both  Average AIC Score is:  30.52166289528871
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  Pretrained  Average AIC Score is:  30.566200882242892
+For Task:  psi_npsi_detection  with method:  RBF SVM  with feature:  28-d  Average AIC Score is:  30.42248551295293
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  lambda  Average AIC Score is:  32.55753219631618
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  category  Average AIC Score is:  32.55027186051871
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  both  Average AIC Score is:  32.64678601291739
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  Pretrained  Average AIC Score is:  32.65706510268272
+For Task:  psi_npsi_detection  with method:  Gaussian Process  with feature:  28-d  Average AIC Score is:  32.569654912387584
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  lambda  Average AIC Score is:  28.021854929278344
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  category  Average AIC Score is:  27.86053319873833
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  both  Average AIC Score is:  27.856904177348184
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  Pretrained  Average AIC Score is:  28.12410849776151
+For Task:  psi_npsi_detection  with method:  Decision Tree  with feature:  28-d  Average AIC Score is:  28.022157276583716
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  lambda  Average AIC Score is:  36.387599628827445
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  category  Average AIC Score is:  36.42688105493531
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  both  Average AIC Score is:  36.44295238711097
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  Pretrained  Average AIC Score is:  36.42006237044556
+For Task:  psi_npsi_detection  with method:  Random Forest  with feature:  28-d  Average AIC Score is:  36.32358088488355
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  lambda  Average AIC Score is:  46.50693120666514
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  category  Average AIC Score is:  46.59856596826051
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  both  Average AIC Score is:  46.68370851442968
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  Pretrained  Average AIC Score is:  46.30371810653407
+For Task:  psi_npsi_detection  with method:  Neural Net  with feature:  28-d  Average AIC Score is:  46.47664316311128
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  lambda  Average AIC Score is:  12.111958488827073
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  category  Average AIC Score is:  12.106131709912477
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  both  Average AIC Score is:  12.106346848586067
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  Pretrained  Average AIC Score is:  12.101324857843393
+For Task:  psi_npsi_detection  with method:  AdaBoost  with feature:  28-d  Average AIC Score is:  12.101756477457146
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  lambda  Average AIC Score is:  5.945058841328488
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  category  Average AIC Score is:  5.507605606577022
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  both  Average AIC Score is:  5.628694928257022
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  Pretrained  Average AIC Score is:  5.961761094878333
+For Task:  psi_npsi_detection  with method:  Naive Bayes  with feature:  28-d  Average AIC Score is:  5.958328922033947
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  lambda  Average AIC Score is:  12.543071723522733
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  category  Average AIC Score is:  12.589316927470916
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  both  Average AIC Score is:  11.421645130397685
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  Pretrained  Average AIC Score is:  11.347601252767397
+For Task:  psi_npsi_detection  with method:  QDA  with feature:  28-d  Average AIC Score is:  12.54615473711928
