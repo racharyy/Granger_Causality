@@ -25,9 +25,26 @@ npsi_compound = npsi_compound[:37]+npsi_compound[38:]
 psi_lambda = [(elem[0],elem[1][27:]) for elem in psi_compound]
 npsi_lambda = [(elem[0],elem[1][27:]) for elem in npsi_compound]
 #plot_features(psi_lambda,npsi_lambda)
+#print(psi_lambda)
+
+ls_cv,nls_cv = load_pickle("../Boyu/cv_list.pkl")
+labels = [cats[i] for i in range(27)]
+xaxis = np.arange(27)
+width = 0.3 
+
+fig, ax = plt.subplots()
+rects1 = ax.bar(xaxis - width/2, ls_cv, width, label='Low')
+rects2 = ax.bar(xaxis + width/2, nls_cv, width, label='Not Low')
+
+# Add some text for labels, title and custom x-axis tick labels, etc.
+ax.set_ylabel('CV params')
+ax.set_title('CV for two groups')
+ax.set_xticks(xaxis)
+ax.set_xticklabels(labels,rotation=90)
+ax.legend()
+
+fig.tight_layout() 
+plt.show()
 
 
-
-
-
-plot_features(ls_lambda,nls_lambda,op='log')
+#plot_features(ls_lambda,nls_lambda,op='log')

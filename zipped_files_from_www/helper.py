@@ -119,8 +119,8 @@ def plot_features(ls_list,nls_list,multiplier = 1,op='None'):
         low_mean,notlow_mean = np.mean(low,axis=0), np.mean(notlow,axis=0)
     
     else:
-        low_mean =multiplier* np.median(np.array([elem[1] for elem in ls_list]),axis=0)
-        notlow_mean =multiplier* np.median(np.array([elem[1] for elem in nls_list]),axis=0)
+        low_mean =multiplier* np.mean(np.array([elem[1] for elem in ls_list]),axis=0)
+        notlow_mean =multiplier* np.mean(np.array([elem[1] for elem in nls_list]),axis=0)
     # print(low_mean)
     # print(notlow_mean)
     labels = [cats[i] for i in range(27)]
