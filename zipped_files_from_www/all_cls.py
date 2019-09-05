@@ -14,6 +14,8 @@ from posterior import *
 import numpy as np
 from sklearn.metrics import average_precision_score,precision_recall_fscore_support,confusion_matrix, roc_curve, auc, classification_report, average_precision_score, accuracy_score
 
+num_params = [27,27,54,10,28]
+
 class light_worker(object):
 	"""docstring for light_worker"""
 	def __init__(self, data,config):
@@ -117,6 +119,7 @@ class light_worker(object):
 
 		cr = classification_report(test_label, y_hat)
 		avg_prec, avg_recal, avg_f1, _ = cr.split('avg / total')[-1].strip().split()[-4:]
-					
-		return float(avg_prec), float(avg_recal), float(avg_f1)
+		num_params = len(clf.get_params())
+		aic = 2*num_params - 2*np.log((1.0/len(test_label))*sum((test_label-y_hat)**2))	#+ (2*(num_params)*(num_params+1))/(len(test_label)-num_params-1)		
+		return float(avg_prec), float(avg_recal), float(avg_f1), aic
 
