@@ -43,8 +43,10 @@ def _get_delta_time(args):
 
 					# get the time difference in minutes
 					delta = (previous - date_time).total_seconds()
+					# print(delta)
 
 					if delta < args.threshold and delta > args.lower_bound:
+						# print('in')
 						delta_list.append(delta)
 
 					# print(delta)
@@ -58,6 +60,34 @@ def _get_delta_time(args):
 		final_list = [val for sublist in total_delta_list for val in sublist]
 		print(len(final_list))
 		pickle.dump(final_list, f)
+
+# given all the user files in json
+# get the average number of searches and time period
+def _get_num_searches(args):
+
+	num_user = 0
+	num_searches = 0
+
+	time_difference = 0
+
+	# per person
+	for file in os.scandir(args.data_path):
+		if file.name.endswith('.json'):
+			whole_name = args.data_path + file.name
+			num_user += 1
+
+			# per search history
+			with open(whole_name, 'r') as json_file:  
+				search_history = [json.loads(line) for line in json_file]
+				num_searches += len(search_history)
+
+				end = _trim_date(search_history[0]['qtime'])
+				start = _trim_date(search_history[-1]['qtime'])
+				time_difference += (end - start).total_seconds()
+
+	print(num_searches / num_user)
+	time_difference = time_difference / 31536000
+	print(time_difference / num_user)
 
 # helper function
 # generate the date time instance from the raw string
@@ -95,17 +125,19 @@ def plot_hist(args, file_path):
 		total_delta_list = pickle.load(f)
 
 	# plot the raw version to get the log bins
-	f = plt.figure(1)
+	# f = plt.figure(1)
 	hist, bins, _ = plt.hist(total_delta_list, bins = 'auto')
-	plt.xlabel('Seconds', fontsize = 14)
-	plt.ylabel('Frequency', fontsize = 14)
-	title = 'Idle Time Between Searches (upper: ' + str(args.threshold) + ', lower: ' + str(args.lower_bound) + ')'
-	plt.title(title, fontsize = 18)
+	plt.xlabel('Seconds', fontsize = 24)
+	plt.ylabel('Frequency', fontsize = 24)
+	# title = 'Time Between Searches'
+	# plt.title(title, fontsize = 20)
 	name = '../../upper_' + str(args.threshold) + '_lower_' + str(args.lower_bound) + '_abs'
-	# plt.show()
+	plt.xticks(size = 24)
+	plt.yticks(size = 24)
 	plt.tight_layout()
-	print('in')
-	f.savefig(name, dpi = 300)
+	plt.grid(True)
+	plt.show()
+	plt.savefig(name, dpi = 300)
 
 	# get the log scale plot
 	'''
@@ -132,15 +164,16 @@ def main():
 						help = 'number of clusters')
 	parser.add_argument('--bin_size', default = 0,
 						help = 'bin size for the inter-time histogram')
-	parser.add_argument('--threshold', default = 3000,
+	parser.add_argument('--threshold', default = 2000,
 						help = 'the max delta time between two searches in minutes')
 	parser.add_argument('--lower_bound', default = 0,
 						help = 'the min delta time between two searches in minutes')
 
 	args = parser.parse_args()
 
-	_get_delta_time(args)
-	plot_hist(args, './total_list.pkl')
+	# _get_delta_time(args)
+	# plot_hist(args, './total_list.pkl')
+	_get_num_searches(args)
 
 if __name__ == '__main__':
 	main()
