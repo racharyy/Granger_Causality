@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 
 
 cats = ["Business & Industrial","Home & Garden","Travel","Arts & Entertainment","Sports","Food & Drink","Pets & Animals","Health","Shopping","Finance","Adult","Beauty & Fitness","News","Books & Literature","Online Communities","Law & Government","Sensitive Subjects","Science","Hobbies & Leisure","Games","Jobs & Education","Autos & Vehicles","Computers & Electronics","People & Society","Reference","Internet & Telecom","Real Estate"]
+cats_newline = ["Business &\nIndustrial","Home &\nGarden","Travel","Arts &\nEntertainment","Sports","Food &\nDrink","Pets &\nAnimals","Health","Shopping","Finance","Adult","Beauty &\nFitness","News","Books &\nLiterature","Online\nCommunities","Law &\nGovernment","Sensitive\nSubjects","Science","Hobbies &\nLeisure","Games","Jobs &\nEducation","Autos &\nVehicles","Computers &\nElectronics","People &\nSociety","Reference","Internet &\nTelecom","Real\nEstate"]
 
 def random_split(low_list, notlow_list, split_ratio = 2.0/3, multiplier=1):
 
@@ -70,7 +71,7 @@ def extract_index(ls,nls,train_user,test_user):
     return train_lambda, train_label, test_lambda, test_label
 
 
-def plot_features(ls_list,nls_list,multiplier = 1,op='None'):
+def plot_features(ls_list,nls_list,indx_lst,multiplier = 1,op='None'):
     
     if op=='exp':
         low_mean = np.mean(np.exp(multiplier*np.array([elem[1] for elem in ls_list])),axis=0)
@@ -123,22 +124,24 @@ def plot_features(ls_list,nls_list,multiplier = 1,op='None'):
         notlow_mean =multiplier* np.mean(np.array([elem[1] for elem in nls_list]),axis=0)
     # print(low_mean)
     # print(notlow_mean)
-    labels = [cats[i] for i in range(27)]
-    xaxis = np.arange(27)
+    labels = required_list([cats_newline[i] for i in range(27)],indx_lst)
+    xaxis = np.array(range(len(indx_lst)))
     width = 0.3 
-
+    #print(required_list(low_mean, indx_lst))
     fig, ax = plt.subplots()
-    rects1 = ax.bar(xaxis - width/2, low_mean, width, label='Low')
-    rects2 = ax.bar(xaxis + width/2, notlow_mean, width, label='Not Low')
-
+    rects1 = ax.barh(xaxis - width/2,required_list(low_mean, indx_lst), width,label='Low self-esteem')
+    rects2 = ax.barh(xaxis + width/2, required_list(notlow_mean,indx_lst), width, label='Not low\nself-esteem')
+    plt.grid()
     # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel('ISI params')
-    ax.set_title('ISI for two groups')
-    ax.set_xticks(xaxis)
-    ax.set_xticklabels(labels,rotation=90)
-    ax.legend()
+    ax.set_xlabel('ISI intensity',fontsize=18)
+    #ax.set_title('ISI for two groups')
+    ax.set_yticks(xaxis)
+    ax.set_yticklabels(labels,fontsize=18)
+    ax.invert_yaxis()
+    plt.xticks(fontsize=18)
+    ax.legend(fontsize=18)
     
-    fig.tight_layout() 
+    plt.tight_layout() 
     plt.show()
  
 def load_pickle(pickle_file):

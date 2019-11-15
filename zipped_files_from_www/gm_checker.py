@@ -18,9 +18,10 @@ good_param_set = load_pickle('../Plots/good_set.pkl')
 
 print(len(good_param_set))
 N= len(data['se'])
-median_f1_ar, mean_f1_ar = [], []
-for conf in good_param_set:
-
+target_name=['not_si','si']
+median_f1_ar, mean_f1_ar, prec_ar, recall_ar = [], [], [], []
+for i,conf in enumerate(good_param_set):
+	print(i)
 	train_index = conf['train_index']
 	prob_cand = set(train_index)
 	train_data_dict, test_data_dict = {}, {}
@@ -41,15 +42,24 @@ for conf in good_param_set:
 
 
 
-	trace,median_f1,mean_f1 = train_and_test(train_data_dict,test_data_dict,12,)
-	median_f1_ar.append(median_f1)
-	mean_f1_ar.append(mean_f1)
-	print(median_f1,mean_f1)
+	new_dic = train_and_test(train_data_dict,test_data_dict,12,)
+	# median_f1_ar.append(median_f1)
+	# mean_f1_ar.append(mean_f1)
+	# prec_ar.append(mean_prec)
+	# recall_ar.append(mean_recall)
+	# print(median_f1,mean_f1,mean_prec, mean_recall)
+	print(new_dic)
 
+# print(np.mean(np.array(median_f1_ar)),' : mean of the medians')
+# print(np.mean(np.array(mean_f1_ar)),' : mean of the means')
+# print(np.mean(np.array(prec_ar)),' : mean of the means')
+# print(np.mean(np.array(mrecall_ar)),' : mean of the means')
+	# trace = conf['trace']
+	# tr = pm.traceplot(trace)
+	
 
-print(np.mean(np.array(median_f1_ar)),' : mean of the medians')
-print(np.mean(np.array(mean_f1_ar)),' : mean of the means')
-
+	# fig = plt.gcf() # to get the current figure...
+	# fig.savefig("../Plots/plot"+str(i)+".png")
 
 
 

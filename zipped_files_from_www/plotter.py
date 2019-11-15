@@ -21,30 +21,30 @@ npsi_compound = npsi_compound[:37]+npsi_compound[38:]
 # for a,i in enumerate(npsi_compound):
 # 	print(a,i[0])
 # 	print(len(i[1]))
-
+indx_lst = [0,2,3,4,6,7,9,13,25]
 psi_lambda = [(elem[0],elem[1][27:]) for elem in psi_compound]
 npsi_lambda = [(elem[0],elem[1][27:]) for elem in npsi_compound]
-#plot_features(psi_lambda,npsi_lambda)
+plot_features(ls_lambda,nls_lambda,indx_lst,multiplier=10**5)
 #print(psi_lambda)
 
-ls_cv,nls_cv = load_pickle("../Boyu/cv_list.pkl")
-labels = [cats[i] for i in range(27)]
-xaxis = np.arange(27)
-width = 0.3 
+# ls_cv,nls_cv = load_pickle("../Boyu/cv_list.pkl")
+# labels = [cats[i] for i in range(27)]
+# xaxis = np.arange(27)
+# width = 0.3 
 
-fig, ax = plt.subplots()
-rects1 = ax.bar(xaxis - width/2, ls_cv, width, label='Low')
-rects2 = ax.bar(xaxis + width/2, nls_cv, width, label='Not Low')
+# fig, ax = plt.subplots()
+# rects1 = ax.bar(xaxis - width/2, ls_cv, width, label='Low self-esteem')
+# rects2 = ax.bar(xaxis + width/2, nls_cv, width, label='Not low\nself-esteem')
 
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_ylabel('CV params')
-ax.set_title('CV for two groups')
-ax.set_xticks(xaxis)
-ax.set_xticklabels(labels,rotation=90)
-ax.legend()
+# # Add some text for labels, title and custom x-axis tick labels, etc.
+# ax.set_ylabel('CV params')
+# #ax.set_title('CV for two groups')
+# ax.set_xticks(xaxis)
+# ax.set_xticklabels(labels,rotation=90)
+# ax.legend()
 
-fig.tight_layout() 
-plt.show()
+# fig.tight_layout() 
+# plt.show()
 
 
 #plot_features(ls_lambda,nls_lambda,op='log')

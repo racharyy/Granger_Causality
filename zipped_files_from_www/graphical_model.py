@@ -59,6 +59,7 @@ def model_fit_using_se(data,u_dim,method='mcmc', num_iter = 10,num_sample=1000):
 		mf=pm.fit(n=num_iter)
 		#trace = pm.sample()
 		trace = mf.sample(num_sample)
+		#pm.traceplot(trace)
 		#trace = pm.sample()
 		# se_mean = pm.Uniform('se_mean',lower=0,upper=1,size=num_obs)
 		# se = pm.Bernoulli('se',p=se_mean, observed = data["se"])
@@ -159,8 +160,9 @@ def predict_gm(test_data,param_dic,u_dim,u_sample_num=100):
 
 
 def train_and_test(train_data_dict,test_data_dict,u_dim,method='not_basic'):
-
-	
+	info_list=['precision','recall','f1-score']
+	class_list = ['not_si','si','weighted avg']
+	target_names=['not_si','si']
 	param_dic = {}
 	if method =='basic':
 		trace = model_fit_basic(train_data_dict,u_dim=u_dim,num_iter=20000)
@@ -169,7 +171,12 @@ def train_and_test(train_data_dict,test_data_dict,u_dim,method='not_basic'):
 	else:
 		trace = model_fit_using_se(train_data_dict,u_dim=u_dim,num_iter=10000,num_sample=1000)
 	n=trace['search_si'].shape[0]
-	f1s = []
+	dic = {}
+	for i in class_list:
+		dic[i] = {}
+		for j in info_list:
+			dic[i][j] =[]
+
 	for i in range(n):
 		# if i%100==0:
 		# 	print(i)
@@ -180,14 +187,27 @@ def train_and_test(train_data_dict,test_data_dict,u_dim,method='not_basic'):
 	#print(param_dic)
 		prob=predict_gm(test_data_dict,param_dic,u_dim,u_sample_num=1000)
 		prediction = np.random.binomial(1,prob)
-		cr = classification_report(test_data_dict['si'], prediction)
+		cr = classification_report(test_data_dict['si'], prediction,target_names=target_names,output_dict=True)
+		for i in class_list:
+			for j in info_list:
+				dic[i][j].append(cr[i][j])
 
-		avg_prec, avg_recal,avg_f1,_ = cr.split('avg / total')[-1].strip().split()[-4:]
-		f1s.append(float(avg_f1))
+
+
+		# avg_prec, avg_recal,avg_f1,_ = cr.split('avg / total')[-1].strip().split()[-4:]
+		# f1s.append(float(avg_f1))
+		# prec_list.append(float(avg_prec))
+		# recall_list.append(float(avg_recal))
 	#print(f1s)
-	median_f1 = np.median(np.array(f1s))
-	mean_f1 = np.mean(np.array(f1s))
-	return trace,median_f1,mean_f1
+	new_dic = {}
+	for i in class_list:
+		new_dic[i] = {}
+		for j in info_list:
+			new_dic[i][j] =np.mean(np.array(dic[i][j]))
+
+
+
+	return new_dic
 	#print(cr)
 
 
@@ -224,6 +244,8 @@ def run():
 
 
 		trace,median_f1,mean_f1 = train_and_test(train_data_dict,test_data_dict,12)
+		print(trace['search_si'].shape[0],"hoho")
+
 		median_f1_ar.append(median_f1)
 		mean_f1_ar.append(mean_f1)
 		print(median_f1,mean_f1)
